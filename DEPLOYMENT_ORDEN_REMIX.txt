@@ -1,0 +1,160 @@
+═══════════════════════════════════════════════════════════════
+  DEPLOYMENT EN REMIX IDE - ORDEN EXACTO
+═══════════════════════════════════════════════════════════════
+
+📍 URL: https://remix.polkadot.io
+
+ORDEN DE ARCHIVOS A COPIAR:
+═══════════════════════════════════════════════════════════════
+
+1️⃣ CREAR CARPETA: contracts/interfaces/
+
+2️⃣ COPIAR: interfaces/IERC20Simple.sol
+   Path en Remix: contracts/interfaces/IERC20Simple.sol
+   Archivo local: contracts/contracts/interfaces/IERC20Simple.sol
+
+3️⃣ COPIAR: MockUSDC.sol
+   Path en Remix: contracts/MockUSDC.sol
+   Archivo local: contracts/contracts/MockUSDC.sol
+
+4️⃣ COPIAR: IdentityRegistry.sol
+   Path en Remix: contracts/IdentityRegistry.sol
+   Archivo local: contracts/contracts/IdentityRegistry.sol
+
+5️⃣ COPIAR: CreditScoring.sol
+   Path en Remix: contracts/CreditScoring.sol
+   Archivo local: contracts/contracts/CreditScoring.sol
+
+6️⃣ COPIAR: LendingPool.sol
+   Path en Remix: contracts/LendingPool.sol
+   Archivo local: contracts/contracts/LendingPool.sol
+
+7️⃣ COPIAR: InsurancePool.sol
+   Path en Remix: contracts/InsurancePool.sol
+   Archivo local: contracts/contracts/InsurancePool.sol
+
+8️⃣ COPIAR: LoanManager.sol
+   Path en Remix: contracts/LoanManager.sol
+   Archivo local: contracts/contracts/LoanManager.sol
+
+═══════════════════════════════════════════════════════════════
+  COMPILAR EN REMIX
+═══════════════════════════════════════════════════════════════
+
+⚙️ Configuración del Compilador:
+├─ Compiler: 0.8.0
+├─ EVM Version: istanbul
+├─ Optimization: Yes (200 runs)
+└─ Language: Solidity
+
+🔨 Compilar en este orden:
+1. IERC20Simple.sol
+2. MockUSDC.sol
+3. IdentityRegistry.sol
+4. CreditScoring.sol
+5. LendingPool.sol
+6. InsurancePool.sol
+7. LoanManager.sol
+
+═══════════════════════════════════════════════════════════════
+  DESPLEGAR EN REMIX (Con MetaMask en Paseo)
+═══════════════════════════════════════════════════════════════
+
+Injected Provider - MetaMask
+Network: Paseo Asset Hub (Chain ID: 420420422)
+
+ORDEN DE DEPLOYMENT:
+────────────────────────────────────────────────────────────
+
+1️⃣ MockUSDC
+   Constructor: (ninguno)
+   Gas Limit: 3000000
+   [Deploy] → Guardar dirección: ________________
+
+2️⃣ IdentityRegistry
+   Constructor: (ninguno)
+   Gas Limit: 3000000
+   [Deploy] → Guardar dirección: ________________
+
+3️⃣ CreditScoring
+   Constructor: _identityRegistry = [dirección del paso 2]
+   Gas Limit: 3000000
+   [Deploy] → Guardar dirección: ________________
+
+4️⃣ LendingPool
+   Constructor: _stablecoin = [dirección MockUSDC paso 1]
+   Gas Limit: 3000000
+   [Deploy] → Guardar dirección: ________________
+
+5️⃣ InsurancePool
+   Constructor: _stablecoin = [dirección MockUSDC paso 1]
+   Gas Limit: 3000000
+   [Deploy] → Guardar dirección: ________________
+
+6️⃣ LoanManager
+   Constructor (4 parámetros EN ORDEN):
+   ├─ _creditScoring: [dirección paso 3]
+   ├─ _lendingPool: [dirección paso 4]
+   ├─ _insurancePool: [dirección paso 5]
+   └─ _stablecoin: [dirección paso 1]
+   Gas Limit: 5000000
+   [Deploy] → Guardar dirección: ________________
+
+═══════════════════════════════════════════════════════════════
+  CONFIGURAR PERMISOS (3 transacciones)
+═══════════════════════════════════════════════════════════════
+
+🔐 Transacción 1: CreditScoring ownership
+├─ Contrato: CreditScoring (expandir en Deployed Contracts)
+├─ Función: transferOwnership
+├─ newOwner: [dirección de LoanManager]
+└─ [transact] → Confirmar MetaMask
+
+🔐 Transacción 2: LendingPool - Set LoanManager  
+├─ Contrato: LendingPool
+├─ Función: setLoanManager
+├─ _loanManager: [dirección de LoanManager]
+└─ [transact] → Confirmar
+
+🔐 Transacción 3: InsurancePool - Set LoanManager
+├─ Contrato: InsurancePool
+├─ Función: setLoanManager
+├─ _loanManager: [dirección de LoanManager]
+└─ [transact] → Confirmar
+
+═══════════════════════════════════════════════════════════════
+  OBTENER TOKENS USDC DE PRUEBA
+═══════════════════════════════════════════════════════════════
+
+💵 En MockUSDC (Deployed Contracts):
+├─ Función: faucet
+├─ amount: 10000000000 (10,000 USDC con 6 decimales)
+└─ [transact] → Confirmar
+
+═══════════════════════════════════════════════════════════════
+  VERIFICAR EN BLOCKSCOUT
+═══════════════════════════════════════════════════════════════
+
+🔗 URL: https://blockscout-passet-hub.parity-testnet.parity.io
+
+Para cada contrato, buscar su dirección y verificar:
+✅ Transacción de creación exitosa
+✅ Bytecode presente
+✅ Balance correcto
+
+═══════════════════════════════════════════════════════════════
+RESUMEN DE DIRECCIONES (Llenar después de desplegar):
+═══════════════════════════════════════════════════════════════
+
+MockUSDC:          0x________________________________
+IdentityRegistry:  0x________________________________
+CreditScoring:     0x________________________________  
+LendingPool:       0x________________________________
+InsurancePool:     0x________________________________
+LoanManager:       0x________________________________
+
+═══════════════════════════════════════════════════════════════
+  ✅ DEPLOYMENT COMPLETADO
+═══════════════════════════════════════════════════════════════
+
+Próximo paso: Actualizar frontend/.env.local con estas direcciones

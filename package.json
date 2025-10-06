@@ -1,0 +1,25 @@
+{
+  "name": "deficred",
+  "version": "1.0.0",
+  "description": "DeFi Lending con Scoring Descentralizado en Polkadot",
+  "main": "index.js",
+  "scripts": {
+    "compile": "cd contracts && npx hardhat compile",
+    "test": "cd contracts && npx hardhat test",
+    "deploy:testnet": "cd contracts && npx hardhat run scripts/deploy.js --network moonbase",
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && npm run dev",
+    "oracle": "cd oracle-service && npm start"
+  },
+  "keywords": [
+    "defi",
+    "polkadot",
+    "lending",
+    "credit-scoring",
+    "moonbeam"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
+

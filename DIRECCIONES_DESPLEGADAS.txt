@@ -1,0 +1,50 @@
+═══════════════════════════════════════════════════════════════
+  DEFICRED - CONTRATOS DESPLEGADOS EN PASEO TESTNET
+═══════════════════════════════════════════════════════════════
+
+Fecha: 5 de Octubre, 2025
+Network: Paseo Asset Hub
+Chain ID: 420420422
+RPC: https://testnet-passet-hub-eth-rpc.polkadot.io
+Explorer: https://blockscout-passet-hub.parity-testnet.parity.io
+
+═══════════════════════════════════════════════════════════════
+  DIRECCIONES DE CONTRATOS
+═══════════════════════════════════════════════════════════════
+
+MockUSDC:
+0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37
+
+IdentityRegistrySimple:
+0x18d71DaCd2e657A8babf6C94E0f922C5746E0733
+
+CreditScoringMini:
+0x345F7F2556EC6480aAa8fCf8deb6CCa202Ed2A14
+
+LendingPoolMini:
+0x0561eC805C7fbf2392b3353BD5f0920665Ee2b66
+
+InsurancePoolMini:
+0x299af1801F9a261627475923c8207006b416323D
+
+LoanManagerMicro:
+0x84A5e36B1619c2333d687615aC40d2C141B00A55
+
+═══════════════════════════════════════════════════════════════
+  VERIFICAR EN BLOCKSCOUT
+═══════════════════════════════════════════════════════════════
+
+Para cada contrato, buscar en:
+https://blockscout-passet-hub.parity-testnet.parity.io/address/[DIRECCIÓN]
+
+═══════════════════════════════════════════════════════════════
+  CONFIGURACIÓN COMPLETADA
+═══════════════════════════════════════════════════════════════
+
+✅ Contratos desplegados
+✅ Permisos configurados
+✅ Tokens USDC obtenidos
+✅ Liquidez depositada (5,000 USDC)
+✅ Frontend actualizado con direcciones
+
+Próximo: Probar el sistema completo
