@@ -1,127 +1,127 @@
-# DeFiCred - DeFi Lending Platform on Polkadot
+# DeFiCred - Plataforma DeFi de Préstamos en Polkadot
 
-DeFiCred is a decentralized lending platform built on Polkadot's Paseo testnet, offering collateral-free loans with a comprehensive credit scoring system and multi-level protection mechanisms.
+DeFiCred es una plataforma descentralizada de préstamos construida en la testnet Paseo de Polkadot, que ofrece préstamos sin garantía con un sistema integral de scoring crediticio y mecanismos de protección de múltiples niveles.
 
-## 🌐 Network
+## 🌐 Red
 **Paseo Testnet (Polkadot)**
 
 ## 📋 Smart Contracts
 
-### Contract Addresses
+### Direcciones de Contratos
 - **IdentityRegistry**: `0x18d71DaCd2e657A8babf6C94E0f922C5746E0733`
 - **CreditScoring**: `0x345F7F2556EC6480aAa8fCf8deb6CCa202Ed2A14`
 - **LendingPool**: `0x0561eC805C7fbf2392b3353BD5f0920665Ee2b66`
 - **LoanManager**: `0x84A5e36B1619c2333d687615aC40d2C141B00A55`
 - **MockUSDC**: `0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37`
 
-### Contract ABIs
-All contract ABIs are available in `frontend/config/abis.ts`
+### ABIs de Contratos
+Todos los ABIs de contratos están disponibles en `frontend/config/abis.ts`
 
-## 🚀 Quick Start
+## 🚀 Inicio Rápido
 
-### Prerequisites
+### Prerrequisitos
 - Node.js 18+
-- MetaMask wallet
-- Paseo testnet configured in MetaMask
+- Wallet MetaMask
+- Paseo testnet configurado en MetaMask
 
-### Installation
+### Instalación
 ```bash
-# Clone the repository
+# Clonar el repositorio
 git clone https://github.com/Kalchaqui/DeFiCred-.git
 cd DeFiCred
 
-# Install dependencies
+# Instalar dependencias
 cd frontend && npm install
 cd ../backend && npm install
 cd ../contracts && npm install
 ```
 
-### Running the Application
+### Ejecutar la Aplicación
 ```bash
-# Start backend
+# Iniciar backend
 cd backend && npm start
 
-# Start frontend (in another terminal)
+# Iniciar frontend (en otra terminal)
 cd frontend && npm run dev
 ```
 
-### Testing Smart Contracts
-1. Visit `http://localhost:3000/test`
-2. Connect your MetaMask wallet
-3. Select a contract to test
-4. Use "Read" and "Write" functions to interact with contracts
+### Probar Smart Contracts
+1. Visita `http://localhost:3000/test`
+2. Conecta tu wallet MetaMask
+3. Selecciona un contrato para probar
+4. Usa las funciones "Read" y "Write" para interactuar con los contratos
 
-## 🏗️ Architecture
+## 🏗️ Arquitectura
 
 ### Frontend
-- **Next.js 14** with App Router
-- **Wagmi + RainbowKit** for wallet connection
-- **Tailwind CSS** for styling
-- **React Hot Toast** for notifications
+- **Next.js 14** con App Router
+- **Wagmi + RainbowKit** para conexión de wallet
+- **Tailwind CSS** para estilos
+- **React Hot Toast** para notificaciones
 
 ### Backend
-- **Node.js + Express** server
-- **Multer** for file uploads
-- **CORS** enabled for cross-origin requests
+- **Node.js + Express** servidor
+- **Multer** para subida de archivos
+- **CORS** habilitado para peticiones cross-origin
 
 ### Smart Contracts
 - **Solidity 0.8.0**
-- **Hardhat** for development
-- **Polkadot Remix IDE** for deployment
+- **Hardhat** para desarrollo
+- **Polkadot Remix IDE** para despliegue
 
-## 🔧 Key Features
+## 🔧 Características Principales
 
-### Identity Management
-- DNI upload and verification
-- Admin approval system
-- Unique identity per wallet
+### Gestión de Identidad
+- Subida y verificación de DNI
+- Sistema de aprobación por administrador
+- Identidad única por wallet
 
-### Credit Scoring
-- Initial score calculation
-- Score-based loan limits
-- Performance tracking
+### Scoring Crediticio
+- Cálculo de score inicial
+- Límites de préstamo basados en score
+- Seguimiento de rendimiento
 
-### Lending System
-- Collateral-free loans
-- Flexible payment plans (1, 3, 6, 12 months)
-- Interest rates: 5%, 8%, 12%, 18% APY
+### Sistema de Préstamos
+- Préstamos sin garantía
+- Planes de pago flexibles (1, 3, 6, 12 meses)
+- Tasas de interés: 5%, 8%, 12%, 18% APY
 
-### Protection System
-- **Level 1**: Prevention (low limits, progressive scoring)
-- **Level 2**: Penalization (score reduction, blockchain recording)
-- **Level 3**: Insurance fund (2% of loan amount)
+### Sistema de Protección
+- **Nivel 1**: Prevención (límites bajos, scoring progresivo)
+- **Nivel 2**: Penalización (reducción de score, registro en blockchain)
+- **Nivel 3**: Fondo de seguros (2% del monto del préstamo)
 
-## 📱 User Flow
+## 📱 Flujo de Usuario
 
-1. **Identity Verification**: Upload DNI → Admin approval
-2. **Credit Scoring**: Calculate initial score
-3. **Loan Request**: Select amount and payment plan
-4. **Loan Management**: Track payments and history
+1. **Verificación de Identidad**: Subir DNI → Aprobación de administrador
+2. **Scoring Crediticio**: Calcular score inicial
+3. **Solicitud de Préstamo**: Seleccionar monto y plan de pago
+4. **Gestión de Préstamos**: Seguimiento de pagos e historial
 
-## 🧪 Testing
+## 🧪 Pruebas
 
-The application includes a comprehensive test page at `/test` that allows direct interaction with all smart contracts:
+La aplicación incluye una página de pruebas integral en `/test` que permite la interacción directa con todos los smart contracts:
 
-- **Read Functions**: View contract state and user data
-- **Write Functions**: Execute contract functions
-- **Transaction Tracking**: Monitor transaction hashes and events
-- **Error Handling**: Clear error messages and validation
+- **Funciones Read**: Ver estado del contrato y datos del usuario
+- **Funciones Write**: Ejecutar funciones del contrato
+- **Seguimiento de Transacciones**: Monitorear hashes de transacciones y eventos
+- **Manejo de Errores**: Mensajes de error claros y validación
 
-## 🔒 Security
+## 🔒 Seguridad
 
-- All contracts deployed on testnet only
-- No real assets involved
-- Admin functions protected
-- Input validation and error handling
+- Todos los contratos desplegados solo en testnet
+- No se involucran activos reales
+- Funciones de administrador protegidas
+- Validación de entrada y manejo de errores
 
-## 📄 License
+## 📄 Licencia
 
-MIT License - see LICENSE file for details
+Licencia MIT - ver archivo LICENSE para detalles
 
-## 🤝 Contributing
+## 🤝 Contribuciones
 
-This project was developed for the Polkadot Hackathon. For questions or contributions, please open an issue on GitHub.
+Este proyecto fue desarrollado para el Polkadot Hackathon. Para preguntas o contribuciones, por favor abre un issue en GitHub.
 
 ---
 
-**Built with ❤️ for the Polkadot ecosystem**
+**Construido con ❤️ para el ecosistema Polkadot**
