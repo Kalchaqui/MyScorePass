@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAccount, useContractWrite, useContractRead, useWaitForTransaction } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
 import { Shield, ArrowLeft, FileText, CheckCircle, Clock } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
@@ -16,6 +16,7 @@ export default function IdentityPage() {
   const [userStatus, setUserStatus] = useState<string>('');
   const [dniUploaded, setDniUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     setMounted(true);
@@ -31,14 +32,25 @@ export default function IdentityPage() {
   const checkUserStatus = async () => {
     try {
       setLoading(true);
+      console.log('Checking user status for address:', address);
       const response = await fetch(`http://localhost:3001/api/users/status/${address}`);
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('User status data:', data);
         setUserStatus(data.status || 'not_found');
         setDniUploaded(data.status !== 'not_found');
+      } else {
+        console.log('Response not ok, setting not_found');
+        setUserStatus('not_found');
+        setDniUploaded(false);
       }
     } catch (error) {
       console.error('Error checking user status:', error);
+      setUserStatus('not_found');
+      setDniUploaded(false);
+      setError('Error conectando con el servidor');
     } finally {
       setLoading(false);
     }
@@ -98,7 +110,7 @@ export default function IdentityPage() {
                 <h1 className="text-xl font-bold text-white">Mi Identidad</h1>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
@@ -182,6 +194,26 @@ export default function IdentityPage() {
                       </div>
                       <button disabled className="btn-secondary w-full opacity-50">
                         Cargando...
+                      </button>
+                    </div>
+                  ) : error ? (
+                    <div className="space-y-4">
+                      <div className="bg-red-500/20 border border-red-500/50 p-4 rounded-xl">
+                        <div className="flex items-start space-x-3">
+                          <FileText className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-white font-semibold">Error de Conexión</p>
+                            <p className="text-white/70 text-sm">
+                              {error}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <button 
+                        onClick={checkUserStatus}
+                        className="btn-secondary w-full"
+                      >
+                        Reintentar
                       </button>
                     </div>
                   ) : !dniUploaded ? (

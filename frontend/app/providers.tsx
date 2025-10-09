@@ -44,7 +44,7 @@ const { wallets } = getDefaultWallets({
 const connectors = connectorsForWallets([...wallets]);
 
 const config = createConfig({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   publicClient,
 });

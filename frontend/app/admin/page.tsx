@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAccount, useContractWrite, useWaitForTransaction } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useContractWrite, useWaitForTransaction, useDisconnect } from 'wagmi';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
-import { Shield, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Shield, ArrowLeft, CheckCircle, Clock } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { identityRegistryABI } from '@/config/abis';
 import { IDENTITY_REGISTRY_ADDRESS } from '@/config/contracts';
@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 
 export default function AdminPage() {
   const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
   const [userAddress, setUserAddress] = useState('');
   const [level, setLevel] = useState('2');
   const [mounted, setMounted] = useState(false);
@@ -120,7 +121,7 @@ export default function AdminPage() {
                 <h1 className="text-xl font-bold text-white">Panel Admin</h1>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
@@ -129,12 +130,36 @@ export default function AdminPage() {
         {!isConnected ? (
           <div className="glass-card text-center py-20">
             <h2 className="text-3xl font-bold text-white mb-6">Conecta tu Wallet de Admin</h2>
-            <ConnectButton />
+            <WalletManager />
           </div>
         ) : address?.toLowerCase() !== ADMIN_ADDRESS.toLowerCase() ? (
           <div className="glass-card text-center py-20">
-            <h2 className="text-3xl font-bold text-white mb-4">Acceso Denegado</h2>
-            <p className="text-white/70">Solo el admin puede acceder a esta página</p>
+            <h2 className="text-3xl font-bold text-white mb-4">🔒 Acceso Denegado</h2>
+            <p className="text-white/70 mb-4">
+              Esta página es solo para administradores.
+            </p>
+            <p className="text-white/50 text-sm mb-6">
+              Wallet conectada: {address?.slice(0, 6)}...{address?.slice(-4)}
+            </p>
+            <p className="text-white/50 text-sm mb-6">
+              Wallet admin requerida: {ADMIN_ADDRESS.slice(0, 6)}...{ADMIN_ADDRESS.slice(-4)}
+            </p>
+            <div className="space-y-3">
+              <p className="text-white/70 text-sm">
+                Para acceder como admin:
+              </p>
+              <ol className="text-white/50 text-sm space-y-1 text-left max-w-md mx-auto">
+                <li>1. Desconecta tu wallet actual</li>
+                <li>2. Conecta la wallet admin</li>
+                <li>3. Recarga la página</li>
+              </ol>
+              <button 
+                onClick={() => disconnect()}
+                className="btn-secondary mt-4"
+              >
+                Desconectar Wallet
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
@@ -172,13 +197,23 @@ export default function AdminPage() {
                         </div>
 
                         {/* DNI Image */}
-                        <div>
-                          <p className="text-white/70 text-sm mb-2">DNI Subido:</p>
-                          <img 
-                            src={`http://localhost:3001${user.dniImageUrl}`}
-                            alt="DNI"
-                            className="w-full h-48 object-cover rounded-lg border-2 border-white/20"
-                          />
+                        <div className="space-y-4">
+                          <div>
+                            <p className="text-white/70 text-sm mb-2">Frente del DNI:</p>
+                            <img 
+                              src={`http://localhost:3001${user.dniFrontUrl}`}
+                              alt="Frente DNI"
+                              className="w-full h-48 object-cover rounded-lg border-2 border-white/20"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-white/70 text-sm mb-2">Reverso del DNI:</p>
+                            <img 
+                              src={`http://localhost:3001${user.dniBackUrl}`}
+                              alt="Reverso DNI"
+                              className="w-full h-48 object-cover rounded-lg border-2 border-white/20"
+                            />
+                          </div>
                         </div>
                       </div>
 

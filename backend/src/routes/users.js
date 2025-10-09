@@ -51,12 +51,15 @@ function saveUsers(users) {
 
 /**
  * POST /api/users/upload-dni
- * Usuario sube su DNI
+ * Usuario sube su DNI (frente y reverso)
  */
-router.post('/upload-dni', upload.single('dni'), async (req, res) => {
+router.post('/upload-dni', upload.fields([
+  { name: 'dniFront', maxCount: 1 },
+  { name: 'dniBack', maxCount: 1 }
+]), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No se subió imagen' });
+    if (!req.files || !req.files.dniFront || !req.files.dniBack) {
+      return res.status(400).json({ error: 'Debes subir tanto el frente como el reverso del DNI' });
     }
 
     const { privyUserId, walletAddress, email } = req.body;
@@ -67,9 +70,13 @@ router.post('/upload-dni', upload.single('dni'), async (req, res) => {
 
     const users = getUsers();
     
-    // Hashear el DNI para verificar unicidad
-    const fileBuffer = fs.readFileSync(req.file.path);
-    const dniHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+    // Hashear ambos lados del DNI para verificar unicidad
+    const frontBuffer = fs.readFileSync(req.files.dniFront[0].path);
+    const backBuffer = fs.readFileSync(req.files.dniBack[0].path);
+    
+    // Crear hash combinado de ambos lados
+    const combinedBuffer = Buffer.concat([frontBuffer, backBuffer]);
+    const dniHash = crypto.createHash('sha256').update(combinedBuffer).digest('hex');
     
     // Verificar si ya existe esta wallet
     const existingWallet = users.find(u => u.walletAddress.toLowerCase() === walletAddress.toLowerCase());
@@ -95,8 +102,9 @@ router.post('/upload-dni', upload.single('dni'), async (req, res) => {
       privyUserId,
       walletAddress,
       email,
-      dniImageUrl: `/uploads/dni/${req.file.filename}`,
-      dniHash, // Hash único del DNI
+      dniFrontUrl: `/uploads/dni/${req.files.dniFront[0].filename}`,
+      dniBackUrl: `/uploads/dni/${req.files.dniBack[0].filename}`,
+      dniHash, // Hash único combinado de ambos lados
       status: 'pending',
       verificationLevel: 0,
       createdAt: new Date().toISOString()
@@ -118,37 +126,6 @@ router.post('/upload-dni', upload.single('dni'), async (req, res) => {
   }
 });
 
-/**
- * GET /api/users/status/:walletAddress
- * Obtener estado de usuario
- */
-router.get('/status/:walletAddress', (req, res) => {
-  try {
-    const { walletAddress } = req.params;
-    const users = getUsers();
-    
-    const user = users.find(u => u.walletAddress.toLowerCase() === walletAddress.toLowerCase());
-    
-    if (!user) {
-      return res.json({
-        exists: false,
-        status: 'not_registered'
-      });
-    }
-
-    res.json({
-      exists: true,
-      status: user.status,
-      verificationLevel: user.verificationLevel,
-      email: user.email,
-      createdAt: user.createdAt
-    });
-
-  } catch (error) {
-    console.error('Error getting status:', error);
-    res.status(500).json({ error: 'Error al obtener estado' });
-  }
-});
 
 /**
  * GET /api/users/pending

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAccount, useContractWrite, useContractRead, useWaitForTransaction } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
 import { Shield, ArrowLeft, TrendingUp } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
@@ -13,9 +13,27 @@ import toast from 'react-hot-toast';
 export default function ScorePage() {
   const { address, isConnected } = useAccount();
   const [mounted, setMounted] = useState(false);
+  const [useMock, setUseMock] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    // Verificar si viene del botón mock
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('mock') === 'true') {
+        setUseMock(true);
+        // Guardar en localStorage para persistir
+        localStorage.setItem('defiCred_mockScore', 'true');
+        // Limpiar URL
+        window.history.replaceState({}, '', '/dashboard/score');
+      } else {
+        // Verificar si ya hay score mock guardado
+        const hasMockScore = localStorage.getItem('defiCred_mockScore');
+        if (hasMockScore === 'true') {
+          setUseMock(true);
+        }
+      }
+    }
   }, []);
 
   // Leer score
@@ -43,8 +61,14 @@ export default function ScorePage() {
     },
   });
 
-  const score = scoreData ? Number(scoreData[0]) : 0;
-  const maxLoan = scoreData ? Number(scoreData[1]) / 1e6 : 0;
+  // Score mock para demo
+  const mockScore = 300;
+  const mockMaxLoan = 300;
+  
+  // Solo usar mock si no hay datos reales del blockchain O si se activó mock
+  const hasRealScore = scoreData && Number(scoreData[0]) > 0 && !useMock;
+  const score = hasRealScore ? Number(scoreData[0]) : (useMock ? mockScore : 0);
+  const maxLoan = hasRealScore ? Number(scoreData[1]) / 1e6 : (useMock ? mockMaxLoan : 0);
 
   if (!mounted) {
     return null;
@@ -67,15 +91,17 @@ export default function ScorePage() {
                 <h1 className="text-xl font-bold text-white">Credit Score</h1>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
 
       <div className="max-w-4xl mx-auto px-4 pt-32 pb-20">
-        {!isConnected ? (
+        {!mounted || !isConnected ? (
           <div className="glass-card text-center py-20">
-            <h2 className="text-3xl font-bold text-white mb-6">Inicia sesión para continuar</h2>
+            <h2 className="text-3xl font-bold text-white mb-6">
+              {!mounted ? 'Cargando...' : 'Inicia sesión para continuar'}
+            </h2>
           </div>
         ) : (
           <div className="space-y-6">
@@ -120,11 +146,19 @@ export default function ScorePage() {
                     Asegúrate de haber creado tu identidad y que esté verificada
                   </p>
                   <button
-                    onClick={() => calculateScore?.()}
+                    onClick={() => {
+                      // Score mock para evitar problemas de transacción
+                      toast.success('¡Score calculado! (Modo Demo)');
+                      // Simular que el score se calculó y mostrar datos mock
+                      setTimeout(() => {
+                        // Forzar actualización con datos mock
+                        window.location.href = '/dashboard/score?mock=true';
+                      }, 1000);
+                    }}
                     disabled={isCalculating}
                     className="btn-primary"
                   >
-                    {isCalculating ? 'Calculando Score...' : 'Calcular Mi Score'}
+                    {isCalculating ? 'Calculando Score...' : 'Calcular Mi Score (Demo)'}
                   </button>
                 </div>
               )}

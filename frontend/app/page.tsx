@@ -1,7 +1,7 @@
 'use client';
 
 import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
 import { FileText, TrendingUp, Users, Shield, Sparkles, Lock, Zap } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
@@ -28,7 +28,7 @@ export default function Home() {
                 <p className="text-xs text-white/70">Powered by Polkadot</p>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
@@ -66,7 +66,7 @@ export default function Home() {
             <div className="space-y-4">
               <p className="text-white/70 text-lg">Conecta tu wallet para comenzar</p>
               <div className="flex justify-center">
-                <ConnectButton />
+                <WalletManager />
               </div>
             </div>
           )}
@@ -199,7 +199,7 @@ export default function Home() {
           </p>
           {!isConnected && (
             <div className="flex justify-center">
-              <ConnectButton />
+              <WalletManager />
             </div>
           )}
         </div>

@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useAccount, useContractWrite, useContractRead, useWaitForTransaction } from 'wagmi';
 import { parseUnits } from 'ethers';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { Shield, ArrowLeft, DollarSign, Calendar, TrendingDown, Info, Sparkles, Zap } from 'lucide-react';
+import { Shield, ArrowLeft, DollarSign, Calendar, TrendingDown, Info, Sparkles, Zap, Clock } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { creditScoringABI, loanManagerABI, usdcABI } from '@/config/abis';
 import { CREDIT_SCORING_ADDRESS, LOAN_MANAGER_ADDRESS, USDC_ADDRESS } from '@/config/contracts';
@@ -30,6 +30,55 @@ export default function BorrowPage() {
     enabled: !!address,
   });
 
+  // Calcular score automáticamente
+  const { write: calculateScore, data: calculateData } = useContractWrite({
+    address: CREDIT_SCORING_ADDRESS as `0x${string}`,
+    abi: creditScoringABI,
+    functionName: 'calculateInitialScore',
+    args: address ? [address] : undefined,
+  });
+
+  // Esperar a que se complete el cálculo de score
+  const { isLoading: isCalculating } = useWaitForTransaction({
+    hash: calculateData?.hash,
+    onSuccess: () => {
+      toast.success('¡Score calculado! Solicitando préstamo automáticamente...');
+      refetchScore(); // Actualizar los datos del score
+      // Automáticamente solicitar préstamo después de 2 segundos
+      setTimeout(() => {
+        if (requestLoan && amount) {
+          console.log('Solicitando préstamo automáticamente después del score...');
+          requestLoan();
+        }
+      }, 2000);
+    },
+    onError: (error) => {
+      console.error('Error al calcular score:', error);
+      toast.error('Error al calcular score. Intenta nuevamente.');
+    },
+  });
+
+  // Calcular score real si es necesario
+  const { write: calculateRealScore, data: calcRealData } = useContractWrite({
+    address: CREDIT_SCORING_ADDRESS as `0x${string}`,
+    abi: creditScoringABI,
+    functionName: 'calculateInitialScore',
+    args: address ? [address] : undefined,
+  });
+
+  const { isLoading: isCalculatingReal } = useWaitForTransaction({
+    hash: calcRealData?.hash,
+    onSuccess: () => {
+      toast.success('Score calculado en blockchain. Solicitando préstamo...');
+      // Después de calcular el score, solicitar el préstamo
+      setTimeout(() => {
+        if (requestLoan && amount) {
+          requestLoan();
+        }
+      }, 2000);
+    },
+  });
+
   // Solicitar préstamo
   const { write: requestLoan, data: loanData } = useContractWrite({
     address: LOAN_MANAGER_ADDRESS as `0x${string}`,
@@ -46,8 +95,23 @@ export default function BorrowPage() {
     onSuccess: () => toast.success('¡Préstamo aprobado! Revisa tu wallet'),
   });
 
-  const userScore = scoreData ? Number(scoreData[0]) : 0;
-  const maxLoanAmount = scoreData ? Number(scoreData[1]) / 1e6 : 0;
+  // Score mock para demo (evitar problemas de transacción)
+  const mockScore = 300; // Score básico
+  const mockMaxLoan = 300; // $300 máximo
+  
+  // Verificar si hay score mock en localStorage
+  const hasMockScore = typeof window !== 'undefined' && localStorage.getItem('defiCred_mockScore') === 'true';
+  
+  const userScore = (scoreData && Number(scoreData[0]) > 0) ? Number(scoreData[0]) : (hasMockScore ? mockScore : 0);
+  const maxLoanAmount = (scoreData && Number(scoreData[0]) > 0) ? Number(scoreData[1]) / 1e6 : (hasMockScore ? mockMaxLoan : 0);
+
+  // Auto-calcular score deshabilitado para evitar bucles
+  // useEffect(() => {
+  //   if (address && scoreData && userScore === 0 && calculateScore) {
+  //     console.log('Auto-calculando score para usuario verificado...');
+  //     calculateScore();
+  //   }
+  // }, [address, scoreData, userScore, calculateScore]);
 
   // Calcular cuota según plan seleccionado
   const calculateInstallment = (principal: number, installments: number) => {
@@ -125,7 +189,7 @@ export default function BorrowPage() {
                 <h1 className="text-xl font-bold text-white">Solicitar Préstamo</h1>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
@@ -170,7 +234,10 @@ export default function BorrowPage() {
                   className="input-field text-2xl font-bold pl-10 pr-4"
                 />
               </div>
-              <p className="text-white/50 text-sm mt-2">Máximo: ${maxLoanAmount.toLocaleString()} USDC</p>
+              <p className="text-white/50 text-sm mt-2">
+                Máximo: ${maxLoanAmount.toLocaleString()} USDC
+                {hasMockScore && <span className="text-blue-400 ml-2">(Modo Demo)</span>}
+              </p>
             </div>
 
             {/* Selector de planes */}
@@ -220,20 +287,52 @@ export default function BorrowPage() {
             </div>
 
             {/* Botón de solicitud */}
-            {userScore === 0 ? (
+            {userScore === 0 && !hasMockScore ? (
               <div className="bg-yellow-500/20 border border-yellow-500/50 p-4 rounded-xl">
-                <p className="text-white text-center mb-3">Necesitas calcular tu score primero</p>
-                <Link href="/dashboard/score" className="btn-secondary w-full text-center block">
-                  Ir a Calcular Score
+                <p className="text-white text-center mb-3">⚠️ Score Requerido</p>
+                <p className="text-white/70 text-sm text-center mb-4">
+                  Necesitas calcular tu score antes de solicitar un préstamo.
+                </p>
+                <Link href="/dashboard/score" className="btn-primary w-full text-center block">
+                  Ir a Calcular Score →
                 </Link>
               </div>
             ) : (
               <button
-                onClick={() => requestLoan?.()}
-                disabled={!amount || loanAmount > maxLoanAmount || isRequesting}
+                onClick={() => {
+                  console.log('Solicitando préstamo:', { amount, selectedPlan, address, userScore, hasMockScore });
+                  if (!amount) {
+                    toast.error('Por favor ingresa un monto');
+                    return;
+                  }
+                  
+                  // Si solo tenemos score mock, necesitamos calcular el score real primero
+                  if (hasMockScore && (!scoreData || Number(scoreData[0]) === 0)) {
+                    toast('Calculando score en blockchain...', { icon: '⏳' });
+                    if (calculateRealScore && address) {
+                      console.log('Calculando score real para:', address);
+                      calculateRealScore();
+                    } else {
+                      toast.error('Error: No se puede calcular score sin dirección de wallet');
+                    }
+                    return;
+                  }
+                  
+                  if (!requestLoan) {
+                    toast.error('Error: No se puede conectar con el contrato');
+                    return;
+                  }
+                  try {
+                    requestLoan();
+                  } catch (error) {
+                    console.error('Error al solicitar préstamo:', error);
+                    toast.error('Error al solicitar préstamo');
+                  }
+                }}
+                disabled={!amount || loanAmount > maxLoanAmount || isRequesting || isCalculating || isCalculatingReal}
                 className="btn-primary w-full py-4 text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isRequesting ? 'Procesando...' : 'Solicitar Préstamo'}
+                {isCalculating || isCalculatingReal ? 'Calculando Score...' : isRequesting ? 'Procesando...' : 'Solicitar Préstamo'}
               </button>
             )}
           </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAccount, useContractWrite, useContractRead, useWaitForTransaction } from 'wagmi';
 import { parseUnits, formatUnits } from 'ethers';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
 import { Shield, ArrowLeft } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
@@ -100,7 +100,7 @@ export default function DemoPage() {
                 <h1 className="text-xl font-bold text-white">Demo DeFiCred</h1>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
@@ -109,7 +109,7 @@ export default function DemoPage() {
         {!isConnected ? (
           <div className="glass-card text-center py-20">
             <h2 className="text-3xl font-bold text-white mb-6">Conecta tu Wallet</h2>
-            <ConnectButton />
+            <WalletManager />
           </div>
         ) : (
           <div className="space-y-6">

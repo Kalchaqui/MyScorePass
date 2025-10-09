@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
 import { Shield, ArrowLeft, DollarSign, Calendar, TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
@@ -62,7 +62,7 @@ export default function LoansPage() {
                 <h1 className="text-xl font-bold text-white">Mis Préstamos</h1>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>

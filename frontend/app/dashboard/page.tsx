@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useRouter } from 'next/navigation';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
-import { Shield, FileText, TrendingUp, DollarSign, ArrowLeft, Sparkles, CheckCircle, Clock } from 'lucide-react';
+import { Shield, FileText, TrendingUp, DollarSign, ArrowLeft, Sparkles, CheckCircle, Clock, TestTube } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 
 export default function Dashboard() {
@@ -78,7 +78,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <ConnectButton />
+            <WalletManager />
           </div>
         </div>
       </header>
@@ -158,10 +158,15 @@ export default function Dashboard() {
               </div>
             </div>
             <div>
-              <p className="text-white/70 mb-6">Paso 3: Pide tu préstamo</p>
-              <a href="/dashboard/borrow" className="btn-primary w-full text-center block">
-                Solicitar Préstamo
-              </a>
+              <p className="text-white/70 mb-6">Gestiona tus préstamos activos</p>
+              <div className="space-y-3">
+                <a href="/dashboard/loans" className="btn-primary w-full text-center block">
+                  Ver Mis Préstamos
+                </a>
+                <a href="/dashboard/borrow" className="btn-secondary w-full text-center block">
+                  Solicitar Nuevo Préstamo
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -172,10 +177,18 @@ export default function Dashboard() {
             <Sparkles className="w-6 h-6 mr-2 text-yellow-300" />
             Acciones Rápidas
           </h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <a href="/dashboard/borrow" className="btn-primary text-center py-6 text-lg flex items-center justify-center space-x-2">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="/dashboard/loans" className="btn-primary text-center py-6 text-lg flex items-center justify-center space-x-2">
+              <DollarSign className="w-6 h-6" />
+              <span>Mis Préstamos</span>
+            </a>
+            <a href="/dashboard/borrow" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
               <DollarSign className="w-6 h-6" />
               <span>Solicitar Préstamo</span>
+            </a>
+            <a href="/test" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
+              <TestTube className="w-6 h-6" />
+              <span>Test Contracts</span>
             </a>
             <a href="/admin" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
               <Shield className="w-6 h-6" />
