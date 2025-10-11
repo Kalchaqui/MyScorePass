@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/public/loanet-logo.png" alt="Loanet Logo" width="200" height="200">
+  <img src="assets/demo.gif" alt="Loanet Demo" width="600">
 </div>
 
 # Loanet - Plataforma DeFi de Préstamos en Polkadot
