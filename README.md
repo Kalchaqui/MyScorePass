@@ -1,5 +1,3 @@
-
-
 # Loanet - Plataforma DeFi de Préstamos en Polkadot
 
 Loanet es una plataforma descentralizada de préstamos construida en la testnet Paseo de Polkadot, que ofrece préstamos sin garantía con un sistema integral de scoring crediticio y mecanismos de protección de múltiples niveles.
