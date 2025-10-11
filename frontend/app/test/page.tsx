@@ -116,7 +116,7 @@ export default function TestPage() {
   // Contract read hook
   const { data: readData, refetch: refetchRead, isLoading: isReading } = useContractRead({
     address: contractAddresses[selectedContract as keyof typeof contractAddresses] as `0x${string}`,
-    abi: contractABIs[selectedContract as keyof typeof contractABIs],
+    abi: contractABIs[selectedContract as keyof typeof contractABIs] as any,
     functionName: testFunctions[selectedContract as keyof typeof testFunctions].read.name as any,
     args: testFunctions[selectedContract as keyof typeof testFunctions].read.args,
     enabled: !!address && !!testFunctions[selectedContract as keyof typeof testFunctions].read.args,
@@ -125,7 +125,7 @@ export default function TestPage() {
   // Contract write hook
   const { write: contractWrite, data: writeData, isLoading: isWriting } = useContractWrite({
     address: contractAddresses[selectedContract as keyof typeof contractAddresses] as `0x${string}`,
-    abi: contractABIs[selectedContract as keyof typeof contractABIs],
+    abi: contractABIs[selectedContract as keyof typeof contractABIs] as any,
     functionName: testFunctions[selectedContract as keyof typeof testFunctions].write.name as any,
     args: testFunctions[selectedContract as keyof typeof testFunctions].write.args,
   });
@@ -135,7 +135,7 @@ export default function TestPage() {
     address: USDC_ADDRESS as `0x${string}`,
     abi: usdcABI,
     functionName: 'approve',
-    args: [LENDING_POOL_ADDRESS, '1000000'], // 1 USDC
+    args: [LENDING_POOL_ADDRESS as `0x${string}`, BigInt('1000000')], // 1 USDC
   });
 
   // Wait for transaction
@@ -310,7 +310,7 @@ export default function TestPage() {
                           </div>
                         ) : (
                           <p>
-                            {typeof readData === 'bigint' ? readData.toString() : String(readData)}
+                            {typeof readData === 'bigint' ? (readData as bigint).toString() : String(readData as any)}
                           </p>
                         )}
                       </div>

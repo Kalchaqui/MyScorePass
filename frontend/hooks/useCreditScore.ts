@@ -17,7 +17,7 @@ export function useCreditScore() {
 
   useEffect(() => {
     if (data && !isError) {
-      const [scoreValue, maxLoanAmount, lastUpdated] = data as any[];
+      const [scoreValue, maxLoanAmount, lastUpdated] = data as unknown as any[];
       
       if (Number(scoreValue) > 0) {
         setScore({

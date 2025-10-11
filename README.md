@@ -46,10 +46,21 @@ cd frontend && npm run dev
 ```
 
 ### Probar Smart Contracts
-1. Visita `http://localhost:3000/test`
-2. Conecta tu wallet MetaMask
-3. Selecciona un contrato para probar
-4. Usa las funciones "Read" y "Write" para interactuar con los contratos
+
+**🌐 En Producción (Recomendado para jueces):**
+- **URL**: `https://frontend-5uwo30gqj-kalchas-projects.vercel.app/test`
+- **Acceso**: Botón "Test Contracts" en el dashboard
+- **Ventaja**: No requiere instalación local
+
+**💻 En Local (Para desarrollo):**
+- **URL**: `http://localhost:3000/test`
+- **Requisito**: Ejecutar la aplicación localmente
+
+**📋 Instrucciones de uso:**
+1. Conecta tu wallet MetaMask
+2. Selecciona un contrato para probar
+3. Usa las funciones "Read" y "Write" para interactuar con los contratos
+4. Verifica los resultados on-chain en tiempo real
 
 ## 🏗️ Arquitectura
 
@@ -98,14 +109,27 @@ cd frontend && npm run dev
 3. **Solicitud de Préstamo**: Seleccionar monto y plan de pago
 4. **Gestión de Préstamos**: Seguimiento de pagos e historial
 
-## 🧪 Pruebas
+## 🧪 Página de Test Obligatoria
 
-La aplicación incluye una página de pruebas integral en `/test` que permite la interacción directa con todos los smart contracts:
+**✅ Requisito del hackathon cumplido**
 
+La aplicación incluye una página de pruebas integral que permite la interacción directa con todos los smart contracts:
+
+### **🌐 Acceso en Producción:**
+- **URL Directa**: `https://frontend-5uwo30gqj-kalchas-projects.vercel.app/test`
+- **Desde Dashboard**: Botón "Test Contracts" en "Acciones Rápidas"
+- **Ventaja**: Los jueces pueden acceder sin instalación
+
+### **💻 Acceso Local:**
+- **URL**: `http://localhost:3000/test`
+- **Requisito**: Ejecutar aplicación localmente
+
+### **🔧 Funcionalidades:**
 - **Funciones Read**: Ver estado del contrato y datos del usuario
 - **Funciones Write**: Ejecutar funciones del contrato
 - **Seguimiento de Transacciones**: Monitorear hashes de transacciones y eventos
 - **Manejo de Errores**: Mensajes de error claros y validación
+- **5 Contratos Disponibles**: IdentityRegistry, CreditScoring, LendingPool, LoanManager, USDC
 
 ## 🔒 Seguridad
 

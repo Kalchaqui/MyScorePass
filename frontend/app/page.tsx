@@ -1,32 +1,56 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
 import { FileText, TrendingUp, Users, Shield, Sparkles, Lock, Zap } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import SplashScreen from '@/components/SplashScreen';
 import Image from 'next/image';
 
 export default function Home() {
   const { isConnected } = useAccount();
+  const [showSplash, setShowSplash] = useState(true);
+
+  // Solo mostrar splash screen en la primera visita
+  useEffect(() => {
+    // Temporalmente deshabilitado para testing
+    // const hasSeenSplash = localStorage.getItem('loanet-splash-seen');
+    // if (hasSeenSplash) {
+    //   setShowSplash(false);
+    // }
+    console.log('SplashScreen - Component mounted, showSplash:', showSplash);
+  }, []);
+
+  const handleSplashComplete = () => {
+    localStorage.setItem('loanet-splash-seen', 'true');
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    console.log('SplashScreen - Rendering splash screen');
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
+  console.log('SplashScreen - Rendering main page');
 
   return (
     <main className="min-h-screen relative">
       <AnimatedBackground />
 
       {/* Header flotante */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-card mx-4 mt-4 rounded-2xl">
+      <header className="fixed top-0 left-0 right-0 z-50 glass-card mx-4 mt-2 rounded-2xl">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <Shield className="w-10 h-10 text-white pulse-glow" />
-                <Sparkles className="w-4 h-4 text-yellow-300 absolute -top-1 -right-1" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white">DeFiCred</h1>
-                <p className="text-xs text-white/70">Powered by Polkadot</p>
-              </div>
+            <div className="flex items-center">
+              <Image
+                src="/loanet-logo.png"
+                alt="Loanet Logo"
+                width={120}
+                height={120}
+                className="w-30 h-30"
+              />
             </div>
             <WalletManager />
           </div>
@@ -34,7 +58,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - Espectacular */}
-      <section className="min-h-screen flex items-center justify-center pt-24 pb-20 px-4">
+      <section className="min-h-screen flex items-center justify-center pt-32 pb-20 px-4">
         <div className="max-w-6xl mx-auto text-center fade-in-up">
           {/* Badge */}
           <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-8 border border-white/20">
@@ -71,21 +95,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Stats flotantes */}
-          <div className="grid grid-cols-3 gap-6 mt-20 max-w-4xl mx-auto">
-            <div className="glass-card text-center">
-              <div className="stat-number">$1M+</div>
-              <div className="text-white/70 font-semibold">Total Prestado</div>
-            </div>
-            <div className="glass-card text-center">
-              <div className="stat-number">500+</div>
-              <div className="text-white/70 font-semibold">Usuarios</div>
-            </div>
-            <div className="glass-card text-center">
-              <div className="stat-number">95%</div>
-              <div className="text-white/70 font-semibold">Tasa Repago</div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -174,13 +183,13 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="relative h-64 rounded-2xl overflow-hidden">
+              <div className="relative h-80 rounded-2xl overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20"></div>
                 <Image
-                  src="/deficred.png"
-                  alt="DeFiCred"
+                  src="/loanet-logo.png"
+                  alt="Loanet"
                   fill
-                  className="object-contain p-8"
+                  className="object-contain p-4"
                 />
               </div>
             </div>
@@ -208,11 +217,16 @@ export default function Home() {
       {/* Footer */}
       <footer className="glass-card mx-4 mb-4 rounded-2xl">
         <div className="max-w-7xl mx-auto px-6 py-8 text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Shield className="w-6 h-6 text-white" />
-            <span className="text-xl font-bold text-white">DeFiCred</span>
+          <div className="flex items-center justify-center mb-4">
+            <Image
+              src="/loanet-logo.png"
+              alt="Loanet Logo"
+              width={150}
+              height={150}
+              className="w-40 h-40"
+            />
           </div>
-          <p className="text-white/70">© 2025 DeFiCred - Construido en Polkadot para NERDCONF Hackathon</p>
+          <p className="text-white/70">© 2025 Loanet - Construido en Polkadot para NERDCONF Hackathon</p>
           <p className="text-sm text-white/50 mt-2">Paseo Testnet • Scoring Descentralizado</p>
         </div>
       </footer>

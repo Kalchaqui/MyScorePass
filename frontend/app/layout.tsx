@@ -6,7 +6,7 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'DeFiCred - Préstamos Descentralizados',
+  title: 'Loanet - Préstamos Descentralizados',
   description: 'Sistema de préstamos P2P con scoring descentralizado en Polkadot',
 }
 

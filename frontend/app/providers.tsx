@@ -36,7 +36,7 @@ const { chains, publicClient } = configureChains(
 const projectId = 'demo-project-id';
 
 const { wallets } = getDefaultWallets({
-  appName: 'DeFiCred',
+  appName: 'Loanet',
   projectId,
   chains,
 });

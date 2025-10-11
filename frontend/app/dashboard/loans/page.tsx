@@ -79,7 +79,7 @@ export default function LoansPage() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-white">Préstamo Activo</h3>
-                  <p className="text-white/70">Próximo pago en {Math.ceil((activeLoan.nextPayment.getTime() - Date.now()) / (1000 * 60 * 60 * 24))} días</p>
+                  <p className="text-white/70">Próximo pago en {activeLoan.nextPayment ? Math.ceil((activeLoan.nextPayment.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : 15} días</p>
                 </div>
               </div>
               <div className="text-right">

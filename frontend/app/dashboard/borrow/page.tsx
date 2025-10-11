@@ -43,7 +43,6 @@ export default function BorrowPage() {
     hash: calculateData?.hash,
     onSuccess: () => {
       toast.success('¡Score calculado! Solicitando préstamo automáticamente...');
-      refetchScore(); // Actualizar los datos del score
       // Automáticamente solicitar préstamo después de 2 segundos
       setTimeout(() => {
         if (requestLoan && amount) {

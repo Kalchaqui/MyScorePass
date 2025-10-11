@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_IDENTITY_REGISTRY_ADDRESS": "0x18d71DaCd2e657A8babf6C94E0f922C5746E0733",
+    "NEXT_PUBLIC_CREDIT_SCORING_ADDRESS": "0x345F7F2556EC6480aAa8fCf8deb6CCa202Ed2A14",
+    "NEXT_PUBLIC_LENDING_POOL_ADDRESS": "0x0561eC805C7fbf2392b3353BD5f0920665Ee2b66",
+    "NEXT_PUBLIC_LOAN_MANAGER_ADDRESS": "0x84A5e36B1619c2333d687615aC40d2C141B00A55",
+    "NEXT_PUBLIC_USDC_ADDRESS": "0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37"
+  }
+}
