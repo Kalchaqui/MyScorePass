@@ -16,7 +16,9 @@ Loanet es una plataforma descentralizada de préstamos construida en la testnet 
 - **CreditScoring**: `0x345F7F2556EC6480aAa8fCf8deb6CCa202Ed2A14`
 - **LendingPool**: `0x0561eC805C7fbf2392b3353BD5f0920665Ee2b66`
 - **LoanManager**: `0x84A5e36B1619c2333d687615aC40d2C141B00A55`
+
 - **MockUSDC**: `0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37`
+- https://blockscout-passet-hub.parity-testnet.parity.io/address/0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37?tab=index
 
 ### ABIs de Contratos
 Todos los ABIs de contratos están disponibles en `frontend/config/abis.ts`
@@ -54,7 +56,6 @@ cd frontend && npm run dev
 **🌐 En Producción (Recomendado para jueces):**
 - **URL**: `https://frontend-5uwo30gqj-kalchas-projects.vercel.app/test`
 - **Acceso**: Botón "Test Contracts" en el dashboard
-- **Ventaja**: No requiere instalación local
 
 **💻 En Local (Para desarrollo):**
 - **URL**: `http://localhost:3000/test`
@@ -142,14 +143,9 @@ La aplicación incluye una página de pruebas integral que permite la interacci�
 - Funciones de administrador protegidas
 - Validación de entrada y manejo de errores
 
-## 📄 Licencia
-
-Licencia MIT - ver archivo LICENSE para detalles
 
 ## 🤝 Contribuciones
 
-Este proyecto fue desarrollado para el Polkadot Hackathon. Para preguntas o contribuciones, por favor abre un issue en GitHub.
+Este proyecto fue desarrollado para el Latin Hack Hackathon POWERED BY Polkadot. 
 
----
-
-**Construido con ❤️ para el ecosistema Polkadot**
+**Construido con ❤️ para el ecosistema Polkadot -Diego Raúl Barrionuevo **
