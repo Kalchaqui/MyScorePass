@@ -60,11 +60,6 @@ export default function Home() {
       {/* Hero Section - Espectacular */}
       <section className="min-h-screen flex items-center justify-center pt-32 pb-20 px-4">
         <div className="max-w-6xl mx-auto text-center fade-in-up">
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-8 border border-white/20">
-            <Zap className="w-4 h-4 text-yellow-300" />
-            <span className="text-white text-sm font-semibold">NERDCONF Hackathon 2025</span>
-          </div>
 
           <h2 className="text-7xl md:text-8xl font-black mb-6 text-white leading-tight">
             Préstamos
@@ -81,10 +76,10 @@ export default function Home() {
           </p>
 
           {isConnected ? (
-            <Link href="/dashboard" className="btn-primary text-xl inline-flex items-center space-x-2">
-              <Shield className="w-6 h-6" />
+            <Link href="/dashboard" className="btn-primary text-2xl py-6 px-12 inline-flex items-center space-x-3">
+              <Shield className="w-8 h-8" />
               <span>Ir al Dashboard</span>
-              <Sparkles className="w-5 h-5" />
+              <Sparkles className="w-7 h-7" />
             </Link>
           ) : (
             <div className="space-y-4">
