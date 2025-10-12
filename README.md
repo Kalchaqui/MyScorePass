@@ -13,15 +13,41 @@ Loanet es una plataforma descentralizada de préstamos construida en la testnet 
 
 ### Direcciones de Contratos
 - **IdentityRegistry**: `0x18d71DaCd2e657A8babf6C94E0f922C5746E0733`
+- https://blockscout-passet-hub.parity-testnet.parity.io/address/0x18d71DaCd2e657A8babf6C94E0f922C5746E0733?tab=index
+
 - **CreditScoring**: `0x345F7F2556EC6480aAa8fCf8deb6CCa202Ed2A14`
+- https://blockscout-passet-hub.parity-testnet.parity.io/address/0x345F7F2556EC6480aAa8fCf8deb6CCa202Ed2A14?tab=index
+
 - **LendingPool**: `0x0561eC805C7fbf2392b3353BD5f0920665Ee2b66`
+- https://blockscout-passet-hub.parity-testnet.parity.io/address/0x0561eC805C7fbf2392b3353BD5f0920665Ee2b66?tab=index
+
 - **LoanManager**: `0x84A5e36B1619c2333d687615aC40d2C141B00A55`
+- https://blockscout-passet-hub.parity-testnet.parity.io/address/0x84A5e36B1619c2333d687615aC40d2C141B00A55?tab=index
 
 - **MockUSDC**: `0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37`
 - https://blockscout-passet-hub.parity-testnet.parity.io/address/0x482aAC0Eda23639A4fCd2662E8C67B557e21ef37?tab=index
 
 ### ABIs de Contratos
 Todos los ABIs de contratos están disponibles en `frontend/config/abis.ts`
+
+### Probar Smart Contracts (TEST)
+
+**🌐 En Producción (Recomendado para jueces):**
+- **URL**: `https://frontend-5uwo30gqj-kalchas-projects.vercel.app/test`
+- **Acceso**: Botón "Test Contracts" en el dashboard
+
+**💻 En Local (Para desarrollo):**
+- **URL**: `http://localhost:3000/test`
+- **Requisito**: Ejecutar la aplicación localmente
+
+
+**📋 Instrucciones de uso:**
+1. Conecta tu wallet MetaMask
+2. Ir a Dashboard y después ir a Test Smart Contract
+2. Selecciona un contrato para probar
+3. Usa las funciones "Read" y "Write" para interactuar con los contratos
+4. Verifica los resultados on-chain en tiempo real
+
 
 ## 🚀 Inicio Rápido
 
@@ -50,22 +76,6 @@ cd backend && npm start
 # Iniciar frontend (en otra terminal)
 cd frontend && npm run dev
 ```
-
-### Probar Smart Contracts
-
-**🌐 En Producción (Recomendado para jueces):**
-- **URL**: `https://frontend-5uwo30gqj-kalchas-projects.vercel.app/test`
-- **Acceso**: Botón "Test Contracts" en el dashboard
-
-**💻 En Local (Para desarrollo):**
-- **URL**: `http://localhost:3000/test`
-- **Requisito**: Ejecutar la aplicación localmente
-
-**📋 Instrucciones de uso:**
-1. Conecta tu wallet MetaMask
-2. Selecciona un contrato para probar
-3. Usa las funciones "Read" y "Write" para interactuar con los contratos
-4. Verifica los resultados on-chain en tiempo real
 
 ## 🏗️ Arquitectura
 
@@ -114,34 +124,10 @@ cd frontend && npm run dev
 3. **Solicitud de Préstamo**: Seleccionar monto y plan de pago
 4. **Gestión de Préstamos**: Seguimiento de pagos e historial
 
-## 🧪 Página de Test Obligatoria
-
-**✅ Requisito del hackathon cumplido**
-
-La aplicación incluye una página de pruebas integral que permite la interacción directa con todos los smart contracts:
-
-### **🌐 Acceso en Producción:**
-- **URL Directa**: `https://frontend-5uwo30gqj-kalchas-projects.vercel.app/test`
-- **Desde Dashboard**: Botón "Test Contracts" en "Acciones Rápidas"
-- **Ventaja**: Los jueces pueden acceder sin instalación
 
 ### **💻 Acceso Local:**
-- **URL**: `http://localhost:3000/test`
+- **URL**: `http://localhost:3000
 - **Requisito**: Ejecutar aplicación localmente
-
-### **🔧 Funcionalidades:**
-- **Funciones Read**: Ver estado del contrato y datos del usuario
-- **Funciones Write**: Ejecutar funciones del contrato
-- **Seguimiento de Transacciones**: Monitorear hashes de transacciones y eventos
-- **Manejo de Errores**: Mensajes de error claros y validación
-- **5 Contratos Disponibles**: IdentityRegistry, CreditScoring, LendingPool, LoanManager, USDC
-
-## 🔒 Seguridad
-
-- Todos los contratos desplegados solo en testnet
-- No se involucran activos reales
-- Funciones de administrador protegidas
-- Validación de entrada y manejo de errores
 
 
 ## 🤝 Contribuciones
