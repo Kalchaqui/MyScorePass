@@ -16,10 +16,36 @@ export default function BorrowPage() {
   const [amount, setAmount] = useState('');
   const [selectedPlan, setSelectedPlan] = useState<number>(6);
   const [mounted, setMounted] = useState(false);
+  const [userStatus, setUserStatus] = useState<string>('');
+  const [dniUploaded, setDniUploaded] = useState(false);
+  const [loadingIdentity, setLoadingIdentity] = useState(true);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Verificar estado del DNI
+  useEffect(() => {
+    if (address && mounted && isConnected) {
+      checkUserStatus();
+    }
+  }, [address, mounted, isConnected]);
+
+  const checkUserStatus = async () => {
+    try {
+      setLoadingIdentity(true);
+      const response = await fetch(`http://localhost:3001/api/users/status/${address}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUserStatus(data.status || 'not_found');
+        setDniUploaded(data.status !== 'not_found');
+      }
+    } catch (error) {
+      console.error('Error checking user status:', error);
+    } finally {
+      setLoadingIdentity(false);
+    }
+  };
 
   // Leer score real del usuario
   const { data: scoreData } = useContractRead({
@@ -193,7 +219,7 @@ export default function BorrowPage() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-32">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         
         {/* Información del usuario */}
         <div className="glass-card mb-8 fade-in-up">
@@ -241,7 +267,7 @@ export default function BorrowPage() {
 
             {/* Selector de planes */}
             <div className="mb-8">
-              <label className="text-white/70 text-sm mb-4 block flex items-center">
+              <label className="text-white/70 text-sm mb-4 flex items-center">
                 <Calendar className="w-4 h-4 mr-2" />
                 Selecciona tu plan de pago
               </label>
@@ -286,7 +312,41 @@ export default function BorrowPage() {
             </div>
 
             {/* Botón de solicitud */}
-            {userScore === 0 && !hasMockScore ? (
+            {loadingIdentity ? (
+              <div className="bg-blue-500/20 border border-blue-500/50 p-4 rounded-xl">
+                <p className="text-white text-center">Verificando identidad...</p>
+              </div>
+            ) : !dniUploaded ? (
+              <div className="bg-red-500/20 border border-red-500/50 p-4 rounded-xl">
+                <p className="text-white text-center mb-3">⚠️ Identidad Requerida</p>
+                <p className="text-white/70 text-sm text-center mb-4">
+                  Necesitas subir tu DNI antes de solicitar un préstamo.
+                </p>
+                <Link href="/onboarding" className="btn-primary w-full text-center block">
+                  Subir DNI →
+                </Link>
+              </div>
+            ) : userStatus === 'pending' ? (
+              <div className="bg-yellow-500/20 border border-yellow-500/50 p-4 rounded-xl">
+                <p className="text-white text-center mb-3">⏳ Verificación Pendiente</p>
+                <p className="text-white/70 text-sm text-center mb-4">
+                  Tu DNI está siendo verificado por el administrador. Espera la aprobación.
+                </p>
+                <Link href="/dashboard/identity" className="btn-secondary w-full text-center block">
+                  Ver Estado →
+                </Link>
+              </div>
+            ) : userStatus === 'rejected' ? (
+              <div className="bg-red-500/20 border border-red-500/50 p-4 rounded-xl">
+                <p className="text-white text-center mb-3">❌ Identidad Rechazada</p>
+                <p className="text-white/70 text-sm text-center mb-4">
+                  Tu identidad fue rechazada. Contacta al administrador.
+                </p>
+                <Link href="/dashboard/identity" className="btn-secondary w-full text-center block">
+                  Ver Detalles →
+                </Link>
+              </div>
+            ) : userScore === 0 && !hasMockScore ? (
               <div className="bg-yellow-500/20 border border-yellow-500/50 p-4 rounded-xl">
                 <p className="text-white text-center mb-3">⚠️ Score Requerido</p>
                 <p className="text-white/70 text-sm text-center mb-4">

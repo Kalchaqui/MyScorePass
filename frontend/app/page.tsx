@@ -58,7 +58,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - Espectacular */}
-      <section className="min-h-screen flex items-center justify-center pt-32 pb-20 px-4">
+      <section className="min-h-screen flex items-center justify-center pt-40 pb-20 px-4">
         <div className="max-w-6xl mx-auto text-center fade-in-up">
 
           <h2 className="text-7xl md:text-8xl font-black mb-6 text-white leading-tight">

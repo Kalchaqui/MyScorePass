@@ -226,7 +226,7 @@ export default function TestPage() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 pt-32 pb-20">
+      <div className="max-w-6xl mx-auto px-4 pt-40 pb-20">
         {!isConnected ? (
           <div className="glass-card text-center py-20">
             <h2 className="text-3xl font-bold text-white mb-6">Conecta tu Wallet</h2>

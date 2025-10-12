@@ -35,8 +35,8 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
       timeout = setTimeout(() => {
         console.log('SplashScreen - Starting fade out');
         setIsVisible(false);
-        setTimeout(onComplete, 1000); // Transición rápida
-      }, 2000); // Solo 2 segundos antes de desaparecer
+        setTimeout(onComplete, 500); // Transición más rápida
+      }, 500); // Solo 0.5 segundos antes de desaparecer
     }
 
     return () => clearTimeout(timeout);

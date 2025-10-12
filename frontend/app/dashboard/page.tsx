@@ -86,7 +86,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         {/* Bienvenida */}
         <div className="mb-12 fade-in-up">
           <h2 className="text-5xl font-bold text-white mb-3">Bienvenido de vuelta</h2>

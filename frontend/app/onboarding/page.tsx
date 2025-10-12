@@ -166,7 +166,7 @@ export default function OnboardingPage() {
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 pt-32 pb-20">
+      <div className="max-w-4xl mx-auto px-4 pt-40 pb-20">
         {/* Indicador de progreso */}
         <div className="mb-8">
           <div className="flex items-center justify-center space-x-4 mb-4">
