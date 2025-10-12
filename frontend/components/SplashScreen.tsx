@@ -12,10 +12,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   const steps = [
-    { text: 'Loanet', delay: 1500, size: 'text-8xl md:text-9xl' },
-    { text: 'Préstamos', delay: 1500, size: 'text-6xl md:text-7xl' },
-    { text: 'Sin Colateral', delay: 1500, size: 'text-4xl md:text-5xl bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent' },
-    { text: 'Tu identidad y reputación son tu garantía.', delay: 2000, size: 'text-3xl md:text-4xl' },
+    { text: 'Loanet', delay: 1000, size: 'text-8xl md:text-9xl' },
+    { text: 'Préstamos', delay: 1000, size: 'text-6xl md:text-7xl' },
+    { text: 'Sin Colateral', delay: 1000, size: 'text-4xl md:text-5xl bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent' },
+    { text: 'Tu identidad y reputación son tu garantía.', delay: 1200, size: 'text-3xl md:text-4xl' },
+    { type: 'gif', src: '/video.gif', delay: 2000, size: 'w-[600px] h-auto' },
   ];
 
   useEffect(() => {
@@ -60,17 +61,30 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
 
       {/* Contenido principal */}
       <div className="text-center space-y-8 relative z-10">
-        {/* Mostrar solo el texto actual */}
+        {/* Mostrar solo el contenido actual */}
         {currentStep < steps.length && (
           <div
-            className={`${steps[currentStep].size} font-bold text-white animate-pulse`}
+            className="animate-pulse"
             style={{
               opacity: 1,
               transform: 'translateY(0)',
               transition: 'all 0.5s ease-in-out'
             }}
           >
-            {steps[currentStep].text}
+            {steps[currentStep].type === 'gif' ? (
+              <Image
+                src={steps[currentStep].src}
+                alt="Loanet Demo"
+                width={600}
+                height={0}
+                className={`${steps[currentStep].size} mx-auto rounded-2xl`}
+                style={{ height: 'auto' }}
+              />
+            ) : (
+              <div className={`${steps[currentStep].size} font-bold text-white`}>
+                {steps[currentStep].text}
+              </div>
+            )}
           </div>
         )}
       </div>
