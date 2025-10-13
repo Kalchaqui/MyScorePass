@@ -41,12 +41,14 @@ Todos los ABIs de contratos están disponibles en `frontend/config/abis.ts`
 - **Requisito**: Ejecutar la aplicación localmente
 
 
-**📋 Instrucciones de uso:**
-1. Conecta tu wallet MetaMask
-2. Ir a Dashboard y después ir a Test Smart Contract
-2. Selecciona un contrato para probar
-3. Usa las funciones "Read" y "Write" para interactuar con los contratos
-4. Verifica los resultados on-chain en tiempo real
+**📋 Instrucciones de uso Instrucciones para jueces( test  lectura y escritura!)::**
+
+**1 Conectar MetaMask a Paseo Testnet**
+**2 Ir a "Test Contracts" en el dashboard (Página de pruebas)**
+**3 Probar funciones de lectura y luego escritura(identity Registry)**
+**4 Probar funciones de lectura y luego escritura(USDC)**
+**5 Probar funciones de lectura y luego escritura(lending Pool -> Aprobar USDC primero y después write)**
+**6 Probar funciones de lectura y luego escritura(loan Manager)**
 
 
 ## 🚀 Inicio Rápido
