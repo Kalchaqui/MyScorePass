@@ -43,12 +43,12 @@ Todos los ABIs de contratos están disponibles en `frontend/config/abis.ts`
 
 **📋 Instrucciones de uso Instrucciones para jueces( test  lectura y escritura!)::**
 
-**1 Conectar MetaMask a Paseo Testnet**
-**2 Ir a "Test Contracts" en el dashboard (Página de pruebas)**
-**3 Probar funciones de lectura y luego escritura(identity Registry)**
-**4 Probar funciones de lectura y luego escritura(USDC)**
-**5 Probar funciones de lectura y luego escritura(lending Pool -> Aprobar USDC primero y después write)**
-**6 Probar funciones de lectura y luego escritura(loan Manager)**
+1. **Conectar MetaMask a Paseo Testnet**
+2. **Ir a "Test Contracts" en el dashboard (Página de pruebas)**
+3. **Probar funciones de lectura y luego escritura(identity Registry)**
+4. **Probar funciones de lectura y luego escritura(USDC)**
+5. **Probar funciones de lectura y luego escritura(lending Pool -> Aprobar USDC primero y después write)**
+6. **Probar funciones de lectura y luego escritura(loan Manager)**
 
 
 ## 🚀 Inicio Rápido
