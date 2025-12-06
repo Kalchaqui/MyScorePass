@@ -1,5 +1,5 @@
 @echo off
-echo Iniciando DeFiCred Backend...
+echo Iniciando MyScorePass Backend...
 cd /d "%~dp0"
 node src/index.js
 pause

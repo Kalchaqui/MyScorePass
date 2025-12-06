@@ -2,9 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const documentRoutes = require('./routes/documents');
-const verificationRoutes = require('./routes/verification');
-const usersRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
+const exchangesRoutes = require('./routes/exchanges');
+const subscriptionsRoutes = require('./routes/subscriptions');
+const mockUsersRoutes = require('./routes/mockUsers');
 
 dotenv.config();
 
@@ -16,21 +17,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos (para ver las imágenes de DNI)
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
 // Routes
-app.use('/api/documents', documentRoutes);
-app.use('/api/verification', verificationRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/exchanges', exchangesRoutes);
+app.use('/api/subscriptions', subscriptionsRoutes);
+app.use('/api/mockUsers', mockUsersRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', message: 'DeFiCred Backend is running' });
+  res.json({ status: 'OK', message: 'MyScorePass Backend is running' });
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 DeFiCred Backend running on port ${PORT}`);
+  console.log(`🚀 MyScorePass Backend running on port ${PORT}`);
 });
 
 module.exports = app;

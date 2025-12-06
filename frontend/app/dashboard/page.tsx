@@ -1,60 +1,61 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAccount } from 'wagmi';
 import { useRouter } from 'next/navigation';
-import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
-import { Shield, FileText, TrendingUp, DollarSign, ArrowLeft, Sparkles, CheckCircle, Clock, TestTube } from 'lucide-react';
+import { Shield, ArrowLeft, Users, CreditCard, TrendingUp, LogOut, Coins } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import Image from 'next/image';
+import { getCurrentExchange, logout, isAuthenticated } from '@/lib/auth';
+import { Exchange } from '@/lib/auth';
+import { toast } from 'react-hot-toast';
 
 export default function Dashboard() {
-  const { address, isConnected } = useAccount();
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-  const [userStatus, setUserStatus] = useState<string>('');
-  const [dniUploaded, setDniUploaded] = useState(false);
+  const [exchange, setExchange] = useState<Exchange | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted && !isConnected) {
-      router.push('/');
+    if (!isAuthenticated()) {
+      router.push('/login');
+      return;
     }
-  }, [isConnected, router, mounted]);
 
-  // Verificar estado del DNI
-  useEffect(() => {
-    if (address && mounted && isConnected) {
-      checkUserStatus();
-    }
-  }, [address, mounted, isConnected]);
-
-  const checkUserStatus = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`http://localhost:3001/api/users/status/${address}`);
-      if (response.ok) {
-        const data = await response.json();
-        setUserStatus(data.status || 'not_found');
-        setDniUploaded(data.status !== 'not_found');
+    const loadExchange = async () => {
+      try {
+        const currentExchange = await getCurrentExchange();
+        setExchange(currentExchange);
+      } catch (error: any) {
+        console.error('Error loading exchange:', error);
+        if (error.message === 'Session expired') {
+          router.push('/login');
+        }
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error checking user status:', error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    loadExchange();
+  }, [router]);
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Sesión cerrada');
+    router.push('/login');
   };
 
-  if (!mounted) {
-    return null;
+  if (loading) {
+    return (
+      <main className="min-h-screen relative">
+        <AnimatedBackground />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-white text-xl">Cargando...</div>
+        </div>
+      </main>
+    );
   }
 
-  if (!isConnected) {
+  if (!exchange) {
+    router.push('/login');
     return null;
   }
 
@@ -71,17 +72,23 @@ export default function Dashboard() {
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Inicio
               </Link>
-              <div className="flex items-center">
-                <Image
-                  src="/loanet-logo.png"
-                  alt="Loanet Logo"
-                  width={100}
-                  height={100}
-                  className="w-25 h-25"
-                />
+              <div className="flex items-center space-x-2">
+                <Shield className="w-8 h-8 text-purple-400" />
+                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  MyScorePass
+                </span>
               </div>
             </div>
-            <WalletManager />
+            <div className="flex items-center space-x-4">
+              <span className="text-white/70 text-sm">{exchange.name}</span>
+              <button
+                onClick={handleLogout}
+                className="btn-secondary text-xs px-3 py-1 flex items-center space-x-1"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Salir</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -89,87 +96,60 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         {/* Bienvenida */}
         <div className="mb-12 fade-in-up">
-          <h2 className="text-5xl font-bold text-white mb-3">Bienvenido de vuelta</h2>
-          <p className="text-xl text-white/70">Gestiona tus préstamos y crédito</p>
+          <h2 className="text-5xl font-bold text-white mb-3">Dashboard de Exchange</h2>
+          <p className="text-xl text-white/70">Bienvenido, {exchange.name}</p>
         </div>
 
-        {/* Estado de cuenta */}
+        {/* Estadísticas */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {/* Identidad */}
+          {/* Créditos Disponibles */}
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Identidad</h3>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                {dniUploaded ? (
-                  <CheckCircle className="w-6 h-6 text-green-400" />
-                ) : (
-                  <FileText className="w-6 h-6 text-white" />
-                )}
+              <h3 className="text-xl font-bold text-white">Créditos</h3>
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                <Coins className="w-6 h-6 text-white" />
               </div>
             </div>
             <div>
-              <p className="text-white/70 mb-6">
-                {loading 
-                  ? "Cargando..."
-                  : !dniUploaded 
-                    ? "Paso 1: Subir DNI"
-                    : userStatus === 'pending' 
-                      ? "DNI en revisión"
-                      : userStatus === 'approved'
-                        ? "DNI aprobado"
-                        : "DNI rechazado"
-                }
-              </p>
-              {loading ? (
-                <div className="btn-secondary w-full text-center block opacity-50">
-                  Cargando...
-                </div>
-              ) : !dniUploaded ? (
-                <a href="/onboarding" className="btn-primary w-full text-center block">
-                  Subir DNI
-                </a>
-              ) : (
-                <a href="/dashboard/identity" className="btn-secondary w-full text-center block">
-                  Gestionar Identidad
-                </a>
-              )}
+              <p className="text-4xl font-bold text-white mb-2">{exchange.credits}</p>
+              <p className="text-white/70 mb-6">Créditos disponibles</p>
+              <Link href="/dashboard/subscription" className="btn-primary w-full text-center block">
+                Comprar Créditos
+              </Link>
             </div>
           </div>
 
-          {/* Score */}
+          {/* Total Comprado */}
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Credit Score</h3>
+              <h3 className="text-xl font-bold text-white">Total Comprado</h3>
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <CreditCard className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-white mb-2">{exchange.totalPurchased}</p>
+              <p className="text-white/70 mb-6">Créditos comprados</p>
+              <Link href="/dashboard/subscription" className="btn-secondary w-full text-center block">
+                Ver Historial
+              </Link>
+            </div>
+          </div>
+
+          {/* Total Consumido */}
+          <div className="glass-card group hover:scale-105">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white">Total Consumido</h3>
               <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
             </div>
             <div>
-              <p className="text-white/70 mb-6">Paso 2: Obtén tu score</p>
-              <a href="/dashboard/score" className="btn-primary w-full text-center block">
-                Calcular Score
-              </a>
-            </div>
-          </div>
-
-          {/* Préstamos */}
-          <div className="glass-card group hover:scale-105">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Mis Préstamos</h3>
-              <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-xl flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-white" />
-              </div>
-            </div>
-            <div>
-              <p className="text-white/70 mb-6">Gestiona tus préstamos activos</p>
-              <div className="space-y-3">
-                <a href="/dashboard/loans" className="btn-primary w-full text-center block">
-                  Ver Mis Préstamos
-                </a>
-                <a href="/dashboard/borrow" className="btn-secondary w-full text-center block">
-                  Solicitar Nuevo Préstamo
-                </a>
-              </div>
+              <p className="text-4xl font-bold text-white mb-2">{exchange.totalConsumed}</p>
+              <p className="text-white/70 mb-6">Consultas realizadas</p>
+              <Link href="/dashboard/usage" className="btn-secondary w-full text-center block">
+                Ver Detalles
+              </Link>
             </div>
           </div>
         </div>
@@ -177,31 +157,25 @@ export default function Dashboard() {
         {/* Acciones rápidas */}
         <div className="glass-card">
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-            <Sparkles className="w-6 h-6 mr-2 text-yellow-300" />
+            <Users className="w-6 h-6 mr-2 text-yellow-300" />
             Acciones Rápidas
           </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="/dashboard/loans" className="btn-primary text-center py-6 text-lg flex items-center justify-center space-x-2">
-              <DollarSign className="w-6 h-6" />
-              <span>Mis Préstamos</span>
-            </a>
-            <a href="/dashboard/borrow" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
-              <DollarSign className="w-6 h-6" />
-              <span>Solicitar Préstamo</span>
-            </a>
-            <a href="/test" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
-              <TestTube className="w-6 h-6" />
-              <span>Test Contracts</span>
-            </a>
-            <a href="/admin" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
-              <Shield className="w-6 h-6" />
-              <span>Panel Admin</span>
-            </a>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link href="/dashboard/users" className="btn-primary text-center py-6 text-lg flex items-center justify-center space-x-2">
+              <Users className="w-6 h-6" />
+              <span>Consultar Usuarios</span>
+            </Link>
+            <Link href="/dashboard/subscription" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
+              <CreditCard className="w-6 h-6" />
+              <span>Comprar Créditos</span>
+            </Link>
+            <Link href="/dashboard/usage" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
+              <TrendingUp className="w-6 h-6" />
+              <span>Ver Consumo</span>
+            </Link>
           </div>
         </div>
       </div>
     </main>
   );
 }
-
-

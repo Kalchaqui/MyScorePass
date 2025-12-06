@@ -6,8 +6,8 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Loanet - Préstamos Descentralizados',
-  description: 'Sistema de préstamos P2P con scoring descentralizado en Polkadot',
+  title: 'MyScorePass - Infraestructura de Scoring Crediticio',
+  description: 'Plataforma B2B de scoring crediticio para exchanges y bancos. Consulta usuarios mockeados con pagos x402.',
 }
 
 export default function RootLayout({

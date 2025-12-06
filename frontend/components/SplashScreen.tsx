@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { Shield } from 'lucide-react';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -12,10 +12,10 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   const steps = [
-    { text: 'Loanet', delay: 1000, size: 'text-8xl md:text-9xl' },
-    { text: 'Préstamos', delay: 1000, size: 'text-6xl md:text-7xl' },
-    { text: 'Sin Colateral', delay: 1000, size: 'text-4xl md:text-5xl bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent' },
-    { text: 'Tu identidad y reputación son tu garantía.', delay: 1200, size: 'text-3xl md:text-4xl' },
+    { text: 'MyScorePass', delay: 1000, size: 'text-8xl md:text-9xl' },
+    { text: 'Credit Scoring', delay: 1000, size: 'text-6xl md:text-7xl' },
+    { text: 'Web3 Reputation', delay: 1000, size: 'text-4xl md:text-5xl bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent' },
+    { text: 'Tu reputación financiera portátil en blockchain.', delay: 1200, size: 'text-3xl md:text-4xl' },
     { type: 'gif', src: '/video.gif', delay: 2000, size: 'w-[600px] h-auto' },
   ];
 
@@ -50,13 +50,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     <div className="fixed inset-0 z-50 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
       {/* Logo de fondo */}
       <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <Image
-          src="/loanet-logo.png"
-          alt="Loanet Logo"
-          width={400}
-          height={400}
-          className="w-96 h-96 animate-pulse"
-        />
+        <Shield className="w-96 h-96 text-white/20 animate-pulse" />
       </div>
 
       {/* Contenido principal */}
@@ -72,13 +66,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
             }}
           >
             {steps[currentStep].type === 'gif' ? (
-              <Image
+              <img
                 src={steps[currentStep].src}
-                alt="Loanet Demo"
-                width={600}
-                height={0}
+                alt="MyScorePass Demo"
                 className={`${steps[currentStep].size} mx-auto rounded-2xl`}
-                style={{ height: 'auto' }}
+                style={{ height: 'auto', maxWidth: '600px' }}
               />
             ) : (
               <div className={`${steps[currentStep].size} font-bold text-white`}>

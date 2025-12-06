@@ -1,10 +1,11 @@
 {
-  "name": "deficred-contracts",
+  "name": "myscorepass-contracts",
   "version": "1.0.0",
-  "description": "Smart Contracts para DeFiCred",
+  "description": "Smart Contracts para MyScorePass (SBT + Identity)",
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
+    "deploy:fuji": "hardhat run scripts/deploy.js --network avalancheFuji",
     "deploy:testnet": "hardhat run scripts/deploy.js --network moonbase",
     "deploy:paseo": "hardhat run scripts/deploy.js --network paseo"
   },

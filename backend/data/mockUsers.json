@@ -1,0 +1,1202 @@
+[
+  {
+    "id": 1,
+    "walletAddress": "0x1Fff02f5782d2c10E5F525e1f0aD34213a41DBC4",
+    "score": 768,
+    "identity": {
+      "name": "Alejandra Morales",
+      "dni": "40.754.811",
+      "email": "alejandra.morales68@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-05-24T09:24:07.593Z"
+  },
+  {
+    "id": 2,
+    "walletAddress": "0xcd63c37897E3364426fD0948B5785666cfD1ffC9",
+    "score": 629,
+    "identity": {
+      "name": "Daniel Gómez",
+      "dni": "06.940.537",
+      "email": "daniel.gómez87@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2024-12-18T18:00:27.657Z"
+  },
+  {
+    "id": 3,
+    "walletAddress": "0x70add3B640724E8b7425597AddDFE66eA716d149",
+    "score": 809,
+    "identity": {
+      "name": "Sergio Prieto",
+      "dni": "04.096.023",
+      "email": "sergio.prieto42@icloud.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-07-01T22:20:32.764Z"
+  },
+  {
+    "id": 4,
+    "walletAddress": "0x9d1D77e34FDB3Df8CfCA41333242ec8267D12Bb9",
+    "score": 768,
+    "identity": {
+      "name": "Alejandra Fernández",
+      "dni": "41.739.556",
+      "email": "alejandra.fernández11@gmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-04-29T23:22:34.413Z"
+  },
+  {
+    "id": 5,
+    "walletAddress": "0xf02765158862bfadEe49f0182BEA12b40fE11d6F",
+    "score": 440,
+    "identity": {
+      "name": "Emilio Jiménez",
+      "dni": "68.008.002",
+      "email": "emilio.jiménez40@hotmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-07-05T09:08:16.721Z"
+  },
+  {
+    "id": 6,
+    "walletAddress": "0xeF7a95CCBe9A831a2A8AB26dD5B7fB3a44635c2B",
+    "score": 908,
+    "identity": {
+      "name": "Valeria Garrido",
+      "dni": "02.882.454",
+      "email": "valeria.garrido55@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-16T12:53:10.279Z"
+  },
+  {
+    "id": 7,
+    "walletAddress": "0xb75971f3eE36EC74fcE82d8a51D0c86Eb392FEFA",
+    "score": 743,
+    "identity": {
+      "name": "Manuel Rubio",
+      "dni": "39.296.364",
+      "email": "manuel.rubio65@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-05-02T07:16:56.853Z"
+  },
+  {
+    "id": 8,
+    "walletAddress": "0xF6733f71716cD4969652F38f647BA80D7f9ac324",
+    "score": 544,
+    "identity": {
+      "name": "Patricia Rubio",
+      "dni": "72.578.868",
+      "email": "patricia.rubio79@hotmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-10-25T16:26:56.950Z"
+  },
+  {
+    "id": 9,
+    "walletAddress": "0x2764AffB3893EbDfE5A37eFB2b09dAEd72dF1922",
+    "score": 527,
+    "identity": {
+      "name": "Javier Rubio",
+      "dni": "33.339.394",
+      "email": "javier.rubio8@hotmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-05-10T11:16:20.107Z"
+  },
+  {
+    "id": 10,
+    "walletAddress": "0x92Eb4c75D5622627F15C3Dcff71F3C80471e87D3",
+    "score": 812,
+    "identity": {
+      "name": "Valeria Fernández",
+      "dni": "51.175.909",
+      "email": "valeria.fernández55@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-21T19:56:45.077Z"
+  },
+  {
+    "id": 11,
+    "walletAddress": "0x82b5BbfA3937Babe15F45350cEF9DD2a13309950",
+    "score": 415,
+    "identity": {
+      "name": "Claudia Marín",
+      "dni": "94.906.921",
+      "email": "claudia.marín28@hotmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-02-20T17:39:27.402Z"
+  },
+  {
+    "id": 12,
+    "walletAddress": "0x132f276beF4a6FEa8648F1232d7d72fBd49477Aa",
+    "score": 866,
+    "identity": {
+      "name": "Alejandro Muñoz",
+      "dni": "16.352.379",
+      "email": "alejandro.muñoz31@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-19T05:31:35.591Z"
+  },
+  {
+    "id": 13,
+    "walletAddress": "0x05d8d5b920088b234E337cd25038F47d57BBC35D",
+    "score": 755,
+    "identity": {
+      "name": "David Marín",
+      "dni": "79.479.588",
+      "email": "david.marín94@outlook.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-18T05:22:49.161Z"
+  },
+  {
+    "id": 14,
+    "walletAddress": "0xDFA962CEdF27c2d7a5a4a904AA5F4A62a7403074",
+    "score": 998,
+    "identity": {
+      "name": "Valentina León",
+      "dni": "86.241.529",
+      "email": "valentina.león3@hotmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-09-10T10:11:58.488Z"
+  },
+  {
+    "id": 15,
+    "walletAddress": "0xfe881Dec4924E3278FC56AB1639aA11630E8A564",
+    "score": 850,
+    "identity": {
+      "name": "Elena Cortés",
+      "dni": "55.949.855",
+      "email": "elena.cortés58@gmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2024-12-10T10:09:49.094Z"
+  },
+  {
+    "id": 16,
+    "walletAddress": "0xFb9EE12B4F063A2B0aB4d2Dc6ADD7aAb18a962F6",
+    "score": 548,
+    "identity": {
+      "name": "Lucía Hernández",
+      "dni": "06.906.917",
+      "email": "lucía.hernández74@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-02-10T05:56:01.335Z"
+  },
+  {
+    "id": 17,
+    "walletAddress": "0x16230d67d267A2C7da3aa3e79fBFf3879cc5B575",
+    "score": 577,
+    "identity": {
+      "name": "Daniel García",
+      "dni": "19.612.713",
+      "email": "daniel.garcía52@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-07-16T17:37:16.077Z"
+  },
+  {
+    "id": 18,
+    "walletAddress": "0x034582461F15C82E4032a6Bcf19f7492dD6C3f35",
+    "score": 981,
+    "identity": {
+      "name": "María Gómez",
+      "dni": "76.499.661",
+      "email": "maría.gómez12@outlook.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-21T17:03:30.873Z"
+  },
+  {
+    "id": 19,
+    "walletAddress": "0x2C3f46BF4342d0a1cF926A68E21Ed9BBd849DaD5",
+    "score": 513,
+    "identity": {
+      "name": "Mariana Blanco",
+      "dni": "29.014.282",
+      "email": "mariana.blanco99@hotmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-03-31T03:20:06.528Z"
+  },
+  {
+    "id": 20,
+    "walletAddress": "0x7D233202Cd9426462942ce097bFdA16Ab84594e8",
+    "score": 632,
+    "identity": {
+      "name": "Valeria Ramírez",
+      "dni": "28.590.545",
+      "email": "valeria.ramírez1@gmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-08-22T02:54:19.597Z"
+  },
+  {
+    "id": 21,
+    "walletAddress": "0xa8168f665019c82C9e4162A425311b6B5b2fCA7a",
+    "score": 728,
+    "identity": {
+      "name": "Emilio Ortiz",
+      "dni": "43.966.767",
+      "email": "emilio.ortiz8@gmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-08-26T11:36:53.303Z"
+  },
+  {
+    "id": 22,
+    "walletAddress": "0x2142753669fDEAAF1077f2720cA2E89309753fF8",
+    "score": 827,
+    "identity": {
+      "name": "Valeria Medina",
+      "dni": "74.828.456",
+      "email": "valeria.medina92@icloud.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-03-26T23:11:05.077Z"
+  },
+  {
+    "id": 23,
+    "walletAddress": "0x07A87532956C0d43d252b9E2550E43f6677147Ac",
+    "score": 537,
+    "identity": {
+      "name": "Natalia Guerrero",
+      "dni": "85.959.770",
+      "email": "natalia.guerrero61@icloud.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-08-27T21:25:39.550Z"
+  },
+  {
+    "id": 24,
+    "walletAddress": "0xf37d1a2a6b948FbFD55310963d24A11AaECe035d",
+    "score": 350,
+    "identity": {
+      "name": "Pedro González",
+      "dni": "38.746.388",
+      "email": "pedro.gonzález54@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-04-07T17:58:03.659Z"
+  },
+  {
+    "id": 25,
+    "walletAddress": "0x0E0D7043AA206C4142C93C147de7a5b1c7b2A656",
+    "score": 440,
+    "identity": {
+      "name": "Daniel Martín",
+      "dni": "95.497.636",
+      "email": "daniel.martín23@icloud.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-03-11T17:06:31.113Z"
+  },
+  {
+    "id": 26,
+    "walletAddress": "0x1a89C648f2E7f1aAc7aEc03385dC712054190249",
+    "score": 467,
+    "identity": {
+      "name": "Camila Iglesias",
+      "dni": "82.373.657",
+      "email": "camila.iglesias82@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-18T09:11:02.600Z"
+  },
+  {
+    "id": 27,
+    "walletAddress": "0xD2C5220555f6344AEF2fB89cccc2672A92ee6Bc1",
+    "score": 831,
+    "identity": {
+      "name": "Carmen García",
+      "dni": "43.089.885",
+      "email": "carmen.garcía47@outlook.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-06-12T03:29:29.914Z"
+  },
+  {
+    "id": 28,
+    "walletAddress": "0x098A47262F9bC5802E5Ea0056C86640ae4CF4Cb3",
+    "score": 916,
+    "identity": {
+      "name": "Carlos Marín",
+      "dni": "54.516.236",
+      "email": "carlos.marín88@outlook.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-02-06T23:11:08.728Z"
+  },
+  {
+    "id": 29,
+    "walletAddress": "0x2c9840d72d8694D19C77Cd58E0629b5459B42978",
+    "score": 397,
+    "identity": {
+      "name": "Valentina García",
+      "dni": "96.934.372",
+      "email": "valentina.garcía99@hotmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-08-30T11:02:13.001Z"
+  },
+  {
+    "id": 30,
+    "walletAddress": "0x13AeD1b2213Da24415e1Deec29FcB33d73A50E53",
+    "score": 515,
+    "identity": {
+      "name": "Gustavo Blanco",
+      "dni": "58.418.259",
+      "email": "gustavo.blanco61@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-02-28T02:53:52.192Z"
+  },
+  {
+    "id": 31,
+    "walletAddress": "0x8098225de5Ca962159728d27D30757541d8FEb2B",
+    "score": 807,
+    "identity": {
+      "name": "Antonio Blanco",
+      "dni": "94.316.062",
+      "email": "antonio.blanco26@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-01-12T19:07:36.313Z"
+  },
+  {
+    "id": 32,
+    "walletAddress": "0xf77fe52BD77f86AA9217375f6528289c29C10795",
+    "score": 591,
+    "identity": {
+      "name": "Marta Nuñez",
+      "dni": "02.803.153",
+      "email": "marta.nuñez23@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-05-28T09:04:39.909Z"
+  },
+  {
+    "id": 33,
+    "walletAddress": "0x351241E9DdA0de852A6c20b89C17766Aa647799D",
+    "score": 887,
+    "identity": {
+      "name": "Valeria Márquez",
+      "dni": "35.341.709",
+      "email": "valeria.márquez68@hotmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-11-03T14:11:53.795Z"
+  },
+  {
+    "id": 34,
+    "walletAddress": "0x8dE1CDfCDe3cC562Ac7131134526a74dA63AB98f",
+    "score": 664,
+    "identity": {
+      "name": "Alejandro Navarro",
+      "dni": "90.871.376",
+      "email": "alejandro.navarro1@outlook.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-07-08T09:14:29.349Z"
+  },
+  {
+    "id": 35,
+    "walletAddress": "0xEf3fE9F056992d2e7546531bd3e9E90E18eE822c",
+    "score": 500,
+    "identity": {
+      "name": "Gustavo Martínez",
+      "dni": "29.739.849",
+      "email": "gustavo.martínez94@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-07-14T07:22:49.749Z"
+  },
+  {
+    "id": 36,
+    "walletAddress": "0x0cAE365c2c1fF656026487F2e2D65BEE4723859E",
+    "score": 935,
+    "identity": {
+      "name": "Claudia Gallego",
+      "dni": "89.206.446",
+      "email": "claudia.gallego76@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-05-14T21:08:19.007Z"
+  },
+  {
+    "id": 37,
+    "walletAddress": "0x52f337427488c0e0C0fA6d24eef97B2a7ba9DC33",
+    "score": 934,
+    "identity": {
+      "name": "Juan Cruz",
+      "dni": "48.326.805",
+      "email": "juan.cruz21@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-06-22T05:00:11.987Z"
+  },
+  {
+    "id": 38,
+    "walletAddress": "0xf5d1c66fe4D4FEB3618dfE811A6844b3bDb1acc1",
+    "score": 996,
+    "identity": {
+      "name": "Marta Márquez",
+      "dni": "63.978.336",
+      "email": "marta.márquez27@hotmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2024-12-18T21:00:55.162Z"
+  },
+  {
+    "id": 39,
+    "walletAddress": "0x2d624907E55fAaF38e94c3E2C16e96AbC18dEA5b",
+    "score": 337,
+    "identity": {
+      "name": "Andrés Domínguez",
+      "dni": "01.993.080",
+      "email": "andrés.domínguez65@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-10-05T19:06:45.889Z"
+  },
+  {
+    "id": 40,
+    "walletAddress": "0x859Bf43e46743D3b207CE464F38355bF1C54CA6b",
+    "score": 591,
+    "identity": {
+      "name": "Francisco Garrido",
+      "dni": "68.705.211",
+      "email": "francisco.garrido86@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-01-24T03:37:06.209Z"
+  },
+  {
+    "id": 41,
+    "walletAddress": "0x8F2e6646FAC110E6Bc6a9F70419B43EEda812894",
+    "score": 728,
+    "identity": {
+      "name": "Ricardo Iglesias",
+      "dni": "98.266.883",
+      "email": "ricardo.iglesias79@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-01-27T17:52:50.319Z"
+  },
+  {
+    "id": 42,
+    "walletAddress": "0x2aD372814f263b9d77f5665dB2221bCa328E1b29",
+    "score": 608,
+    "identity": {
+      "name": "Jimena López",
+      "dni": "04.453.361",
+      "email": "jimena.lópez16@icloud.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-11-09T08:36:59.358Z"
+  },
+  {
+    "id": 43,
+    "walletAddress": "0x1A85b53DC04ee0d65558b1ba7693870576E6568C",
+    "score": 576,
+    "identity": {
+      "name": "Lucía Vázquez",
+      "dni": "27.784.874",
+      "email": "lucía.vázquez3@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-06-16T23:14:03.636Z"
+  },
+  {
+    "id": 44,
+    "walletAddress": "0xD19815edBe2345BbAFDEA00b2ed7Fd59F4eF8596",
+    "score": 381,
+    "identity": {
+      "name": "Fernanda León",
+      "dni": "45.698.029",
+      "email": "fernanda.león10@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-03-26T16:04:00.820Z"
+  },
+  {
+    "id": 45,
+    "walletAddress": "0xbec4060cB942f89e0C6cc653B26cAdd1295b2ee2",
+    "score": 922,
+    "identity": {
+      "name": "José Molina",
+      "dni": "36.621.690",
+      "email": "josé.molina23@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-08-16T09:55:00.024Z"
+  },
+  {
+    "id": 46,
+    "walletAddress": "0x2Ccf5b24FeFb98b60bbC20eA4fb760D08644c56a",
+    "score": 769,
+    "identity": {
+      "name": "Gabriela Cortés",
+      "dni": "77.678.218",
+      "email": "gabriela.cortés85@outlook.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-04-04T09:19:16.417Z"
+  },
+  {
+    "id": 47,
+    "walletAddress": "0x1661D101d10A0c6ea986a8490c995c73e1b7264A",
+    "score": 438,
+    "identity": {
+      "name": "Jimena Fernández",
+      "dni": "18.802.388",
+      "email": "jimena.fernández36@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-07-07T16:08:50.406Z"
+  },
+  {
+    "id": 48,
+    "walletAddress": "0x4cAEC4b310c79Efaa5Aac189Ec1294d2007dEC8B",
+    "score": 306,
+    "identity": {
+      "name": "Miguel Iglesias",
+      "dni": "95.239.928",
+      "email": "miguel.iglesias35@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-08-24T19:26:12.879Z"
+  },
+  {
+    "id": 49,
+    "walletAddress": "0xe9F54D940B8fd03766c0507E6a2405b3C3B681C0",
+    "score": 476,
+    "identity": {
+      "name": "Eduardo Romero",
+      "dni": "98.058.445",
+      "email": "eduardo.romero70@icloud.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-07-15T18:34:13.342Z"
+  },
+  {
+    "id": 50,
+    "walletAddress": "0x0FC0646c279ec7782F6620449C29167F96c6bBcB",
+    "score": 373,
+    "identity": {
+      "name": "Natalia Moreno",
+      "dni": "62.296.967",
+      "email": "natalia.moreno91@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-07-06T03:40:22.615Z"
+  },
+  {
+    "id": 51,
+    "walletAddress": "0xc73E34ba3BAe0fF107C704DBb573b601d9D2fDA8",
+    "score": 920,
+    "identity": {
+      "name": "Daniela Ramos",
+      "dni": "36.135.456",
+      "email": "daniela.ramos54@icloud.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-05-04T15:13:48.663Z"
+  },
+  {
+    "id": 52,
+    "walletAddress": "0xda1a4D5c8cd1509BDF9a245255F3bC0e48cfc66E",
+    "score": 552,
+    "identity": {
+      "name": "Gustavo Díaz",
+      "dni": "57.955.929",
+      "email": "gustavo.díaz90@icloud.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-07-04T18:54:20.427Z"
+  },
+  {
+    "id": 53,
+    "walletAddress": "0xE64C82F04F128f3b9DCA84f03eD1b3F4ce01F4B2",
+    "score": 893,
+    "identity": {
+      "name": "Luis Navarro",
+      "dni": "37.504.103",
+      "email": "luis.navarro57@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2024-12-24T05:57:03.152Z"
+  },
+  {
+    "id": 54,
+    "walletAddress": "0x992cB40d99b99f7b056352eB0f47Db9823EEA580",
+    "score": 929,
+    "identity": {
+      "name": "Alejandra Martínez",
+      "dni": "10.347.792",
+      "email": "alejandra.martínez28@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-06-17T01:04:31.577Z"
+  },
+  {
+    "id": 55,
+    "walletAddress": "0xcCB1e728d49C9032B754600c5D0F6ec31f8F9c4A",
+    "score": 874,
+    "identity": {
+      "name": "Juan Fernández",
+      "dni": "21.828.193",
+      "email": "juan.fernández12@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-04-05T17:49:37.266Z"
+  },
+  {
+    "id": 56,
+    "walletAddress": "0x3eC18408e9f756E42552B19D740452FE48FEFfc0",
+    "score": 493,
+    "identity": {
+      "name": "Ximena Gallego",
+      "dni": "58.540.578",
+      "email": "ximena.gallego30@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-05-06T12:46:34.019Z"
+  },
+  {
+    "id": 57,
+    "walletAddress": "0xBbd41FB41533b3E8B4c77FFc47cbB222DB3fc05C",
+    "score": 691,
+    "identity": {
+      "name": "Fernando Gutiérrez",
+      "dni": "57.863.452",
+      "email": "fernando.gutiérrez52@gmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-01-12T18:51:06.769Z"
+  },
+  {
+    "id": 58,
+    "walletAddress": "0x6037D697f882ce1d5953D37F1d3DF24FE85c1238",
+    "score": 950,
+    "identity": {
+      "name": "Fernando Alonso",
+      "dni": "17.286.202",
+      "email": "fernando.alonso16@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-03-08T18:32:43.621Z"
+  },
+  {
+    "id": 59,
+    "walletAddress": "0xfF4daec0aF4f3aFedA19Cf233214864c2fa9E0F7",
+    "score": 579,
+    "identity": {
+      "name": "Valentina Ortiz",
+      "dni": "72.062.941",
+      "email": "valentina.ortiz6@outlook.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-12-03T04:41:52.484Z"
+  },
+  {
+    "id": 60,
+    "walletAddress": "0x5B18A35B59fA76f1e4B6a6373331B6bda2c3E3C4",
+    "score": 569,
+    "identity": {
+      "name": "Fernando Rodríguez",
+      "dni": "17.850.435",
+      "email": "fernando.rodríguez28@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-10-07T23:28:28.825Z"
+  },
+  {
+    "id": 61,
+    "walletAddress": "0xD1a969685DC3177e25bc1b0c689E83Df070bE6f2",
+    "score": 537,
+    "identity": {
+      "name": "Juan Medina",
+      "dni": "98.107.089",
+      "email": "juan.medina57@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-11-16T12:06:00.335Z"
+  },
+  {
+    "id": 62,
+    "walletAddress": "0xf4EE9f9Bd94f29880b5b016fE6501AdC53591CDB",
+    "score": 837,
+    "identity": {
+      "name": "Natalia Calvo",
+      "dni": "58.615.190",
+      "email": "natalia.calvo3@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-03-03T19:38:41.538Z"
+  },
+  {
+    "id": 63,
+    "walletAddress": "0x8cb8528684706B4AcFD61a679a67aeD4dcbbE8b1",
+    "score": 570,
+    "identity": {
+      "name": "Natalia Gallego",
+      "dni": "19.205.100",
+      "email": "natalia.gallego68@gmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-05-05T15:50:55.145Z"
+  },
+  {
+    "id": 64,
+    "walletAddress": "0x8353a3839E078b04692Bc37F4F4f9EE438C3Ea2b",
+    "score": 947,
+    "identity": {
+      "name": "Lucía Gil",
+      "dni": "49.691.258",
+      "email": "lucía.gil32@icloud.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-11-28T02:32:16.362Z"
+  },
+  {
+    "id": 65,
+    "walletAddress": "0xCF76c678B4B0b20753E94654607Cd4f8aed37dcd",
+    "score": 917,
+    "identity": {
+      "name": "José Ruiz",
+      "dni": "09.657.966",
+      "email": "josé.ruiz62@hotmail.com",
+      "verificationLevel": 0
+    },
+    "createdAt": "2025-12-01T07:00:22.708Z"
+  },
+  {
+    "id": 66,
+    "walletAddress": "0x3e920a3F40741021AA6CD4fc333FC4058E119d78",
+    "score": 501,
+    "identity": {
+      "name": "Alejandra Márquez",
+      "dni": "86.166.769",
+      "email": "alejandra.márquez46@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-06-19T23:02:17.267Z"
+  },
+  {
+    "id": 67,
+    "walletAddress": "0x67395bc4A661Ce2d5fF22F95ACD540Aa3a15B11B",
+    "score": 589,
+    "identity": {
+      "name": "Carmen Castro",
+      "dni": "30.021.627",
+      "email": "carmen.castro41@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2024-12-21T22:49:03.028Z"
+  },
+  {
+    "id": 68,
+    "walletAddress": "0x734f4A4697a82565a359C4853A7AC6c5e70bB048",
+    "score": 718,
+    "identity": {
+      "name": "Lucía Sanz",
+      "dni": "52.188.684",
+      "email": "lucía.sanz10@gmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-11-10T21:45:59.248Z"
+  },
+  {
+    "id": 69,
+    "walletAddress": "0xA79022406BD1C2BEc1028F6cB9e632775125E3a3",
+    "score": 585,
+    "identity": {
+      "name": "Pedro Molina",
+      "dni": "28.247.515",
+      "email": "pedro.molina23@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-03-14T12:04:50.218Z"
+  },
+  {
+    "id": 70,
+    "walletAddress": "0x60d3b63b49D84Ee25C830BbBd8A0b08342A2Ee5D",
+    "score": 387,
+    "identity": {
+      "name": "Valeria Méndez",
+      "dni": "58.071.903",
+      "email": "valeria.méndez55@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-06-29T08:18:27.302Z"
+  },
+  {
+    "id": 71,
+    "walletAddress": "0x6D6684C0cEb543f52C321CF26CFd3cfD6a782f3e",
+    "score": 979,
+    "identity": {
+      "name": "Laura Ramos",
+      "dni": "32.098.970",
+      "email": "laura.ramos23@hotmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-11-08T19:33:56.903Z"
+  },
+  {
+    "id": 72,
+    "walletAddress": "0x050D4C6cDB4212c6DFF8AD6938C9753026219681",
+    "score": 655,
+    "identity": {
+      "name": "Ricardo Alonso",
+      "dni": "48.708.619",
+      "email": "ricardo.alonso55@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-11-26T03:09:12.304Z"
+  },
+  {
+    "id": 73,
+    "walletAddress": "0xE4543ec2a530112a1076C67B2eD200DDc0E9B71d",
+    "score": 616,
+    "identity": {
+      "name": "Óscar Ramírez",
+      "dni": "25.412.899",
+      "email": "óscar.ramírez5@hotmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-10-03T03:32:23.631Z"
+  },
+  {
+    "id": 74,
+    "walletAddress": "0x2165d8fbe91212306baE25e0497898787C309173",
+    "score": 619,
+    "identity": {
+      "name": "Ximena Gil",
+      "dni": "24.851.165",
+      "email": "ximena.gil69@icloud.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-04-02T06:33:43.990Z"
+  },
+  {
+    "id": 75,
+    "walletAddress": "0xb6CBAeCE98c56eD57926D012962CD7Bf636DB694",
+    "score": 980,
+    "identity": {
+      "name": "Gabriela Ramos",
+      "dni": "33.431.749",
+      "email": "gabriela.ramos29@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-06-20T19:22:11.358Z"
+  },
+  {
+    "id": 76,
+    "walletAddress": "0xC34D7678606D1F7036949c46dEbe0Ff894759E59",
+    "score": 657,
+    "identity": {
+      "name": "Patricia Calvo",
+      "dni": "67.840.040",
+      "email": "patricia.calvo31@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-04-02T16:14:19.114Z"
+  },
+  {
+    "id": 77,
+    "walletAddress": "0xe64e1F6EC2d5e5ebE88A2de423341A58b98Ca88B",
+    "score": 674,
+    "identity": {
+      "name": "Diana Alonso",
+      "dni": "76.513.942",
+      "email": "diana.alonso41@yahoo.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-05-30T16:16:02.091Z"
+  },
+  {
+    "id": 78,
+    "walletAddress": "0x482365a335Bc2a9DD08FBd1086903dedc612d0e2",
+    "score": 762,
+    "identity": {
+      "name": "Óscar Medina",
+      "dni": "50.653.339",
+      "email": "óscar.medina91@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-03-08T04:26:26.238Z"
+  },
+  {
+    "id": 79,
+    "walletAddress": "0xf1Ac0525b67b27885aaef066F02fF130C00dC4F1",
+    "score": 491,
+    "identity": {
+      "name": "Alejandro Molina",
+      "dni": "14.601.384",
+      "email": "alejandro.molina13@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-09-11T14:49:34.440Z"
+  },
+  {
+    "id": 80,
+    "walletAddress": "0x012A72257F58b4CD1998BfA298Dcff55Ad63B80C",
+    "score": 818,
+    "identity": {
+      "name": "Miguel Sanz",
+      "dni": "00.969.022",
+      "email": "miguel.sanz99@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-09-12T05:48:03.798Z"
+  },
+  {
+    "id": 81,
+    "walletAddress": "0x6d22D0d5836aFEFD56C730B911Bdb888e6bFF782",
+    "score": 653,
+    "identity": {
+      "name": "María Navarro",
+      "dni": "74.838.557",
+      "email": "maría.navarro20@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-11-26T20:54:54.544Z"
+  },
+  {
+    "id": 82,
+    "walletAddress": "0x3Bb66fF26044824581aDcC359C389BbF0a331D2B",
+    "score": 645,
+    "identity": {
+      "name": "Felipe León",
+      "dni": "07.413.479",
+      "email": "felipe.león46@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-09-17T09:03:46.953Z"
+  },
+  {
+    "id": 83,
+    "walletAddress": "0x44d4cC883bf43D07b58FC8FA6F7Bdb6F5990D8c3",
+    "score": 419,
+    "identity": {
+      "name": "Patricia Márquez",
+      "dni": "94.371.412",
+      "email": "patricia.márquez26@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-11-21T22:37:40.321Z"
+  },
+  {
+    "id": 84,
+    "walletAddress": "0xc982dF46C24Dd1b9d0db16e0bF063f9Ece3aDa07",
+    "score": 368,
+    "identity": {
+      "name": "Raúl Romero",
+      "dni": "96.690.930",
+      "email": "raúl.romero14@hotmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-02-23T07:14:12.806Z"
+  },
+  {
+    "id": 85,
+    "walletAddress": "0xfF50424E1125f6C972B444BF6D0e25870046CF28",
+    "score": 320,
+    "identity": {
+      "name": "Lucía León",
+      "dni": "15.256.064",
+      "email": "lucía.león91@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-03-24T16:01:53.948Z"
+  },
+  {
+    "id": 86,
+    "walletAddress": "0x09cb98b06547E9bff26AeB52F7ca9B56D431FC49",
+    "score": 397,
+    "identity": {
+      "name": "Camila Suárez",
+      "dni": "30.893.658",
+      "email": "camila.suárez71@yahoo.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-11-01T12:28:03.718Z"
+  },
+  {
+    "id": 87,
+    "walletAddress": "0x7BFcf85F21871edF0e4aDDACD4Ad24dc2b8E3Cb6",
+    "score": 713,
+    "identity": {
+      "name": "Javier Vidal",
+      "dni": "88.383.804",
+      "email": "javier.vidal45@gmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-10-06T12:48:15.206Z"
+  },
+  {
+    "id": 88,
+    "walletAddress": "0xe7eFaFCFdbEF58D8f188DD4A96028Eb67e3278aC",
+    "score": 658,
+    "identity": {
+      "name": "David Gómez",
+      "dni": "45.037.096",
+      "email": "david.gómez91@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-01-04T21:11:43.803Z"
+  },
+  {
+    "id": 89,
+    "walletAddress": "0xF305d281745D8CD0B27FaD76DDDA8f97fD11dB82",
+    "score": 741,
+    "identity": {
+      "name": "Isabel Cano",
+      "dni": "00.037.499",
+      "email": "isabel.cano52@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-07-21T12:15:36.403Z"
+  },
+  {
+    "id": 90,
+    "walletAddress": "0x9f8a09EcA58435fC29917652eA93D8E304C9222E",
+    "score": 921,
+    "identity": {
+      "name": "Andrea Nuñez",
+      "dni": "97.362.506",
+      "email": "andrea.nuñez42@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-10-17T08:47:04.695Z"
+  },
+  {
+    "id": 91,
+    "walletAddress": "0x9650F3D760d34e13293b4F79088283070f4D098F",
+    "score": 849,
+    "identity": {
+      "name": "Héctor Castro",
+      "dni": "40.348.900",
+      "email": "héctor.castro23@gmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-11-01T17:10:41.450Z"
+  },
+  {
+    "id": 92,
+    "walletAddress": "0xAf91949F65E0F2368583b014aBc536505F128987",
+    "score": 826,
+    "identity": {
+      "name": "Valentina Méndez",
+      "dni": "76.996.422",
+      "email": "valentina.méndez53@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2024-12-12T11:42:11.677Z"
+  },
+  {
+    "id": 93,
+    "walletAddress": "0x0ab6C2D876C5d1E09A3E18BaC29269a47B75F17a",
+    "score": 880,
+    "identity": {
+      "name": "Ricardo Iglesias",
+      "dni": "37.172.333",
+      "email": "ricardo.iglesias12@hotmail.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-05-28T07:39:14.595Z"
+  },
+  {
+    "id": 94,
+    "walletAddress": "0x5A4318c0c09ab5b39e1ceDA97B3DE721eDE3B334",
+    "score": 302,
+    "identity": {
+      "name": "Ana Nuñez",
+      "dni": "05.540.830",
+      "email": "ana.nuñez20@hotmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-03-09T16:29:08.177Z"
+  },
+  {
+    "id": 95,
+    "walletAddress": "0xe5a6d404F5dB57f7356943E3E25E4F8D5c11323d",
+    "score": 576,
+    "identity": {
+      "name": "Miguel Gómez",
+      "dni": "71.063.193",
+      "email": "miguel.gómez65@gmail.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-01-13T03:08:20.914Z"
+  },
+  {
+    "id": 96,
+    "walletAddress": "0x09cA7c2b467d23Ba55469ea644509c1736B106F2",
+    "score": 365,
+    "identity": {
+      "name": "Natalia Gutiérrez",
+      "dni": "16.372.582",
+      "email": "natalia.gutiérrez57@icloud.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-06-19T17:23:27.483Z"
+  },
+  {
+    "id": 97,
+    "walletAddress": "0x1FaaA8dF0C065A2D051cC2447533d7A1677bD51c",
+    "score": 806,
+    "identity": {
+      "name": "Valeria Hernández",
+      "dni": "81.316.023",
+      "email": "valeria.hernández55@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-04-02T16:20:06.784Z"
+  },
+  {
+    "id": 98,
+    "walletAddress": "0x16f403Eb69Ce144D0b3Ce0fDC63D8F3F69D2648C",
+    "score": 810,
+    "identity": {
+      "name": "Antonio Díaz",
+      "dni": "69.289.537",
+      "email": "antonio.díaz69@gmail.com",
+      "verificationLevel": 1
+    },
+    "createdAt": "2025-03-24T23:07:51.405Z"
+  },
+  {
+    "id": 99,
+    "walletAddress": "0xaE3f6fD625FBbb76B988A0FA9c82Dd756B43168b",
+    "score": 638,
+    "identity": {
+      "name": "Mariana Ruiz",
+      "dni": "33.517.723",
+      "email": "mariana.ruiz61@yahoo.com",
+      "verificationLevel": 2
+    },
+    "createdAt": "2025-05-13T18:19:35.679Z"
+  },
+  {
+    "id": 100,
+    "walletAddress": "0x8D2e48f2B9Ff50D43989AeC60dE83669531CF52b",
+    "score": 389,
+    "identity": {
+      "name": "Sergio León",
+      "dni": "16.579.251",
+      "email": "sergio.león96@outlook.com",
+      "verificationLevel": 3
+    },
+    "createdAt": "2025-05-29T06:42:27.323Z"
+  }
+]

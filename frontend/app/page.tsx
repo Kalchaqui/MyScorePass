@@ -1,39 +1,40 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAccount } from 'wagmi';
-import WalletManager from '@/components/WalletManager';
 import Link from 'next/link';
-import { FileText, TrendingUp, Users, Shield, Sparkles, Lock, Zap } from 'lucide-react';
+import { Shield, Users, CreditCard, Zap, ArrowRight, Building2 } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import SplashScreen from '@/components/SplashScreen';
-import Image from 'next/image';
+import { isAuthenticated } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const { isConnected } = useAccount();
+  const router = useRouter();
   const [showSplash, setShowSplash] = useState(true);
 
-  // Solo mostrar splash screen en la primera visita
   useEffect(() => {
-    // Temporalmente deshabilitado para testing
-    // const hasSeenSplash = localStorage.getItem('loanet-splash-seen');
-    // if (hasSeenSplash) {
-    //   setShowSplash(false);
-    // }
-    console.log('SplashScreen - Component mounted, showSplash:', showSplash);
+    // Si ya está autenticado, redirigir a dashboard
+    if (isAuthenticated()) {
+      router.push('/dashboard');
+      return;
+    }
+  }, [router]);
+
+  useEffect(() => {
+    const hasSeenSplash = localStorage.getItem('myscorepass-splash-seen');
+    if (hasSeenSplash) {
+      setShowSplash(false);
+    }
   }, []);
 
   const handleSplashComplete = () => {
-    localStorage.setItem('loanet-splash-seen', 'true');
+    localStorage.setItem('myscorepass-splash-seen', 'true');
     setShowSplash(false);
   };
 
   if (showSplash) {
-    console.log('SplashScreen - Rendering splash screen');
     return <SplashScreen onComplete={handleSplashComplete} />;
   }
-
-  console.log('SplashScreen - Rendering main page');
 
   return (
     <main className="min-h-screen relative">
@@ -43,190 +44,96 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-50 glass-card mx-4 mt-2 rounded-2xl">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <Image
-                src="/loanet-logo.png"
-                alt="Loanet Logo"
-                width={120}
-                height={120}
-                className="w-30 h-30"
-              />
+            <div className="flex items-center space-x-2">
+              <Shield className="w-8 h-8 text-purple-400" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                MyScorePass
+              </span>
             </div>
-            <WalletManager />
+            <Link href="/login" className="btn-primary">
+              Acceder
+            </Link>
           </div>
         </div>
       </header>
 
-      {/* Hero Section - Espectacular */}
-      <section className="min-h-screen flex items-center justify-center pt-40 pb-20 px-4">
-        <div className="max-w-6xl mx-auto text-center fade-in-up">
-
-          <h2 className="text-7xl md:text-8xl font-black mb-6 text-white leading-tight">
-            Préstamos
-            <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Sin Colateral
-            </span>
-          </h2>
-          
-          <p className="text-2xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Tu <span className="font-bold text-purple-300">identidad</span> y{' '}
-            <span className="font-bold text-blue-300">reputación</span> son tu garantía.
+      {/* Hero Section */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
+        <div className="max-w-4xl mx-auto text-center mb-12 fade-in-up">
+          <div className="flex items-center justify-center mb-6">
+            <Building2 className="w-16 h-16 text-purple-400 mr-4" />
+            <h1 className="text-6xl md:text-7xl font-bold text-white">
+              MyScorePass
+            </h1>
+          </div>
+          <p className="text-2xl md:text-3xl text-white/80 mb-4">
+            Infraestructura de Scoring Crediticio para Exchanges y Bancos
+          </p>
+          <p className="text-lg text-white/60 mb-8">
+            Accede a nuestra base de datos de usuarios mockeados con scores crediticios verificables.
             <br />
-            Accede a financiamiento descentralizado de forma innovadora.
+            Paga con USDC vía x402 y consulta usuarios en tiempo real.
           </p>
-
-          {isConnected ? (
-            <Link href="/dashboard" className="btn-primary text-2xl py-6 px-12 inline-flex items-center space-x-3">
-              <Shield className="w-8 h-8" />
-              <span>Ir al Dashboard</span>
-              <Sparkles className="w-7 h-7" />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/login" className="btn-primary text-lg px-8 py-4 flex items-center justify-center space-x-2">
+              <span>Iniciar Sesión</span>
+              <ArrowRight className="w-5 h-5" />
             </Link>
-          ) : (
-            <div className="space-y-4">
-              <p className="text-white/70 text-lg">Conecta tu wallet para comenzar</p>
-              <div className="flex justify-center">
-                <WalletManager />
-              </div>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* Cómo funciona */}
-      <section className="py-32 px-4 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h3 className="text-5xl font-bold text-white mb-4">¿Cómo funciona?</h3>
-            <p className="text-xl text-white/70">Tres simples pasos para acceder a crédito</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Paso 1 */}
-            <div className="glass-card text-center group">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                <FileText className="w-10 h-10 text-white" />
-              </div>
-              <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-4"></div>
-              <h4 className="text-2xl font-bold mb-3 text-white">1. Verifica tu Identidad</h4>
-              <p className="text-white/70 leading-relaxed">
-                Carga tu DNI y documentos para crear tu perfil único con{' '}
-                <span className="text-purple-300 font-semibold">Proof of Humanity</span>
-              </p>
-            </div>
-
-            {/* Paso 2 */}
-            <div className="glass-card text-center group">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                <TrendingUp className="w-10 h-10 text-white" />
-              </div>
-              <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-600 mx-auto mb-4"></div>
-              <h4 className="text-2xl font-bold mb-3 text-white">2. Obtén tu Score</h4>
-              <p className="text-white/70 leading-relaxed">
-                Nuestro sistema calcula tu{' '}
-                <span className="text-blue-300 font-semibold">score crediticio</span> basado en
-                verificación y documentos de forma automática
-              </p>
-            </div>
-
-            {/* Paso 3 */}
-            <div className="glass-card text-center group">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-orange-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                <Users className="w-10 h-10 text-white" />
-              </div>
-              <div className="w-12 h-1 bg-gradient-to-r from-pink-500 to-orange-600 mx-auto mb-4"></div>
-              <h4 className="text-2xl font-bold mb-3 text-white">3. Solicita Préstamos</h4>
-              <p className="text-white/70 leading-relaxed">
-                Accede a préstamos en <span className="text-green-300 font-semibold">USDC/USDT</span>{' '}
-                según tu score, sin colateral tradicional
-              </p>
-            </div>
+            <Link href="/login" className="btn-secondary text-lg px-8 py-4">
+              Registrarse
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* Beneficios */}
-      <section className="py-32 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="glass-card p-12">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-4xl font-bold text-white mb-6">
-                  Construido en <span className="text-purple-300">Polkadot</span>
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <Shield className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="text-white font-semibold text-lg">Seguridad Máxima</h4>
-                      <p className="text-white/70">Smart contracts auditados en Paseo testnet</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Zap className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="text-white font-semibold text-lg">Rápido y Eficiente</h4>
-                      <p className="text-white/70">Transacciones en segundos con fees mínimas</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Lock className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="text-white font-semibold text-lg">Totalmente Descentralizado</h4>
-                      <p className="text-white/70">Sin intermediarios, tú tienes el control</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="relative h-80 rounded-2xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20"></div>
-                <Image
-                  src="/loanet-logo.png"
-                  alt="Loanet"
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
+        {/* Features */}
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 mt-12">
+          <div className="glass-card p-6 group hover:scale-105 transition-transform">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
+              <Users className="w-6 h-6 text-white" />
             </div>
+            <h3 className="text-xl font-bold text-white mb-2">Base de Datos Mockeada</h3>
+            <p className="text-white/70">
+              100 usuarios con scores crediticios e identidades verificables para testing y desarrollo.
+            </p>
+          </div>
+
+          <div className="glass-card p-6 group hover:scale-105 transition-transform">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-4">
+              <CreditCard className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Pagos x402</h3>
+            <p className="text-white/70">
+              Compra suscripciones prepago con USDC usando el protocolo x402 de Avalanche.
+            </p>
+          </div>
+
+          <div className="glass-card p-6 group hover:scale-105 transition-transform">
+            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-xl flex items-center justify-center mb-4">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">API en Tiempo Real</h3>
+            <p className="text-white/70">
+              Consulta usuarios mockeados con consumo automático de créditos por cada consulta.
+            </p>
           </div>
         </div>
-      </section>
 
-      {/* CTA Final */}
-      <section className="py-32 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-5xl font-bold text-white mb-6">
-            ¿Listo para comenzar?
-          </h3>
-          <p className="text-xl text-white/70 mb-12">
-            Únete a la revolución del crédito descentralizado
+        {/* CTA Section */}
+        <div className="max-w-4xl mx-auto mt-16 glass-card p-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            ¿Eres un Exchange o Banco?
+          </h2>
+          <p className="text-white/70 mb-6">
+            Regístrate y comienza a consultar nuestra base de datos de usuarios mockeados.
+            <br />
+            Precio: 100 USDC por crédito (mínimo 1,000 USDC = 10 créditos)
           </p>
-          {!isConnected && (
-            <div className="flex justify-center">
-              <WalletManager />
-            </div>
-          )}
+          <Link href="/login" className="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
+            <span>Empezar Ahora</span>
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="glass-card mx-4 mb-4 rounded-2xl">
-        <div className="max-w-7xl mx-auto px-6 py-8 text-center">
-          <div className="flex items-center justify-center mb-4">
-            <Image
-              src="/loanet-logo.png"
-              alt="Loanet Logo"
-              width={150}
-              height={150}
-              className="w-40 h-40"
-            />
-          </div>
-          <p className="text-white/70">© 2025 Loanet - Construido en Polkadot para NERDCONF Hackathon</p>
-          <p className="text-sm text-white/50 mt-2">Paseo Testnet • Scoring Descentralizado</p>
-        </div>
-      </footer>
+      </div>
     </main>
   );
 }
-
-

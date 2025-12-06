@@ -52,23 +52,28 @@ export default function WalletManager() {
     return <ConnectButton />;
   }
 
+  // Si ya está conectado, no mostrar el botón de Core Wallet
+  if (isConnected) {
+    return (
+      <div className="flex items-center space-x-4">
+        <span className="text-white/70 text-sm">
+          {address?.slice(0, 6)}...{address?.slice(-4)}
+        </span>
+        <button
+          onClick={handleDisconnect}
+          className="btn-secondary text-xs px-3 py-1"
+          title="Desconectar y limpiar cache"
+        >
+          Cambiar
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center space-x-4">
+      {/* Botón de RainbowKit - Core Wallet debería aparecer aquí si está instalado */}
       <ConnectButton />
-      {isConnected && (
-        <div className="flex items-center space-x-2">
-          <span className="text-white/70 text-sm">
-            {address?.slice(0, 6)}...{address?.slice(-4)}
-          </span>
-          <button
-            onClick={handleDisconnect}
-            className="btn-secondary text-xs px-3 py-1"
-            title="Desconectar y limpiar cache"
-          >
-            Cambiar
-          </button>
-        </div>
-      )}
     </div>
   );
 }
