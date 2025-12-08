@@ -1,0 +1,10 @@
+{
+  "network": "avalancheFuji",
+  "timestamp": "2025-12-07T23:25:48.695Z",
+  "deployer": "0x46ed7979AA91803a429c0871273D94DD45Dbd346",
+  "contracts": {
+    "identityRegistry": "0x33BC552527f02dc79f7402da2C3641e030280A6e",
+    "creditScoring": "0xeaa5340bFB2f841513f4FBB62Fd72aA0f0621757",
+    "scorePassSBT": "0x7c931CE29454040c05124c872fdC95570af398f7"
+  }
+}

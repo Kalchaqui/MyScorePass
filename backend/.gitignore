@@ -1,0 +1,23 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Uploads (sensitive)
+uploads/
+data/users.json
+
+# Build
+dist/
+build/
+
+# Testing
+coverage/
+.nyc_output

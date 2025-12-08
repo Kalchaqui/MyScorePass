@@ -1,58 +1,58 @@
 const hre = require("hardhat");
 
 async function main() {
-  console.log("🚀 Desplegando contratos de MyScorePass en", hre.network.name);
+  console.log("🚀 Deploying MyScorePass contracts to", hre.network.name);
   console.log("=".repeat(60));
 
   const [deployer] = await hre.ethers.getSigners();
-  console.log("📍 Desplegando con la cuenta:", deployer.address);
+  console.log("📍 Deploying with account:", deployer.address);
   console.log("💰 Balance:", hre.ethers.formatEther(await hre.ethers.provider.getBalance(deployer.address)));
   console.log("");
 
-  // 1. Desplegar IdentityRegistry
-  console.log("1️⃣  Desplegando IdentityRegistry...");
+  // 1. Deploy IdentityRegistry
+  console.log("1️⃣  Deploying IdentityRegistry...");
   const IdentityRegistry = await hre.ethers.getContractFactory("IdentityRegistry");
   const identityRegistry = await IdentityRegistry.deploy();
   await identityRegistry.waitForDeployment();
   const identityRegistryAddress = await identityRegistry.getAddress();
-  console.log("✅ IdentityRegistry desplegado en:", identityRegistryAddress);
+  console.log("✅ IdentityRegistry deployed at:", identityRegistryAddress);
   console.log("");
 
-  // 2. Desplegar CreditScoringMini
-  console.log("2️⃣  Desplegando CreditScoringMini...");
+  // 2. Deploy CreditScoringMini
+  console.log("2️⃣  Deploying CreditScoringMini...");
   const CreditScoringMini = await hre.ethers.getContractFactory("CreditScoringMini");
   const creditScoring = await CreditScoringMini.deploy();
   await creditScoring.waitForDeployment();
   const creditScoringAddress = await creditScoring.getAddress();
-  console.log("✅ CreditScoringMini desplegado en:", creditScoringAddress);
+  console.log("✅ CreditScoringMini deployed at:", creditScoringAddress);
   console.log("");
 
-  // 3. Desplegar MyScorePassSBT
-  console.log("3️⃣  Desplegando MyScorePassSBT...");
+  // 3. Deploy MyScorePassSBT
+  console.log("3️⃣  Deploying MyScorePassSBT...");
   const MyScorePassSBT = await hre.ethers.getContractFactory("MyScorePassSBT");
   const scorePassSBT = await MyScorePassSBT.deploy();
   await scorePassSBT.waitForDeployment();
   const scorePassSBTAddress = await scorePassSBT.getAddress();
-  console.log("✅ MyScorePassSBT desplegado en:", scorePassSBTAddress);
+  console.log("✅ MyScorePassSBT deployed at:", scorePassSBTAddress);
   console.log("");
 
-  // Resumen
+  // Summary
   console.log("=".repeat(60));
-  console.log("🎉 ¡Deployment completado exitosamente!");
+  console.log("🎉 Deployment completed successfully!");
   console.log("=".repeat(60));
   console.log("");
-  console.log("📋 DIRECCIONES DE LOS CONTRATOS:");
+  console.log("📋 CONTRACT ADDRESSES:");
   console.log("━".repeat(60));
   console.log("IdentityRegistry:  ", identityRegistryAddress);
   console.log("CreditScoringMini: ", creditScoringAddress);
   console.log("MyScorePassSBT:    ", scorePassSBTAddress);
   console.log("━".repeat(60));
   console.log("");
-  console.log("💡 Próximos pasos:");
-  console.log("1. Guardar estas direcciones en backend/.env y frontend/.env.local");
-  console.log("2. Configurar MERCHANT_WALLET_ADDRESS (puede ser la misma que deployer)");
-  console.log("3. Reiniciar backend para que cargue las direcciones");
-  console.log("4. Probar endpoints x402 en /test");
+  console.log("💡 Next steps:");
+  console.log("1. Save these addresses in backend/.env and frontend/.env.local");
+  console.log("2. Configure MERCHANT_WALLET_ADDRESS (can be the same as deployer)");
+  console.log("3. Restart backend to load the addresses");
+  console.log("4. Test x402 endpoints in /test");
   console.log("");
 
   // Guardar direcciones en un archivo JSON
