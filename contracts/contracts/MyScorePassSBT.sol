@@ -6,33 +6,52 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title MyScorePassSBT
- * @dev Soulbound Token (ERC-5192) para certificar scores crediticios
- * No transferible - representa reputación financiera del usuario
+ * @dev Soulbound Token (ERC-5192) for certifying credit scores
+ * @notice Non-transferable token representing user's financial reputation
+ * @author MyScorePass Team
  */
 contract MyScorePassSBT is ERC721, Ownable {
-    
-    // Token ID counter
+    // ============================================
+    // STATE VARIABLES
+    // ============================================
+
+    /// @dev Counter for token IDs
     uint256 private _tokenIdCounter;
-    
-    // Estructura de metadata del SBT
+
+    /// @notice Validity period for SBTs (30 days)
+    uint256 public constant VALIDITY_PERIOD = 30 days;
+
+    /// @dev SBT metadata structure
     struct SBTMetadata {
-        bytes32 scoreHash;        // Hash del score (verificable)
-        uint256 score;            // Score crediticio (0-1000)
-        uint256 verificationLevel; // Nivel de verificación (0-3)
-        uint256 issuedAt;         // Timestamp de emisión
-        address issuer;            // Dirección que emitió el SBT
+        bytes32 scoreHash; // Hash of the score (verifiable)
+        uint256 score; // Credit score (0-1000)
+        uint256 verificationLevel; // Verification level (0-3)
+        uint256 issuedAt; // Issuance timestamp
+        uint256 expiresAt; // Expiration timestamp
+        address issuer; // Address that issued the SBT
     }
-    
-    // Mapeo de token ID a metadata
+
+    /// @dev Mapping from token ID to metadata
     mapping(uint256 => SBTMetadata) public sbtMetadata;
-    
-    // Mapeo de address a token ID (un usuario = un SBT activo)
+
+    /// @dev Mapping from user address to token ID (one user = one active SBT)
     mapping(address => uint256) public userToTokenId;
-    
-    // Mapeo de address a si tiene SBT activo
+
+    /// @dev Mapping from address to whether they have an active SBT
     mapping(address => bool) public hasActiveSBT;
-    
-    // Eventos
+
+    // ============================================
+    // EVENTS
+    // ============================================
+
+    /**
+     * @dev Emitted when a new SBT is minted
+     * @param to Address receiving the SBT
+     * @param tokenId ID of the minted token
+     * @param scoreHash Hash of the score data
+     * @param score Credit score value
+     * @param verificationLevel Level of identity verification
+     */
     event SBTMinted(
         address indexed to,
         uint256 indexed tokenId,
@@ -40,14 +59,47 @@ contract MyScorePassSBT is ERC721, Ownable {
         uint256 score,
         uint256 verificationLevel
     );
-    
-    event SBTRevoked(address indexed user, uint256 indexed tokenId);
-    
-    constructor() ERC721("MyScorePass SBT", "MSP") Ownable(msg.sender) {}
-    
+
     /**
-     * @dev Mint SBT a un usuario
-     * Solo puede ser llamado por el owner (backend)
+     * @dev Emitted when an SBT is revoked
+     * @param user Address of the user whose SBT was revoked
+     * @param tokenId ID of the revoked token
+     */
+    event SBTRevoked(address indexed user, uint256 indexed tokenId);
+
+    /**
+     * @dev Emitted when an SBT is renewed
+     * @param user Address of the user whose SBT was renewed
+     * @param tokenId ID of the renewed token
+     * @param newExpiresAt New expiration timestamp
+     */
+    event SBTRenewed(
+        address indexed user,
+        uint256 indexed tokenId,
+        uint256 newExpiresAt
+    );
+
+    // ============================================
+    // CONSTRUCTOR
+    // ============================================
+
+    /**
+     * @dev Initializes the contract with name and symbol
+     */
+    constructor() ERC721("MyScorePass SBT", "MSP") Ownable(msg.sender) {}
+
+    // ============================================
+    // EXTERNAL FUNCTIONS
+    // ============================================
+
+    /**
+     * @dev Mints an SBT to a user
+     * @notice Only callable by the owner (backend)
+     * @param _to Address to receive the SBT
+     * @param _scoreHash Hash of the score data
+     * @param _score Credit score (0-1000)
+     * @param _verificationLevel Verification level (0-3)
+     * @return newTokenId The ID of the newly minted token
      */
     function mintSBT(
         address _to,
@@ -58,50 +110,65 @@ contract MyScorePassSBT is ERC721, Ownable {
         require(_to != address(0), "Cannot mint to zero address");
         require(_score <= 1000, "Score must be <= 1000");
         require(_verificationLevel <= 3, "Verification level must be <= 3");
-        
-        // Si el usuario ya tiene un SBT, revocar el anterior
+
+        // If user already has an SBT, revoke the previous one
         if (hasActiveSBT[_to]) {
             uint256 oldTokenId = userToTokenId[_to];
             _burn(oldTokenId);
             delete sbtMetadata[oldTokenId];
             emit SBTRevoked(_to, oldTokenId);
         }
-        
-        // Incrementar contador y obtener nuevo token ID
+
+        // Increment counter and get new token ID
         _tokenIdCounter++;
         uint256 newTokenId = _tokenIdCounter;
-        
-        // Crear metadata
+
+        // Create metadata
         sbtMetadata[newTokenId] = SBTMetadata({
             scoreHash: _scoreHash,
             score: _score,
             verificationLevel: _verificationLevel,
             issuedAt: block.timestamp,
+            expiresAt: block.timestamp + VALIDITY_PERIOD,
             issuer: msg.sender
         });
-        
-        // Mint el token
+
+        // Mint the token
         _mint(_to, newTokenId);
-        
-        // Actualizar mapeos
+
+        // Update mappings
         userToTokenId[_to] = newTokenId;
         hasActiveSBT[_to] = true;
-        
+
         emit SBTMinted(_to, newTokenId, _scoreHash, _score, _verificationLevel);
-        
+
         return newTokenId;
     }
-    
+
     /**
-     * @dev Obtener metadata de un SBT
+     * @dev Gets the metadata of an SBT
+     * @param _tokenId ID of the token
+     * @return scoreHash Hash of the score
+     * @return score Credit score value
+     * @return verificationLevel Verification level
+     * @return issuedAt Issuance timestamp
+     * @return expiresAt Expiration timestamp
+     * @return issuer Address that issued the SBT
      */
-    function getSBTMetadata(uint256 _tokenId) external view returns (
-        bytes32 scoreHash,
-        uint256 score,
-        uint256 verificationLevel,
-        uint256 issuedAt,
-        address issuer
-    ) {
+    function getSBTMetadata(
+        uint256 _tokenId
+    )
+        external
+        view
+        returns (
+            bytes32 scoreHash,
+            uint256 score,
+            uint256 verificationLevel,
+            uint256 issuedAt,
+            uint256 expiresAt,
+            address issuer
+        )
+    {
         require(_ownerOf(_tokenId) != address(0), "Token does not exist");
         SBTMetadata memory metadata = sbtMetadata[_tokenId];
         return (
@@ -109,20 +176,35 @@ contract MyScorePassSBT is ERC721, Ownable {
             metadata.score,
             metadata.verificationLevel,
             metadata.issuedAt,
+            metadata.expiresAt,
             metadata.issuer
         );
     }
-    
+
     /**
-     * @dev Obtener SBT de un usuario
+     * @dev Gets the SBT of a user
+     * @param _user Address of the user
+     * @return tokenId ID of the user's token
+     * @return scoreHash Hash of the score
+     * @return score Credit score value
+     * @return verificationLevel Verification level
+     * @return issuedAt Issuance timestamp
+     * @return expiresAt Expiration timestamp
      */
-    function getUserSBT(address _user) external view returns (
-        uint256 tokenId,
-        bytes32 scoreHash,
-        uint256 score,
-        uint256 verificationLevel,
-        uint256 issuedAt
-    ) {
+    function getUserSBT(
+        address _user
+    )
+        external
+        view
+        returns (
+            uint256 tokenId,
+            bytes32 scoreHash,
+            uint256 score,
+            uint256 verificationLevel,
+            uint256 issuedAt,
+            uint256 expiresAt
+        )
+    {
         require(hasActiveSBT[_user], "User does not have active SBT");
         tokenId = userToTokenId[_user];
         SBTMetadata memory metadata = sbtMetadata[tokenId];
@@ -131,56 +213,115 @@ contract MyScorePassSBT is ERC721, Ownable {
             metadata.scoreHash,
             metadata.score,
             metadata.verificationLevel,
-            metadata.issuedAt
+            metadata.issuedAt,
+            metadata.expiresAt
         );
     }
-    
+
     /**
-     * @dev Verificar si un usuario tiene SBT y cumple requisitos
+     * @dev Verifies if a user has an SBT and meets requirements
+     * @param _user Address of the user
+     * @param _minVerificationLevel Minimum required verification level
+     * @return bool True if user has valid SBT with sufficient verification level
      */
-    function verifySBT(address _user, uint256 _minVerificationLevel) external view returns (bool) {
+    function verifySBT(
+        address _user,
+        uint256 _minVerificationLevel
+    ) external view returns (bool) {
         if (!hasActiveSBT[_user]) return false;
         uint256 tokenId = userToTokenId[_user];
         return sbtMetadata[tokenId].verificationLevel >= _minVerificationLevel;
     }
-    
+
     /**
-     * @dev Override _update para hacer el token no transferible (Soulbound)
-     * Solo permite mint y burn, no transferencias
+     * @dev Checks if an SBT is valid (not expired)
+     * @param _tokenId ID of the token
+     * @return bool True if the SBT is still valid
      */
-    function _update(address to, uint256 tokenId, address auth) internal override returns (address) {
-        address from = _ownerOf(tokenId);
-        
-        // Permitir mint (from es address(0))
-        if (from == address(0)) {
-            return super._update(to, tokenId, auth);
-        }
-        
-        // Permitir burn (to es address(0)) solo si es el owner del contrato
-        if (to == address(0) && auth == owner()) {
-            return super._update(to, tokenId, auth);
-        }
-        
-        // Bloquear todas las transferencias
-        revert("SBT: Token is soulbound and cannot be transferred");
+    function isValid(uint256 _tokenId) public view returns (bool) {
+        require(_ownerOf(_tokenId) != address(0), "Token does not exist");
+        return block.timestamp <= sbtMetadata[_tokenId].expiresAt;
     }
-    
+
     /**
-     * @dev Bloquear aprobaciones
+     * @dev Checks if an SBT is expired
+     * @param _tokenId ID of the token
+     * @return bool True if the SBT is expired
      */
-    function approve(address, uint256) public pure override {
-        revert("SBT: Token is soulbound and cannot be approved");
+    function isExpired(uint256 _tokenId) public view returns (bool) {
+        require(_ownerOf(_tokenId) != address(0), "Token does not exist");
+        return block.timestamp > sbtMetadata[_tokenId].expiresAt;
     }
-    
-    function setApprovalForAll(address, bool) public pure override {
-        revert("SBT: Token is soulbound and cannot be approved");
-    }
-    
+
     /**
-     * @dev Obtener total de SBTs emitidos
+     * @dev Renews an existing SBT (extends validity)
+     * @notice Only callable by the owner (backend after x402 payment)
+     * @param _tokenId ID of the token to renew
+     */
+    function renewSBT(uint256 _tokenId) external onlyOwner {
+        require(_ownerOf(_tokenId) != address(0), "Token does not exist");
+
+        address tokenOwner = ownerOf(_tokenId);
+        uint256 newExpiresAt = block.timestamp + VALIDITY_PERIOD;
+
+        sbtMetadata[_tokenId].expiresAt = newExpiresAt;
+
+        emit SBTRenewed(tokenOwner, _tokenId, newExpiresAt);
+    }
+
+    /**
+     * @dev Renews a user's SBT (lookup by address)
+     * @notice Only callable by the owner (backend after x402 payment)
+     * @param _user Address of the user
+     */
+    function renewUserSBT(address _user) external onlyOwner {
+        require(hasActiveSBT[_user], "User does not have active SBT");
+        uint256 tokenId = userToTokenId[_user];
+
+        uint256 newExpiresAt = block.timestamp + VALIDITY_PERIOD;
+        sbtMetadata[tokenId].expiresAt = newExpiresAt;
+
+        emit SBTRenewed(_user, tokenId, newExpiresAt);
+    }
+
+    /**
+     * @dev Gets the total number of SBTs issued
+     * @return uint256 Total supply of SBTs
      */
     function totalSupply() external view returns (uint256) {
         return _tokenIdCounter;
     }
-}
 
+    // ============================================
+    // INTERNAL FUNCTIONS
+    // ============================================
+
+    /**
+     * @dev Override _update to make the token non-transferable (Soulbound)
+     * @notice Only allows mint and burn, no transfers
+     * @param to Destination address
+     * @param tokenId ID of the token
+     * @param auth Address authorized to perform the update
+     * @return address Previous owner of the token
+     */
+    function _update(
+        address to,
+        uint256 tokenId,
+        address auth
+    ) internal override returns (address) {
+        address from = _ownerOf(tokenId);
+
+        // Allow mint (from is address(0))
+        if (from == address(0)) {
+            return super._update(to, tokenId, auth);
+        }
+
+        // Allow burn (to is address(0)) only if msg.sender is the contract owner
+        if (to == address(0) && msg.sender == owner()) {
+            return super._update(to, tokenId, auth);
+        }
+
+        // Block all transfers
+        revert("SBT: Token is soulbound and cannot be transferred");
+    }
+}
