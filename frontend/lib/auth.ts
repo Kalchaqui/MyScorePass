@@ -65,11 +65,11 @@ export function getAuthHeaders(): HeadersInit {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
-  
+
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
-  
+
   return headers;
 }
 
@@ -90,7 +90,13 @@ export async function login(email: string, password: string): Promise<LoginRespo
     throw new Error(error.error || 'Login failed');
   }
 
-  const data: LoginResponse = await response.json();
+  const body = await response.json();
+  const data = body.data; // Backend devuelve { success: true, data: { exchange, token } }
+
+  if (!data || !data.token) {
+    throw new Error('Invalid response from server');
+  }
+
   saveToken(data.token);
   return data;
 }
@@ -117,7 +123,13 @@ export async function register(
     throw new Error(error.error || 'Registration failed');
   }
 
-  const data: LoginResponse = await response.json();
+  const body = await response.json();
+  const data = body.data; // Backend devuelve { success: true, data: { exchange, token } }
+
+  if (!data || !data.token) {
+    throw new Error('Invalid response from server');
+  }
+
   saveToken(data.token);
   return data;
 }
