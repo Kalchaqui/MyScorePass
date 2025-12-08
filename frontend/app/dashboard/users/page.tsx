@@ -3,13 +3,19 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Shield, ArrowLeft, Users, Search, Filter, Coins, User } from 'lucide-react';
+import { Shield, ArrowLeft, Users, Search, Filter, Coins, User, X, Mail, Wallet, Award } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { getCurrentExchange, isAuthenticated, getAuthHeaders } from '@/lib/auth';
 import { Exchange } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+interface BasicUser {
+  id: number;
+  name: string;
+  dni: string;
+}
 
 interface MockUser {
   id: number;
@@ -27,9 +33,12 @@ interface MockUser {
 export default function UsersPage() {
   const router = useRouter();
   const [exchange, setExchange] = useState<Exchange | null>(null);
-  const [users, setUsers] = useState<MockUser[]>([]);
+  const [users, setUsers] = useState<BasicUser[]>([]);
+  const [selectedUser, setSelectedUser] = useState<MockUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
+  const [viewingDetails, setViewingDetails] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState({
     page: 1,
     limit: 20,
@@ -38,6 +47,11 @@ export default function UsersPage() {
     verificationLevel: '',
     name: '',
   });
+
+  // Limpiar resultados cuando cambian los filtros
+  useEffect(() => {
+    setUsers([]);
+  }, [filters.name, filters.minScore, filters.maxScore, filters.verificationLevel]);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -64,12 +78,6 @@ export default function UsersPage() {
   const searchUsers = async () => {
     if (!exchange) return;
 
-    if (exchange.credits < 1) {
-      toast.error('No tienes créditos suficientes. Compra más créditos para consultar usuarios.');
-      router.push('/dashboard/subscription');
-      return;
-    }
-
     setSearching(true);
     try {
       const params = new URLSearchParams();
@@ -77,12 +85,52 @@ export default function UsersPage() {
       if (filters.maxScore) params.append('maxScore', filters.maxScore);
       if (filters.verificationLevel) params.append('verificationLevel', filters.verificationLevel);
       if (filters.name) params.append('name', filters.name);
-      params.append('page', filters.page.toString());
-      params.append('limit', filters.limit.toString());
 
-      const response = await fetch(`${API_URL}/api/mockUsers?${params}`, {
+      // Usar el endpoint de búsqueda que NO consume créditos
+      const response = await fetch(`${API_URL}/api/mockUsers/search?${params}`, {
         headers: getAuthHeaders(),
       });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to search users');
+      }
+
+      const data = await response.json();
+      console.log('Resultados de búsqueda:', data);
+      console.log('Usuarios encontrados:', data.users);
+      setUsers(data.users);
+      
+      if (data.users.length === 0) {
+        toast('No se encontraron usuarios con los filtros especificados', { icon: 'ℹ️' });
+      }
+    } catch (error: any) {
+      console.error('Error en búsqueda:', error);
+      toast.error(error.message || 'Error al buscar usuarios');
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const viewUserDetails = async (userId: number) => {
+    if (!exchange) return;
+
+    console.log('Ver detalles del usuario con ID:', userId);
+
+    if (exchange.credits < 1) {
+      toast.error('No tienes créditos suficientes. Compra más créditos para ver detalles del usuario.');
+      router.push('/dashboard/subscription');
+      return;
+    }
+
+    setViewingDetails(true);
+    try {
+      console.log('Llamando a:', `${API_URL}/api/mockUsers/${userId}`);
+      const response = await fetch(`${API_URL}/api/mockUsers/${userId}`, {
+        headers: getAuthHeaders(),
+      });
+      
+      console.log('Response status:', response.status);
 
       if (response.status === 402) {
         const error = await response.json();
@@ -93,21 +141,23 @@ export default function UsersPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to fetch users');
+        throw new Error(error.error || 'Failed to fetch user details');
       }
 
       const data = await response.json();
-      setUsers(data.users);
+      setSelectedUser(data.user);
+      setShowModal(true);
       
       // Actualizar exchange con nuevos créditos
       const updatedExchange = await getCurrentExchange();
       setExchange(updatedExchange);
       
+      // Mostrar mensaje de éxito solo después de ver los detalles
       toast.success(`Consulta exitosa. Créditos restantes: ${data.creditsRemaining}`);
     } catch (error: any) {
-      toast.error(error.message || 'Error al consultar usuarios');
+      toast.error(error.message || 'Error al obtener detalles del usuario');
     } finally {
-      setSearching(false);
+      setViewingDetails(false);
     }
   };
 
@@ -153,7 +203,7 @@ export default function UsersPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-white mb-2">Base de Datos de Usuarios</h2>
-          <p className="text-white/70">Consulta usuarios mockeados (consume 1 crédito por consulta)</p>
+          <p className="text-white/70">Consulta usuarios mockeados. Haz click en "Ver" para ver los detalles completos (consume 1 crédito)</p>
         </div>
 
         {/* Filtros */}
@@ -214,11 +264,11 @@ export default function UsersPage() {
           </div>
           <button
             onClick={searchUsers}
-            disabled={searching || !exchange || exchange.credits < 1}
+            disabled={searching || !exchange}
             className="mt-4 btn-primary flex items-center space-x-2"
           >
             <Search className="w-5 h-5" />
-            <span>{searching ? 'Consultando...' : 'Consultar Usuarios (1 crédito)'}</span>
+            <span>{searching ? 'Buscando...' : 'Consultar Usuarios'}</span>
           </button>
         </div>
 
@@ -226,35 +276,32 @@ export default function UsersPage() {
         {users.length > 0 && (
           <div className="glass-card">
             <h3 className="text-xl font-bold text-white mb-4">Resultados ({users.length})</h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {users.map((user) => (
-                <div key={user.id} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <User className="w-5 h-5 text-purple-400" />
-                        <h4 className="text-lg font-bold text-white">{user.identity.name}</h4>
-                        <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">
-                          Nivel {user.identity.verificationLevel}
-                        </span>
-                      </div>
-                      <div className="grid md:grid-cols-3 gap-4 text-sm text-white/70">
-                        <div>
-                          <span className="font-medium">Wallet:</span> {user.walletAddress.slice(0, 10)}...{user.walletAddress.slice(-8)}
-                        </div>
-                        <div>
-                          <span className="font-medium">DNI:</span> {user.identity.dni}
-                        </div>
-                        <div>
-                          <span className="font-medium">Email:</span> {user.identity.email}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-green-400">{user.score}</div>
-                      <div className="text-xs text-white/50">Score</div>
+                <div key={user.id} className="bg-white/5 rounded-lg p-4 border border-white/10 flex justify-between items-center">
+                  <div className="flex items-center space-x-3">
+                    <User className="w-5 h-5 text-purple-400" />
+                    <div>
+                      <h4 className="text-lg font-bold text-white">{user.name}</h4>
+                      <p className="text-sm text-white/70">DNI: {user.dni}</p>
                     </div>
                   </div>
+                  <button
+                    onClick={() => viewUserDetails(user.id)}
+                    disabled={viewingDetails || !exchange || exchange.credits < 1}
+                    className="btn-secondary px-4 py-2 flex items-center space-x-2"
+                  >
+                    {viewingDetails ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <span>Cargando...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Ver</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               ))}
             </div>
@@ -265,10 +312,89 @@ export default function UsersPage() {
           <div className="glass-card text-center py-12">
             <Users className="w-16 h-16 text-white/30 mx-auto mb-4" />
             <p className="text-white/70">Usa los filtros para consultar usuarios</p>
-            <p className="text-white/50 text-sm mt-2">Cada consulta consume 1 crédito</p>
+            <p className="text-white/50 text-sm mt-2">Haz click en "Ver" para ver los detalles completos (consume 1 crédito)</p>
           </div>
         )}
       </div>
+
+      {/* Modal de detalles del usuario */}
+      {showModal && selectedUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold text-white">Detalles del Usuario</h3>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setSelectedUser(null);
+                }}
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Información básica */}
+              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="flex items-center space-x-3 mb-4">
+                  <User className="w-6 h-6 text-purple-400" />
+                  <h4 className="text-xl font-bold text-white">{selectedUser.identity.name}</h4>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-white/70">DNI:</span>
+                    <p className="text-white font-medium">{selectedUser.identity.dni}</p>
+                  </div>
+                  <div>
+                    <span className="text-white/70">Nivel de Verificación:</span>
+                    <p className="text-white font-medium">Nivel {selectedUser.identity.verificationLevel}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Mail className="w-5 h-5 text-blue-400" />
+                  <span className="text-white/70 font-medium">Email</span>
+                </div>
+                <p className="text-white">{selectedUser.identity.email}</p>
+              </div>
+
+              {/* Score */}
+              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Award className="w-5 h-5 text-green-400" />
+                  <span className="text-white/70 font-medium">Score</span>
+                </div>
+                <p className="text-3xl font-bold text-green-400">{selectedUser.score}</p>
+              </div>
+
+              {/* Wallet */}
+              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Wallet className="w-5 h-5 text-purple-400" />
+                  <span className="text-white/70 font-medium">Wallet Address</span>
+                </div>
+                <p className="text-white font-mono text-sm break-all">{selectedUser.walletAddress}</p>
+              </div>
+
+              {/* Fecha de creación */}
+              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <span className="text-white/70 text-sm">Fecha de creación:</span>
+                <p className="text-white text-sm">{new Date(selectedUser.createdAt).toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
