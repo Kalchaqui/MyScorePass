@@ -81,8 +81,8 @@ export default function Dashboard() {
                 Home
               </Link>
               <div className="flex items-center space-x-2">
-                <Shield className="w-8 h-8 text-purple-400" />
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <Shield className="w-8 h-8 text-cyan-400" />
+                <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
                   MyScorePass
                 </span>
               </div>
@@ -131,7 +131,7 @@ export default function Dashboard() {
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-white">Total Purchased</h3>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/50">
                 <CreditCard className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function Dashboard() {
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-white">Total Consumed</h3>
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/50">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
             </div>

@@ -65,7 +65,7 @@ export default function LoginPage() {
         <AnimatedBackground />
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400 mx-auto mb-4"></div>
             <p className="text-white/70">Syncing with backend...</p>
           </div>
         </div>
@@ -82,9 +82,9 @@ export default function LoginPage() {
           {/* Logo y título */}
           <div className="text-center mb-8 fade-in-up">
             <div className="flex items-center justify-center mb-4">
-              <Shield className="w-12 h-12 text-purple-400" />
+              <Shield className="w-12 h-12 text-cyan-400" />
             </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent mb-2">
               MyScorePass
             </h1>
             <p className="text-white/70">
@@ -96,7 +96,7 @@ export default function LoginPage() {
           <div className="glass-card p-8 fade-in-up">
             {!ready ? (
               <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mx-auto mb-4"></div>
                 <p className="text-white/70">Loading...</p>
               </div>
             ) : authenticated ? (

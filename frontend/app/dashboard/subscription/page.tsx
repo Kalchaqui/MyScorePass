@@ -211,8 +211,8 @@ export default function SubscriptionPage() {
               Dashboard
             </Link>
             <div className="flex items-center space-x-2">
-              <Shield className="w-8 h-8 text-purple-400" />
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <Shield className="w-8 h-8 text-cyan-400" />
+              <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
                 MyScorePass
               </span>
             </div>
@@ -229,7 +229,7 @@ export default function SubscriptionPage() {
         <div className="glass-card p-8">
           <div className="mb-6">
             <h3 className="text-2xl font-bold text-white mb-4 flex items-center">
-              <CreditCard className="w-6 h-6 mr-2 text-purple-400" />
+              <CreditCard className="w-6 h-6 mr-2 text-cyan-400" />
               Select Credit Amount
             </h3>
             
@@ -249,19 +249,19 @@ export default function SubscriptionPage() {
             <div className="grid md:grid-cols-3 gap-4 mb-6">
               <button
                 onClick={() => setCredits(10)}
-                className={`px-4 py-2 rounded-lg ${credits === 10 ? 'bg-purple-500' : 'bg-white/10'} text-white`}
+                className={`px-4 py-2 rounded-lg ${credits === 10 ? 'bg-cyan-500' : 'bg-white/10'} text-white transition-all ${credits === 10 ? 'shadow-lg shadow-cyan-500/50' : ''}`}
               >
                 10 credits
               </button>
               <button
                 onClick={() => setCredits(50)}
-                className={`px-4 py-2 rounded-lg ${credits === 50 ? 'bg-purple-500' : 'bg-white/10'} text-white`}
+                className={`px-4 py-2 rounded-lg ${credits === 50 ? 'bg-cyan-500' : 'bg-white/10'} text-white transition-all ${credits === 50 ? 'shadow-lg shadow-cyan-500/50' : ''}`}
               >
                 50 credits
               </button>
               <button
                 onClick={() => setCredits(100)}
-                className={`px-4 py-2 rounded-lg ${credits === 100 ? 'bg-purple-500' : 'bg-white/10'} text-white`}
+                className={`px-4 py-2 rounded-lg ${credits === 100 ? 'bg-cyan-500' : 'bg-white/10'} text-white transition-all ${credits === 100 ? 'shadow-lg shadow-cyan-500/50' : ''}`}
               >
                 100 credits
               </button>
@@ -283,14 +283,14 @@ export default function SubscriptionPage() {
             </div>
           </div>
 
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-6">
+          <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4 mb-6">
             <div className="flex items-start space-x-3">
-              <Zap className="w-5 h-5 text-blue-400 mt-0.5" />
+              <Zap className="w-5 h-5 text-cyan-400 mt-0.5" />
               <div className="text-sm text-white/80 flex-1">
                 <p className="font-medium mb-1">Payment via x402</p>
                 <p className="mb-3">Payment will be processed using Thirdweb's x402 protocol. Each credit allows you to perform 1 database query.</p>
                 {!isConnected && (
-                  <div className="mt-3 pt-3 border-t border-blue-500/20">
+                  <div className="mt-3 pt-3 border-t border-cyan-500/20">
                     <p className="text-yellow-400 mb-2 text-xs">⚠️ Wallet not connected</p>
                     <div className="flex items-center space-x-2">
                       <Wallet className="w-4 h-4" />
@@ -310,7 +310,7 @@ export default function SubscriptionPage() {
                   </div>
                 )}
                 {isConnected && address && (
-                  <div className="mt-3 pt-3 border-t border-blue-500/20">
+                  <div className="mt-3 pt-3 border-t border-cyan-500/20">
                     <p className="text-green-400 mb-1 text-xs">✅ Wallet connected</p>
                     <p className="text-xs text-white/60">
                       {address.slice(0, 6)}...{address.slice(-4)}

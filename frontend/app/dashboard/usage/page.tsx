@@ -86,8 +86,8 @@ export default function UsagePage() {
               Dashboard
             </Link>
             <div className="flex items-center space-x-2">
-              <Shield className="w-8 h-8 text-purple-400" />
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <Shield className="w-8 h-8 text-cyan-400" />
+              <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
                 MyScorePass
               </span>
             </div>
@@ -112,14 +112,14 @@ export default function UsagePage() {
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center space-x-3 mb-2">
-                <CreditCard className="w-6 h-6 text-blue-400" />
+                <CreditCard className="w-6 h-6 text-teal-400" />
                 <span className="text-white/70">Total Purchased</span>
               </div>
               <p className="text-3xl font-bold text-white">{exchange.totalPurchased}</p>
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center space-x-3 mb-2">
-                <TrendingUp className="w-6 h-6 text-purple-400" />
+                <TrendingUp className="w-6 h-6 text-cyan-400" />
                 <span className="text-white/70">Total Consumed</span>
               </div>
               <p className="text-3xl font-bold text-white">{exchange.totalConsumed}</p>
@@ -131,7 +131,7 @@ export default function UsagePage() {
           {/* Compras */}
           <div className="glass-card p-6">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-              <CreditCard className="w-5 h-5 mr-2 text-blue-400" />
+              <CreditCard className="w-5 h-5 mr-2 text-teal-400" />
               Purchases ({purchases.length})
             </h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -158,7 +158,7 @@ export default function UsagePage() {
           {/* Consumos */}
           <div className="glass-card p-6">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-              <TrendingUp className="w-5 h-5 mr-2 text-purple-400" />
+              <TrendingUp className="w-5 h-5 mr-2 text-cyan-400" />
               Queries ({consumptions.length})
             </h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">

@@ -184,8 +184,8 @@ export default function UsersPage() {
               Dashboard
             </Link>
             <div className="flex items-center space-x-4">
-              <Shield className="w-8 h-8 text-purple-400" />
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <Shield className="w-8 h-8 text-cyan-400" />
+              <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
                 MyScorePass
               </span>
             </div>
@@ -280,7 +280,7 @@ export default function UsersPage() {
               {users.map((user) => (
                 <div key={user.id} className="bg-white/5 rounded-lg p-4 border border-white/10 flex justify-between items-center">
                   <div className="flex items-center space-x-3">
-                    <User className="w-5 h-5 text-purple-400" />
+                    <User className="w-5 h-5 text-cyan-400" />
                     <div>
                       <h4 className="text-lg font-bold text-white">{user.name}</h4>
                       <p className="text-sm text-white/70">ID: {user.dni}</p>
@@ -338,7 +338,7 @@ export default function UsersPage() {
               {/* Información básica */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex items-center space-x-3 mb-4">
-                  <User className="w-6 h-6 text-purple-400" />
+                  <User className="w-6 h-6 text-cyan-400" />
                   <h4 className="text-xl font-bold text-white">{selectedUser.identity.name}</h4>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4 text-sm">
@@ -356,7 +356,7 @@ export default function UsersPage() {
               {/* Email */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Mail className="w-5 h-5 text-blue-400" />
+                  <Mail className="w-5 h-5 text-cyan-400" />
                   <span className="text-white/70 font-medium">Email</span>
                 </div>
                 <p className="text-white">{selectedUser.identity.email}</p>
@@ -365,16 +365,16 @@ export default function UsersPage() {
               {/* Score */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Award className="w-5 h-5 text-green-400" />
+                  <Award className="w-5 h-5 text-teal-400" />
                   <span className="text-white/70 font-medium">Score</span>
                 </div>
-                <p className="text-3xl font-bold text-green-400">{selectedUser.score}</p>
+                <p className="text-3xl font-bold text-teal-400">{selectedUser.score}</p>
               </div>
 
               {/* Wallet */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Wallet className="w-5 h-5 text-purple-400" />
+                  <Wallet className="w-5 h-5 text-cyan-400" />
                   <span className="text-white/70 font-medium">Wallet Address</span>
                 </div>
                 <p className="text-white font-mono text-sm break-all">{selectedUser.walletAddress}</p>

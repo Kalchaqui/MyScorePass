@@ -1,16 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Shield, Users, CreditCard, Zap, ArrowRight, Building2 } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import SplashScreen from '@/components/SplashScreen';
 import { isAuthenticated } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const router = useRouter();
-  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     // Si ya está autenticado, redirigir a dashboard
@@ -19,22 +17,6 @@ export default function Home() {
       return;
     }
   }, [router]);
-
-  useEffect(() => {
-    const hasSeenSplash = localStorage.getItem('myscorepass-splash-seen');
-    if (hasSeenSplash) {
-      setShowSplash(false);
-    }
-  }, []);
-
-  const handleSplashComplete = () => {
-    localStorage.setItem('myscorepass-splash-seen', 'true');
-    setShowSplash(false);
-  };
-
-  if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />;
-  }
 
   return (
     <main className="min-h-screen relative">
@@ -45,8 +27,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <Shield className="w-8 h-8 text-purple-400" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <Shield className="w-8 h-8 text-cyan-400" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
                 MyScorePass
               </span>
             </div>
@@ -61,7 +43,7 @@ export default function Home() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
         <div className="max-w-4xl mx-auto text-center mb-12 fade-in-up">
           <div className="flex items-center justify-center mb-6">
-            <Building2 className="w-16 h-16 text-purple-400 mr-4" />
+            <Building2 className="w-16 h-16 text-cyan-400 mr-4" />
             <h1 className="text-6xl md:text-7xl font-bold text-white">
               MyScorePass
             </h1>
@@ -88,7 +70,7 @@ export default function Home() {
         {/* Features */}
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 mt-12">
           <div className="glass-card p-6 group hover:scale-105 transition-transform">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/50">
               <Users className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Mock Database</h3>
@@ -98,7 +80,7 @@ export default function Home() {
           </div>
 
           <div className="glass-card p-6 group hover:scale-105 transition-transform">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-teal-500/50">
               <CreditCard className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">x402 Payments</h3>
@@ -108,7 +90,7 @@ export default function Home() {
           </div>
 
           <div className="glass-card p-6 group hover:scale-105 transition-transform">
-            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-xl flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-cyan-400/50">
               <Zap className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Real-Time API</h3>
