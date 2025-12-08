@@ -1,5 +1,6 @@
 /**
  * Authentication utilities for exchanges
+ * Integrado con Privy para autenticación y backend JWT para autorización
  */
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -52,10 +53,17 @@ export function removeToken(): void {
 
 /**
  * Verificar si está autenticado
+ * Verifica el token JWT del backend
  */
 export function isAuthenticated(): boolean {
+  // Verificar token JWT del backend
   return getToken() !== null;
 }
+
+/**
+ * Re-exportar usePrivy para facilitar el acceso
+ */
+export { usePrivy } from '@privy-io/react-auth';
 
 /**
  * Obtener headers con autenticación
@@ -74,7 +82,49 @@ export function getAuthHeaders(): HeadersInit {
 }
 
 /**
- * Login de exchange
+ * Sincronizar usuario de Privy con backend JWT
+ * Esta función se llama después de que Privy autentica al usuario
+ */
+export async function syncPrivyUser(privyUserId: string, email: string, name?: string): Promise<LoginResponse> {
+  try {
+    const response = await fetch(`${API_URL}/api/auth/privy-login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        privyUserId, 
+        email,
+        name: name || email.split('@')[0] 
+      }),
+    });
+
+    if (!response.ok) {
+      // Si la respuesta no es JSON, el backend puede no estar corriendo
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        throw new Error(error.error || `Backend error: ${response.status}`);
+      } else {
+        throw new Error(`Backend no disponible (${response.status}). Asegúrate de que el servidor esté corriendo en ${API_URL}`);
+      }
+    }
+
+    const data: LoginResponse = await response.json();
+    saveToken(data.token);
+    return data;
+  } catch (error: any) {
+    // Si es un error de red, el backend no está corriendo
+    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+      throw new Error(`No se pudo conectar con el backend en ${API_URL}. Asegúrate de que el servidor esté corriendo.`);
+    }
+    throw error;
+  }
+}
+
+/**
+ * Login de exchange (legacy - mantenido para compatibilidad)
+ * Ahora usa Privy, pero mantiene esta función por si acaso
  */
 export async function login(email: string, password: string): Promise<LoginResponse> {
   const response = await fetch(`${API_URL}/api/auth/login`, {
@@ -96,7 +146,8 @@ export async function login(email: string, password: string): Promise<LoginRespo
 }
 
 /**
- * Registro de exchange
+ * Registro de exchange (legacy - mantenido para compatibilidad)
+ * Ahora usa Privy, pero mantiene esta función por si acaso
  */
 export async function register(
   email: string,

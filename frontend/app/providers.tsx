@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { PrivyProvider } from '@privy-io/react-auth';
 import { WagmiConfig, createConfig, configureChains } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
@@ -52,21 +53,62 @@ const config = createConfig({
 
 const queryClient = new QueryClient();
 
+// Wrapper para RainbowKit que solo se renderiza en el cliente
+function RainbowKitWrapper({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <>{children}</>;
+  }
+
+  return (
+    <WagmiConfig config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider chains={chains}>
+          {children}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiConfig>
+  );
+}
+
 export function Providers({ children }: { children: React.ReactNode }) {
   const thirdwebClientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID;
+  const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
   
   return (
+    // Thirdweb primero para wallets y payments (x402)
     <ThirdwebProvider
       clientId={thirdwebClientId || "placeholder"}
     >
-      <WagmiConfig config={config}>
-        <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider chains={chains}>
-            {children}
-            <Toaster position="top-right" />
-          </RainbowKitProvider>
-        </QueryClientProvider>
-      </WagmiConfig>
+      {/* Privy solo para autenticación (email/password) - SIN wallets */}
+      <PrivyProvider
+        appId={privyAppId || ''}
+        config={{
+          loginMethods: ['email'], // Solo email - Privy maneja login/registro automáticamente
+          appearance: {
+            theme: 'dark',
+            accentColor: '#9333ea',
+          },
+          // Deshabilitar COMPLETAMENTE todos los wallets en Privy
+          embeddedWallets: {
+            createOnLogin: 'off',
+          },
+          // Deshabilitar external wallets explícitamente para evitar conflictos con Wagmi/RainbowKit
+          externalWallets: {},
+          // Evitar que Privy inicialice cualquier wallet connector automáticamente
+          walletConnectors: [],
+        }}
+      >
+        <RainbowKitWrapper>
+          {children}
+          <Toaster position="top-right" />
+        </RainbowKitWrapper>
+      </PrivyProvider>
     </ThirdwebProvider>
   );
 }

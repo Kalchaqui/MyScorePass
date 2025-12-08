@@ -5,8 +5,7 @@
 
 const jwt = require('jsonwebtoken');
 const Exchange = require('../models/Exchange');
-
-const JWT_SECRET = process.env.JWT_SECRET || 'myscorepass-jwt-secret-change-in-production';
+const { JWT_SECRET } = require('../config/jwt');
 
 /**
  * Middleware para verificar autenticación

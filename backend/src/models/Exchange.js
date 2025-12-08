@@ -38,6 +38,14 @@ function findByEmail(email) {
 }
 
 /**
+ * Buscar exchange por Privy User ID
+ */
+function findByPrivyUserId(privyUserId) {
+  const exchanges = getAllExchanges();
+  return exchanges.find(e => e.privyUserId === privyUserId);
+}
+
+/**
  * Buscar exchange por ID
  */
 function findById(id) {
@@ -59,9 +67,10 @@ function create(exchangeData) {
   const newExchange = {
     id: exchanges.length > 0 ? Math.max(...exchanges.map(e => e.id)) + 1 : 1,
     email: exchangeData.email,
-    password: exchangeData.password, // Ya hasheado
+    password: exchangeData.password || null, // Puede ser null si viene de Privy
     name: exchangeData.name,
     walletAddress: exchangeData.walletAddress || null,
+    privyUserId: exchangeData.privyUserId || null,
     credits: 0,
     totalPurchased: 0,
     totalConsumed: 0,
@@ -140,6 +149,7 @@ module.exports = {
   getAllExchanges,
   findByEmail,
   findById,
+  findByPrivyUserId,
   create,
   update,
   addCredits,

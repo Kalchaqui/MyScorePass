@@ -1,49 +1,77 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Shield, Building2, Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { login, register } from '@/lib/auth';
+import { usePrivy, syncPrivyUser } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    name: '',
-    walletAddress: '',
-  });
+  const { ready, authenticated, user, login, logout } = usePrivy();
+  const [syncing, setSyncing] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  // Sincronizar con backend cuando Privy autentica
+  useEffect(() => {
+    if (ready && authenticated && user && !syncing) {
+      syncWithBackend();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, authenticated, user]);
 
+  const syncWithBackend = async () => {
+    if (!user) return;
+    
+    setSyncing(true);
     try {
-      if (isLogin) {
-        await login(formData.email, formData.password);
-        toast.success('Login exitoso');
-        router.push('/dashboard');
-      } else {
-        if (!formData.name) {
-          toast.error('El nombre es requerido');
-          setLoading(false);
-          return;
-        }
-        await register(formData.email, formData.password, formData.name, formData.walletAddress || undefined);
-        toast.success('Registro exitoso');
-        router.push('/dashboard');
+      // Obtener email del usuario de Privy
+      const email = user.email?.address || user.google?.email || user.twitter?.email;
+      if (!email) {
+        toast.error('No se pudo obtener el email del usuario');
+        logout();
+        return;
       }
+
+      // Obtener nombre si está disponible
+      const name = user.email?.name || user.google?.name || user.twitter?.name || email.split('@')[0];
+      
+      // Sincronizar con backend
+      await syncPrivyUser(user.id, email, name);
+      
+      toast.success('Autenticación exitosa');
+      router.push('/dashboard');
     } catch (error: any) {
-      toast.error(error.message || 'Error al autenticarse');
+      console.error('Error syncing with backend:', error);
+      toast.error(error.message || 'Error al sincronizar con el backend');
+      logout();
     } finally {
-      setLoading(false);
+      setSyncing(false);
     }
   };
+
+  const handleLogin = async () => {
+    try {
+      await login();
+    } catch (error: any) {
+      toast.error(error.message || 'Error al iniciar sesión');
+    }
+  };
+
+  // Si ya está autenticado, mostrar loading mientras sincroniza
+  if (authenticated && syncing) {
+    return (
+      <main className="min-h-screen relative">
+        <AnimatedBackground />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
+            <p className="text-white/70">Sincronizando con el backend...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen relative">
@@ -60,107 +88,41 @@ export default function LoginPage() {
               MyScorePass
             </h1>
             <p className="text-white/70">
-              {isLogin ? 'Acceso para Exchanges' : 'Registro de Exchange'}
+              Acceso para Exchanges
             </p>
           </div>
 
-          {/* Formulario */}
+          {/* Botón de Privy Login */}
           <div className="glass-card p-8 fade-in-up">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {!isLogin && (
-                <div>
-                  <label className="block text-white/70 text-sm font-medium mb-2">
-                    <User className="w-4 h-4 inline mr-2" />
-                    Nombre del Exchange/Banco
-                  </label>
-                  <input
-                    type="text"
-                    required={!isLogin}
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="Ej: Binance Argentina"
-                  />
-                </div>
-              )}
-
-              <div>
-                <label className="block text-white/70 text-sm font-medium mb-2">
-                  <Mail className="w-4 h-4 inline mr-2" />
-                  Email
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  placeholder="tu@exchange.com"
-                />
+            {!ready ? (
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400 mx-auto mb-4"></div>
+                <p className="text-white/70">Cargando...</p>
               </div>
-
-              <div>
-                <label className="block text-white/70 text-sm font-medium mb-2">
-                  <Lock className="w-4 h-4 inline mr-2" />
-                  Contraseña
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  placeholder="••••••••"
-                />
+            ) : authenticated ? (
+              <div className="text-center">
+                <p className="text-white mb-4">Ya estás autenticado</p>
+                <button
+                  onClick={() => router.push('/dashboard')}
+                  className="w-full btn-primary py-3"
+                >
+                  Ir al Dashboard
+                </button>
               </div>
-
-              {!isLogin && (
-                <div>
-                  <label className="block text-white/70 text-sm font-medium mb-2">
-                    <Building2 className="w-4 h-4 inline mr-2" />
-                    Wallet Address (Opcional)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.walletAddress}
-                    onChange={(e) => setFormData({ ...formData, walletAddress: e.target.value })}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="0x..."
-                  />
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full btn-primary flex items-center justify-center space-x-2 py-3"
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Procesando...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</span>
-                    <ArrowRight className="w-5 h-5" />
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-white/70 hover:text-white text-sm transition-colors"
-              >
-                {isLogin ? (
-                  <>¿No tienes cuenta? <span className="text-purple-400 font-medium">Regístrate</span></>
-                ) : (
-                  <>¿Ya tienes cuenta? <span className="text-purple-400 font-medium">Inicia sesión</span></>
-                )}
-              </button>
-            </div>
+            ) : (
+              <div className="space-y-4">
+                <button
+                  onClick={handleLogin}
+                  disabled={!ready}
+                  className="w-full btn-primary flex items-center justify-center space-x-2 py-3"
+                >
+                  <span>Iniciar Sesión / Registrarse</span>
+                </button>
+                <p className="text-white/60 text-sm text-center">
+                  Ingresa tu email. Si no tienes cuenta, se creará automáticamente.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Info */}

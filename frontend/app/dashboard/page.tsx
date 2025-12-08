@@ -5,17 +5,22 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Shield, ArrowLeft, Users, CreditCard, TrendingUp, LogOut, Coins } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { getCurrentExchange, logout, isAuthenticated } from '@/lib/auth';
+import { getCurrentExchange, logout, isAuthenticated, usePrivy } from '@/lib/auth';
 import { Exchange } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
 
 export default function Dashboard() {
   const router = useRouter();
+  const { ready, authenticated, logout: privyLogout } = usePrivy();
   const [exchange, setExchange] = useState<Exchange | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    // Esperar a que Privy esté listo
+    if (!ready) return;
+
+    // Verificar autenticación de Privy y token JWT
+    if (!authenticated || !isAuthenticated()) {
       router.push('/login');
       return;
     }
@@ -27,6 +32,7 @@ export default function Dashboard() {
       } catch (error: any) {
         console.error('Error loading exchange:', error);
         if (error.message === 'Session expired') {
+          privyLogout();
           router.push('/login');
         }
       } finally {
@@ -35,9 +41,11 @@ export default function Dashboard() {
     };
 
     loadExchange();
-  }, [router]);
+  }, [router, ready, authenticated, privyLogout]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Cerrar sesión en Privy y backend
+    await privyLogout();
     logout();
     toast.success('Sesión cerrada');
     router.push('/login');

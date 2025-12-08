@@ -2,31 +2,20 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
+  // Privy maneja la autenticación del lado del cliente
+  // El middleware solo redirige basado en el token JWT del backend si existe
+  
   // Verificar autenticación para rutas protegidas
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    const token = request.cookies.get('token')?.value || 
-                  request.headers.get('authorization')?.replace('Bearer ', '');
-
-    // Si no hay token, redirigir a login
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-  }
-
-  // Si está en login y ya está autenticado, redirigir a dashboard
-  if (request.nextUrl.pathname === '/login') {
-    const token = request.cookies.get('token')?.value || 
-                  request.headers.get('authorization')?.replace('Bearer ', '');
-    
-    if (token) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
+    // Verificar token JWT del backend (almacenado en localStorage, no en cookies)
+    // Como no podemos acceder a localStorage en middleware, dejamos que Privy lo maneje
+    // El componente del dashboard verificará la autenticación
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login'],
+  matcher: ['/dashboard/:path*'],
 };
 

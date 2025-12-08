@@ -28,10 +28,66 @@ router.post('/purchase', async (req, res) => {
     const amount = subscriptionService.calculatePrice(credits);
     const price = `$${amount}`;
 
+    // Verificar autenticación PRIMERO antes de verificar el pago
+    const authHeader = req.headers.authorization;
+    console.log('Auth header recibido:', authHeader ? 'Sí' : 'No');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.log('Auth header inválido o faltante');
+      return res.status(401).json({ error: 'Exchange authentication required' });
+    }
+
+    const jwt = require('jsonwebtoken');
+    const { JWT_SECRET } = require('../config/jwt');
+    const token = authHeader.substring(7);
+    
+    console.log('Verificando token JWT...');
+    console.log('Token recibido (primeros 50 chars):', token.substring(0, 50) + '...');
+    console.log('JWT_SECRET configurado:', JWT_SECRET ? 'Sí (longitud: ' + JWT_SECRET.length + ')' : 'No');
+    console.log('JWT_SECRET source:', process.env.JWT_SECRET ? 'Environment variable' : 'Default value');
+    
+    // Intentar decodificar sin verificar primero para ver qué contiene
+    try {
+      const decodedWithoutVerify = jwt.decode(token);
+      console.log('Token decodificado (sin verificar):', decodedWithoutVerify);
+      if (decodedWithoutVerify && decodedWithoutVerify.exp) {
+        const expirationDate = new Date(decodedWithoutVerify.exp * 1000);
+        const now = new Date();
+        console.log('Token expira en:', expirationDate.toISOString());
+        console.log('Fecha actual:', now.toISOString());
+        console.log('Token expirado?', now > expirationDate);
+      }
+    } catch (decodeError) {
+      console.error('Error decodificando token (sin verificar):', decodeError.message);
+    }
+    
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+      console.log('Token verificado correctamente. ExchangeId:', decoded.exchangeId);
+    } catch (error) {
+      console.error('Error verificando token:', error.message);
+      console.error('Error name:', error.name);
+      console.error('Error completo:', error);
+      // Si el error es de expiración, dar más información
+      if (error.name === 'TokenExpiredError') {
+        console.error('Token expirado en:', error.expiredAt);
+      } else if (error.name === 'JsonWebTokenError') {
+        console.error('Error de formato del token:', error.message);
+      }
+      return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+
+    const exchangeId = decoded.exchangeId;
+    if (!exchangeId) {
+      return res.status(401).json({ error: 'Exchange authentication required' });
+    }
+
     // Verificar pago x402
-    const paymentHeader = req.headers['x-payment'];
+    const paymentHeader = req.headers['x-payment'] || req.headers['X-Payment'];
     const resourceUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     const method = req.method;
+
+    console.log('Payment header recibido:', paymentHeader ? 'Sí' : 'No', paymentHeader);
 
     const paymentResult = await x402Service.verifyX402Payment(
       resourceUrl,
@@ -39,6 +95,8 @@ router.post('/purchase', async (req, res) => {
       paymentHeader,
       price
     );
+
+    console.log('Payment result status:', paymentResult.status);
 
     if (paymentResult.status === 402) {
       // Payment required - devolver 402 con información de pago
@@ -58,28 +116,7 @@ router.post('/purchase', async (req, res) => {
       );
     }
 
-    // Pago verificado - obtener exchange del token JWT
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Exchange authentication required' });
-    }
-
-    const jwt = require('jsonwebtoken');
-    const JWT_SECRET = process.env.JWT_SECRET || 'myscorepass-jwt-secret-change-in-production';
-    const token = authHeader.substring(7);
-    
-    let decoded;
-    try {
-      decoded = jwt.verify(token, JWT_SECRET);
-    } catch (error) {
-      return res.status(401).json({ error: 'Invalid or expired token' });
-    }
-
-    const exchangeId = decoded.exchangeId;
-    if (!exchangeId) {
-      return res.status(401).json({ error: 'Exchange authentication required' });
-    }
-
+    // Pago verificado - usar exchangeId ya verificado arriba
     // Registrar compra
     const purchase = subscriptionService.recordPurchase(
       exchangeId,

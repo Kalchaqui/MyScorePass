@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "email": "dbarrionuevo@bse.com.ar",
+    "password": "$2b$10$4wN3b/e.FIvXZ/darqowLerlrA6ShlWKgjJtJFLpM9xypAwlKkE3W",
+    "name": "Banco de Santiago",
+    "walletAddress": null,
+    "credits": 0,
+    "totalPurchased": 0,
+    "totalConsumed": 0,
+    "createdAt": "2025-12-08T03:00:03.436Z",
+    "updatedAt": "2025-12-08T03:00:03.436Z"
+  },
+  {
+    "id": 2,
+    "email": "diego.rbarrionuevo@gmail.com",
+    "password": "$2b$10$.QLqBYBUq5S0eg3NslmNSeuoPE1GiVlRUwBIInNnhOOhL3edcZScW",
+    "name": "BSE",
+    "walletAddress": null,
+    "credits": 30,
+    "totalPurchased": 30,
+    "totalConsumed": 0,
+    "createdAt": "2025-12-08T03:02:01.847Z",
+    "updatedAt": "2025-12-08T18:39:58.015Z",
+    "privyUserId": "did:privy:cmix5i428006uic0ceq9ezphx"
+  },
+  {
+    "id": 3,
+    "email": "kalchaqui01@gmail.com",
+    "password": null,
+    "name": "kalchaqui01",
+    "walletAddress": null,
+    "privyUserId": "did:privy:cmixb9td400s7jv0d9z57t8qp",
+    "credits": 0,
+    "totalPurchased": 0,
+    "totalConsumed": 0,
+    "createdAt": "2025-12-08T15:33:30.280Z",
+    "updatedAt": "2025-12-08T15:33:30.280Z"
+  }
+]

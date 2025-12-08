@@ -8,8 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const Exchange = require('../models/Exchange');
-
-const JWT_SECRET = process.env.JWT_SECRET || 'myscorepass-jwt-secret-change-in-production';
+const { JWT_SECRET } = require('../config/jwt');
 
 /**
  * POST /api/auth/register
@@ -102,6 +101,63 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ error: 'Failed to login' });
+  }
+});
+
+/**
+ * POST /api/auth/privy-login
+ * Sincronizar usuario de Privy con backend JWT
+ * Crea o obtiene el exchange basado en el privyUserId
+ */
+router.post('/privy-login', async (req, res) => {
+  try {
+    const { privyUserId, email, name } = req.body;
+
+    if (!privyUserId || !email) {
+      return res.status(400).json({ error: 'privyUserId and email are required' });
+    }
+
+    // Buscar exchange por Privy User ID
+    let exchange = Exchange.findByPrivyUserId(privyUserId);
+
+    // Si no existe, buscar por email
+    if (!exchange) {
+      exchange = Exchange.findByEmail(email);
+    }
+
+    // Si no existe, crear uno nuevo
+    if (!exchange) {
+      exchange = Exchange.create({
+        email,
+        name: name || email.split('@')[0],
+        privyUserId,
+        password: null, // No se usa con Privy
+      });
+    } else {
+      // Si existe pero no tiene privyUserId, actualizarlo
+      if (!exchange.privyUserId) {
+        exchange = Exchange.update(exchange.id, { privyUserId });
+      }
+    }
+
+    // Generar JWT token
+    const token = jwt.sign(
+      { exchangeId: exchange.id, email: exchange.email },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    // Remover password de la respuesta
+    const { password: _, ...exchangeWithoutPassword } = exchange;
+
+    res.json({
+      success: true,
+      exchange: exchangeWithoutPassword,
+      token,
+    });
+  } catch (error) {
+    console.error('Error in privy-login:', error);
+    res.status(500).json({ error: error.message || 'Failed to sync Privy user' });
   }
 });
 

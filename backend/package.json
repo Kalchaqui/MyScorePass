@@ -11,6 +11,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@clerk/backend": "^2.25.1",
+    "@clerk/nextjs": "^6.36.0",
     "@pinata/sdk": "^2.1.0",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",

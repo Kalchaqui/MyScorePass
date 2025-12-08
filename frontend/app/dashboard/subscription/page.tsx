@@ -3,21 +3,24 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Shield, ArrowLeft, CreditCard, Coins, Zap } from 'lucide-react';
+import { Shield, ArrowLeft, CreditCard, Coins, Zap, Wallet } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { getCurrentExchange, isAuthenticated, getAuthHeaders } from '@/lib/auth';
+import { getCurrentExchange, isAuthenticated, getAuthHeaders, getToken } from '@/lib/auth';
 import { Exchange } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
+import { useAccount } from 'wagmi';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 const PRICING = {
-  USDC_PER_CREDIT: 100,
+  USDC_PER_CREDIT: 0.02, // 0.2 USDC por 10 créditos = 0.02 USDC por crédito
   MIN_PURCHASE: 10,
 };
 
 export default function SubscriptionPage() {
   const router = useRouter();
+  const { address, isConnected } = useAccount();
   const [exchange, setExchange] = useState<Exchange | null>(null);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
@@ -59,35 +62,107 @@ export default function SubscriptionPage() {
 
     setPurchasing(true);
     try {
+      const resourceUrl = `${API_URL}/api/subscriptions/purchase`;
+      const price = `$${calculatePrice(credits)}`;
+
+      // Verificar que el token esté disponible antes de hacer la request
+      const token = getToken();
+      console.log('Token obtenido:', token ? 'Sí (longitud: ' + token.length + ')' : 'No');
+      
+      if (!token) {
+        toast.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        router.push('/login');
+        return;
+      }
+
+      // Obtener headers de autenticación
+      const authHeaders = getAuthHeaders();
+      console.log('Auth headers para primera request:', authHeaders);
+      console.log('Authorization header:', authHeaders['Authorization'] ? 'Sí' : 'No');
+
       // Primera llamada - debería devolver 402
-      let response = await fetch(`${API_URL}/api/subscriptions/purchase`, {
+      let response = await fetch(resourceUrl, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: authHeaders,
         body: JSON.stringify({ credits }),
       });
+      
+      console.log('Primera response status:', response.status);
+      
+      // Si recibimos 401, el token puede estar expirado o inválido
+      if (response.status === 401) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Error 401 en primera request:', errorData);
+        toast.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        router.push('/login');
+        setPurchasing(false);
+        return;
+      }
 
       if (response.status === 402) {
         const paymentData = await response.json();
         console.log('Payment required:', paymentData);
 
-        const confirmPayment = window.confirm(
-          `Pago requerido: ${paymentData.amount} ${paymentData.currency} por ${credits} créditos.\n\n` +
-          `En este MVP, el pago está simulado. ¿Deseas continuar con la simulación?`
+        // Verificar si el wallet está conectado
+        if (!isConnected || !address) {
+          toast.error(
+            `Pago requerido: ${paymentData.amount} ${paymentData.currency}. ` +
+            `Por favor, conecta tu wallet a Avalanche Fuji Testnet para completar el pago.`,
+            { duration: 6000, id: 'payment' }
+          );
+          throw new Error(
+            `Wallet no conectado. Por favor, conecta tu wallet a Avalanche Fuji Testnet para procesar el pago de ${paymentData.amount} ${paymentData.currency}.`
+          );
+        }
+
+        // Wallet conectado - procesar pago con x402
+        toast.loading(
+          `Procesando pago de ${paymentData.amount} ${paymentData.currency} con x402...`,
+          { id: 'payment' }
         );
 
-        if (confirmPayment) {
-          // Simular pago y reintentar con header X-Payment
-          response = await fetch(`${API_URL}/api/subscriptions/purchase`, {
-            method: 'POST',
-            headers: {
-              ...getAuthHeaders(),
-              'X-Payment': 'simulated-payment-proof',
-            },
-            body: JSON.stringify({ credits }),
-          });
-        } else {
+        // Confirmar con el usuario antes de procesar el pago
+        const confirmPayment = window.confirm(
+          `Confirmar pago:\n\n` +
+          `Monto: ${paymentData.amount} ${paymentData.currency}\n` +
+          `Créditos: ${credits}\n` +
+          `Wallet: ${address?.slice(0, 6)}...${address?.slice(-4)}\n\n` +
+          `El pago se procesará desde tu wallet conectado.\n` +
+          `¿Deseas continuar?`
+        );
+
+        if (!confirmPayment) {
           setPurchasing(false);
           return;
+        }
+
+        // Reintentar la request con header X-Payment
+        // Nota: En producción con x402 real, esto debería usar el SDK del cliente
+        // para generar el proof correcto del pago desde el wallet del usuario.
+        // Por ahora, el backend verificará el pago cuando reciba el header.
+        const paymentHeader = `x402-payment-${address}-${Date.now()}`;
+        console.log('Reintentando request con header X-Payment:', paymentHeader);
+        
+        // Obtener headers de autenticación
+        const authHeaders = getAuthHeaders();
+        console.log('Auth headers:', authHeaders);
+        
+        response = await fetch(resourceUrl, {
+          method: 'POST',
+          headers: {
+            ...authHeaders,
+            'X-Payment': paymentHeader, // Placeholder - en producción usar proof real del SDK
+          },
+          body: JSON.stringify({ credits }),
+        });
+        
+        console.log('Response status después de reintentar:', response.status);
+        
+        // Si el error es 401, el token puede haber expirado
+        if (response.status === 401) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error('Error 401 - Token inválido o expirado:', errorData);
+          throw new Error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
         }
       }
 
@@ -102,10 +177,10 @@ export default function SubscriptionPage() {
       const updatedExchange = await getCurrentExchange();
       setExchange(updatedExchange);
       
-      toast.success(`¡Compra exitosa! ${credits} créditos agregados.`);
+      toast.success(`¡Compra exitosa! ${credits} créditos agregados.`, { id: 'payment' });
       router.push('/dashboard');
     } catch (error: any) {
-      toast.error(error.message || 'Error al comprar créditos');
+      toast.error(error.message || 'Error al comprar créditos', { id: 'payment' });
     } finally {
       setPurchasing(false);
     }
@@ -211,9 +286,37 @@ export default function SubscriptionPage() {
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-6">
             <div className="flex items-start space-x-3">
               <Zap className="w-5 h-5 text-blue-400 mt-0.5" />
-              <div className="text-sm text-white/80">
+              <div className="text-sm text-white/80 flex-1">
                 <p className="font-medium mb-1">Pago vía x402</p>
-                <p>El pago se procesará usando el protocolo x402 de Thirdweb. Cada crédito te permite realizar 1 consulta a la base de datos.</p>
+                <p className="mb-3">El pago se procesará usando el protocolo x402 de Thirdweb. Cada crédito te permite realizar 1 consulta a la base de datos.</p>
+                {!isConnected && (
+                  <div className="mt-3 pt-3 border-t border-blue-500/20">
+                    <p className="text-yellow-400 mb-2 text-xs">⚠️ Wallet no conectado</p>
+                    <div className="flex items-center space-x-2">
+                      <Wallet className="w-4 h-4" />
+                      <ConnectButton.Custom>
+                        {({ account, chain, openConnectModal, mounted }) => {
+                          return (
+                            <button
+                              onClick={openConnectModal}
+                              className="text-xs btn-secondary px-3 py-1"
+                            >
+                              Conectar Wallet
+                            </button>
+                          );
+                        }}
+                      </ConnectButton.Custom>
+                    </div>
+                  </div>
+                )}
+                {isConnected && address && (
+                  <div className="mt-3 pt-3 border-t border-blue-500/20">
+                    <p className="text-green-400 mb-1 text-xs">✅ Wallet conectado</p>
+                    <p className="text-xs text-white/60">
+                      {address.slice(0, 6)}...{address.slice(-4)}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

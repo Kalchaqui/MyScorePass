@@ -84,10 +84,10 @@ function getExchangeHistory(exchangeId) {
 
 /**
  * Configuración de precios
- * 1,000 USDC = 10 consultas
+ * 0.2 USDC = 10 consultas (0.02 USDC por crédito)
  */
 const PRICING = {
-  USDC_PER_CREDIT: 100, // 1,000 USDC / 10 créditos = 100 USDC por crédito
+  USDC_PER_CREDIT: 0.02, // 0.2 USDC / 10 créditos = 0.02 USDC por crédito
   MIN_PURCHASE_CREDITS: 10, // Mínimo 10 créditos
 };
 
