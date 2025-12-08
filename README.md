@@ -1,116 +1,149 @@
 # MyScorePass - Credit Scoring Infrastructure for Exchanges
 
-> **First commit for MVP**
-
 <div align="center">
-  <h3>🏆 Hack2Build: Payments x402 Hackathon - Avalanche</h3>
-  <p>Infraestructura B2B de scoring crediticio con pagos x402 para exchanges y bancos</p>
+
+![Myscorepass](https://github.com/user-attachments/assets/607b524e-229b-4e25-bc8a-ffa875c4a5d1)
+
+### **Decentralized Credit Scoring Infrastructure for Financial Institutions**
+
+**🏆 Built for Hack2Build: Payments x402 Hackathon**
+
 </div>
 
-## 📋 Descripción
+---
 
-MyScorePass es una plataforma B2B que proporciona infraestructura de scoring crediticio para exchanges, bancos e instituciones financieras. Los clientes pueden:
+## 🌟 **Overview**
 
-1. **Registrarse como exchange/banco** con autenticación tradicional
-2. **Comprar suscripciones prepago** vía x402 (ej: 1,000 USDC = 10 consultas)
-3. **Consultar base de datos mockeada** de 100 usuarios con scores e identidades
-4. **Consumir créditos automáticamente** por cada consulta realizada
+**MyScorePass** is a B2B credit scoring infrastructure that leverages blockchain technology and the x402 payment protocol to provide secure, transparent, and verifiable credit assessments for exchanges, banks, and financial institutions.
 
-Modelo de negocio: Los exchanges compran créditos y consultan usuarios mockeados para testing y desarrollo.
+This project has been continuously improved and refined through live sessions with professors and mentors, who provided valuable feedback and guidance to enhance the system's architecture, user experience, and technical implementation.
 
-## 🌐 Red
+### **Key Features**
 
-**Avalanche Fuji Testnet** (Chain ID: 43113)
+🔐 **Privy Authentication** - Email-based login/registration  
+💳 **x402 Payment Protocol** - Seamless micropayments for API access  
+🏦 **B2B Infrastructure** - Purpose-built for financial institutions  
+⚡ **Avalanche Network** - Fast, low-cost transactions  
+📊 **Prepaid Credit System** - Flexible pay-as-you-go model  
+🔍 **Mock User Database** - 100 pre-generated users for testing  
 
-## 🏗️ Arquitectura MVP
+---
 
-### Backend (Node.js + Express)
+## 🏗️ **Architecture**
 
-- **`/api/auth`**: Autenticación de exchanges
-  - `POST /api/auth/register` - Registro de exchange
-  - `POST /api/auth/login` - Login de exchange
-  - `GET /api/auth/me` - Información del exchange autenticado
+```mermaid
+graph TB
+    subgraph FL["Frontend Layer"]
+        A["Next.js Application"]
+    end
 
-- **`/api/subscriptions`**: Gestión de suscripciones y créditos
-  - `POST /api/subscriptions/purchase` - Comprar créditos vía x402 (1,000 USDC = 10 créditos)
-  - `GET /api/subscriptions/balance` - Obtener saldo de créditos
-  - `GET /api/subscriptions/usage` - Historial de compras y consumo
+    subgraph BL["Backend Layer"]
+        D["Express API Server"]
+        F["Authentication Service"]
+        G["Escoring Management"]
+        E["x402 Payment Gateway"]
+    end
 
-- **`/api/mockUsers`**: Consulta de usuarios mockeados
-  - `GET /api/mockUsers` - Listar usuarios (consume 1 crédito)
-  - `GET /api/mockUsers/:id` - Detalle de usuario (consume 1 crédito)
-  - `GET /api/mockUsers/stats` - Estadísticas de la base de datos
+    subgraph DL["Data Layer"]
+        K["Exchange Database"]
+        M["Mock User Database"]
+        L["Transaction History"]
+    end
 
-- **`/api/exchanges`**: Gestión de información de exchanges
-  - `GET /api/exchanges/me` - Información del exchange
-  - `PUT /api/exchanges/me` - Actualizar información
+    subgraph BCL["Blockchain Layer"]
+        H["IdentityRegistry Contract"]
+        I["CreditScoringMini Contract"]
+        J["MyScorePassSBT Contract"]
+    end
 
-### Frontend (Next.js 14)
+    A -->|"API Calls"| D
+    D -->|"Uses"| F
+    D -->|"Uses"| G
+    D -->|"Uses"| E
+    F -->|"Stores"| K
+    G -->|"Queries"| M
+    G -->|"Logs"| L
+    E -->|"Calls"| H
+    E -->|"Calls"| I
+    E -->|"Calls"| J
 
-- **`/`** - Página principal con información del servicio B2B
-- **`/login`** - Login y registro de exchanges
-- **`/dashboard`** - Dashboard principal con saldo y estadísticas
-- **`/dashboard/users`** - Consultar usuarios mockeados
-- **`/dashboard/subscription`** - Comprar créditos vía x402
-- **`/dashboard/usage`** - Ver historial de compras y consumo
+    style A fill:#61dafb,stroke:#333,stroke-width:3px
+    style D fill:#68a063,stroke:#333,stroke-width:3px
+    style E fill:#4a90e2,stroke:#333,stroke-width:3px
+    style F fill:#68a063,stroke:#333,stroke-width:2px
+    style G fill:#68a063,stroke:#333,stroke-width:2px
+    style H fill:#e84142,stroke:#333,stroke-width:3px
+    style I fill:#e84142,stroke:#333,stroke-width:3px
+    style J fill:#e84142,stroke:#333,stroke-width:3px
+    style K fill:#f39c12,stroke:#333,stroke-width:3px
+    style L fill:#f39c12,stroke:#333,stroke-width:3px
+    style M fill:#f39c12,stroke:#333,stroke-width:3px
+```
 
-## 🚀 Inicio Rápido
+---
 
-### Prerrequisitos
+## 📦 **Smart Contracts**
+
+Deployed on **Avalanche Fuji Testnet** (Chain ID: 43113):
+
+- **IdentityRegistry** - [`0x33BC552527f02dc79f7402da2C3641e030280A6e`](https://testnet.snowtrace.io/address/0x33BC552527f02dc79f7402da2C3641e030280A6e)
+- **CreditScoringMini** - [`0xeaa5340bFB2f841513f4FBB62Fd72aA0f0621757`](https://testnet.snowtrace.io/address/0xeaa5340bFB2f841513f4FBB62Fd72aA0f0621757)
+- **MyScorePassSBT** - [`0x7c931CE29454040c05124c872fdC95570af398f7`](https://testnet.snowtrace.io/address/0x7c931CE29454040c05124c872fdC95570af398f7)
+
+---
+
+## 🚀 **Quick Start**
+
+### **Prerequisites**
 
 - Node.js 18+
-- Wallet compatible (MetaMask, Core Wallet, u otra compatible con EIP-1193)
-- Avalanche Fuji Testnet configurado en tu wallet
-- Cuenta de Thirdweb (para x402 facilitator) - opcional para MVP
+- Wallet (MetaMask, Core Wallet, etc.)
+- Avalanche Fuji Testnet configured
+- Thirdweb account (for x402 facilitator)
 
-### Instalación
+### **Installation**
 
 ```bash
-# Clonar el repositorio
+# Clone repository
 git clone <repo-url>
-cd Loanet
+cd MyScorePass
 
-# Instalar dependencias del frontend
+# Install frontend dependencies
 cd frontend
 npm install
 
-# Instalar dependencias del backend
+# Install backend dependencies
 cd ../backend
 npm install
 
-# Instalar dependencias de contratos
+# Install contract dependencies
 cd ../contracts
 npm install
 ```
 
-### Configuración
+### **Configuration**
 
-#### Frontend
-
-Crear `frontend/.env.local`:
+#### **Frontend** (`frontend/.env.local`)
 
 ```env
-NEXT_PUBLIC_THIRDWEB_CLIENT_ID=95c681fed611038183e9f022713f6212
+NEXT_PUBLIC_THIRDWEB_CLIENT_ID=your_thirdweb_client_id
 NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_PRIVY_APP_ID=your_privy_app_id
+NEXT_PUBLIC_THIRDWEB_SERVER_WALLET_ADDRESS=your_server_wallet
 ```
 
-#### Backend
-
-Crear `backend/.env`:
+#### **Backend** (`backend/.env`)
 
 ```env
 PORT=3001
-JWT_SECRET=myscorepass-jwt-secret-change-in-production
+JWT_SECRET=your-super-secure-jwt-secret-change-this
 
-# Thirdweb x402 (Opcional - si no se configura, funciona en modo simulado)
-THIRDWEB_SECRET_KEY=PUcYKHrbU8um7_8EPGsICFpqYSEasqzPxniMjyCB44X-FnRzjEzwarccfwfUa-pkaNXbTTER6jp3zcJtLaVj0Q
-THIRDWEB_SERVER_WALLET_ADDRESS=0x4DE893AF2077552E539Cd926b660159bBb1e0413
-MERCHANT_WALLET_ADDRESS=0x5d7282E3fe75956E2E1a1625a17c26e9766662FA
+# x402 Payment Configuration
+THIRDWEB_SECRET_KEY=your_thirdweb_secret_key
+THIRDWEB_SERVER_WALLET_ADDRESS=your_server_wallet_address
 ```
 
-> **Nota**: Las direcciones de contratos ya no son necesarias para el modelo B2B actual. La base de datos es mockeada.
-
-### Ejecutar
+### **Running**
 
 ```bash
 # Terminal 1: Backend
@@ -122,154 +155,139 @@ cd frontend
 npm run dev
 ```
 
-La aplicación estará disponible en:
-- Frontend: `http://localhost:3000`
-- Backend: `http://localhost:3001`
-
-## 🧪 Testing para Jueces del Hackathon
-
-### Flujo de Prueba Completo
-
-1. **Registrar Exchange**
-   - Abrir `http://localhost:3000`
-   - Ir a `/login` y hacer clic en "Registrarse"
-   - Completar formulario:
-     - Nombre: "Binance Test"
-     - Email: "test@binance.com"
-     - Contraseña: "password123"
-     - Wallet Address (opcional)
-
-2. **Login**
-   - Iniciar sesión con las credenciales creadas
-   - Serás redirigido al dashboard
-
-3. **Comprar Créditos vía x402**
-   - Ir a `/dashboard/subscription`
-   - Seleccionar cantidad de créditos (mínimo 10)
-   - Hacer clic en "Comprar créditos"
-   - El sistema responderá con HTTP 402
-   - Confirmar pago simulado
-   - Los créditos se acreditarán automáticamente
-
-4. **Consultar Usuarios Mockeados**
-   - Ir a `/dashboard/users`
-   - Usar filtros opcionales (score, nombre, nivel de verificación)
-   - Hacer clic en "Consultar Usuarios"
-   - Se consumirá 1 crédito automáticamente
-   - Verás la lista de usuarios mockeados
-
-5. **Ver Historial**
-   - Ir a `/dashboard/usage`
-   - Ver compras y consumo de créditos
-
-### Endpoints x402
-
-El endpoint de compra de suscripción está protegido con x402:
-
-```bash
-POST /api/subscriptions/purchase
-Headers: Authorization: Bearer <token>
-Body: { "credits": 10 }
-```
-
-Sin el header `X-Payment`, devuelve HTTP 402:
-
-```json
-{
-  "amount": "1000",
-  "currency": "USDC",
-  "network": "avalanche-fuji",
-  "description": "Purchase 10 credits for user database access",
-  "credits": 10,
-  "pricePerCredit": 100
-}
-```
-
-### Base de Datos Mockeada
-
-- **100 usuarios** generados automáticamente
-- Cada usuario tiene:
-  - Wallet address aleatorio
-  - Score crediticio (300-1000)
-  - Identidad mockeada (nombre, DNI, email)
-  - Nivel de verificación (0-3)
-
-Para regenerar usuarios:
-```bash
-cd backend
-node src/scripts/seedMockUsers.js
-```
-
-## 📱 User Journey MVP
-
-1. Usuario conecta wallet en `/`
-2. Usuario sube DNI en `/onboarding`
-3. Admin aprueba identidad (off-chain por ahora)
-4. Usuario va a `/test` o `/dashboard/score`
-5. Usuario hace clic en "Calculate Score"
-6. Backend responde con HTTP 402
-7. Frontend detecta 402 y muestra opción de pago (simulado en MVP)
-8. Usuario "paga" (simulado) y backend procesa
-9. Score se calcula y muestra (por ahora score fijo: 300)
-10. SBT se minteará en versión futura
-
-## 🔧 Características Técnicas
-
-### x402 Integration
-
-- Middleware `verifyX402Payment` en backend usando Thirdweb facilitator
-- Detección de HTTP 402 en frontend
-- Compra de suscripciones prepago vía x402
-- Modo simulado si Thirdweb no está configurado
-
-### Sistema de Créditos
-
-- **Precio**: 100 USDC por crédito
-- **Mínimo de compra**: 10 créditos (1,000 USDC)
-- **Consumo automático**: 1 crédito por consulta de usuarios
-- **Tracking completo**: Historial de compras y consumo
-
-### Base de Datos Mockeada
-
-- **100 usuarios** generados automáticamente
-- **Datos incluidos**:
-  - Wallet address (aleatorio)
-  - Score crediticio (300-1000, distribución realista)
-  - Identidad (nombre, DNI argentino, email)
-  - Nivel de verificación (0-3)
-
-### Autenticación
-
-- **JWT tokens** para autenticación de exchanges
-- **Login tradicional** (email/password)
-- **Sin wallet connection** requerida (solo opcional para wallet del exchange)
-
-## 📝 Notas del MVP
-
-### Lo que SÍ está implementado:
-- ✅ Sistema de autenticación tradicional para exchanges
-- ✅ Base de datos mockeada de 100 usuarios
-- ✅ Sistema de suscripciones prepago
-- ✅ Compra de créditos vía x402
-- ✅ Consulta de usuarios con consumo automático de créditos
-- ✅ Dashboard completo para exchanges
-- ✅ Tracking de compras y consumo
-
-### Lo que NO está implementado (futuro):
-- ⚠️ Verificación real de pagos x402 con facilitator (actualmente simulado, pero configurable)
-- ⚠️ Base de datos real (actualmente JSON files, fácil migrar a DB)
-- ⚠️ Más usuarios mockeados (fácil agregar más con el script)
-
-## 🤝 Contribuciones
-
-Este proyecto fue desarrollado para el **Hack2Build: Payments x402 Hackathon** en Avalanche.
-
-**Construido con ❤️ para el ecosistema Avalanche**
+**Access:**
+- 🌐 Frontend: http://localhost:3000
+- 🔌 Backend: http://localhost:3001
 
 ---
 
-## 📚 Recursos
+## 🧪 **User Flow**
 
-- [x402 Protocol Documentation](https://x402.gitbook.io/x402)
-- [Avalanche Fuji Testnet](https://docs.avax.network/quickstart/fuji-workflow)
-- [Thirdweb x402](https://portal.thirdweb.com/x402)
+### **1. Register/Login**
+- Navigate to `/login`
+- Sign in with Privy (email-based authentication)
+- Account is automatically created if it doesn't exist
+
+### **2. Purchase Credits**
+- Go to Dashboard → Subscription
+- Select credit amount (minimum: 10 credits = 0.2 USDC)
+- Connect wallet to Avalanche Fuji Testnet
+- Confirm payment via x402 protocol
+- Credits are added to your balance
+
+**Pricing:**
+- 💰 **0.02 USDC per credit**
+- 📦 **Minimum: 10 credits (0.2 USDC)**
+
+### **3. Query Users**
+- Go to Dashboard → Users
+- Search users by name, score, or verification level (free)
+- Click "View" on any user to see full details (consumes 1 credit)
+- View complete user information (Email, Score, Verification Level, Wallet)
+
+### **4. View Usage**
+- Go to Dashboard → Usage
+- Review purchase history and credit consumption
+
+---
+
+## 📡 **API Endpoints**
+
+### **Authentication**
+- `POST /api/auth/privy-login` - Sync Privy user with backend JWT
+- `GET /api/auth/me` - Get authenticated user info
+
+### **Subscriptions (x402 Protected)**
+- `POST /api/subscriptions/purchase` - Purchase credits (x402)
+- `GET /api/subscriptions/balance` - Get credit balance
+- `GET /api/subscriptions/usage` - Get usage history
+
+### **User Queries**
+- `GET /api/mockUsers/search` - Search users (free, no credits)
+- `GET /api/mockUsers/:id` - Get user details (consumes 1 credit)
+- `GET /api/mockUsers/stats` - Database statistics
+
+---
+
+## 💡 **Technical Stack**
+
+**Frontend:**
+- Next.js 14 (App Router)
+- Privy (Authentication)
+- Wagmi + RainbowKit (Wallet connection)
+- Thirdweb (x402 payments)
+- Tailwind CSS
+
+**Backend:**
+- Node.js + Express
+- JWT Authentication
+- x402 Payment Gateway (Thirdweb)
+- JSON file storage (MVP)
+
+**Blockchain:**
+- Avalanche Fuji Testnet
+- Solidity 0.8.20
+- Hardhat
+
+---
+
+## 🎨 **Features**
+
+### **x402 Payment Integration**
+- HTTP 402 Payment Required response
+- Thirdweb facilitator integration
+- Automatic payment verification
+- Development mode for testing
+
+### **Credit System**
+- Prepaid credit model
+- Transparent pricing (0.02 USDC/credit)
+- Automatic credit consumption
+- Complete usage tracking
+
+### **Mock User Database**
+- 100 pre-generated users
+- Realistic data (names, IDs, emails, wallets)
+- Credit scores (300-1000 range)
+- Verification levels (0-3)
+
+### **User Search Flow**
+- Free search by filters (name, score, verification level)
+- Credit consumption only when viewing full user details
+- Efficient credit usage model
+
+---
+
+## 📊 **Project Status**
+
+### **✅ Implemented**
+- Privy email authentication
+- x402 payment protocol integration
+- Prepaid credit system
+- Mock user database (100 users)
+- Free search + paid detail view
+- Complete dashboard interface
+- Smart contracts deployed
+
+### **⚠️ Future Enhancements**
+- Real database migration (PostgreSQL/MongoDB)
+- IPFS integration for documents
+- Advanced credit scoring algorithms
+- Multi-chain support
+- API rate limiting
+
+---
+
+## 📚 **TEAM**
+
+- Arturo Marin Bosquet
+- Diego Raúl Barrionuevo
+
+
+---
+
+<div align="center">
+
+**Made with 🔥 for Hack2Build: Payments x402 Hackathon**
+
+</div>
