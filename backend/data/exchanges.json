@@ -17,11 +17,11 @@
     "password": "$2b$10$.QLqBYBUq5S0eg3NslmNSeuoPE1GiVlRUwBIInNnhOOhL3edcZScW",
     "name": "BSE",
     "walletAddress": null,
-    "credits": 23,
-    "totalPurchased": 30,
+    "credits": 33,
+    "totalPurchased": 40,
     "totalConsumed": 7,
     "createdAt": "2025-12-08T03:02:01.847Z",
-    "updatedAt": "2025-12-08T21:34:35.285Z",
+    "updatedAt": "2025-12-08T21:56:22.867Z",
     "privyUserId": "did:privy:cmix5i428006uic0ceq9ezphx"
   },
   {

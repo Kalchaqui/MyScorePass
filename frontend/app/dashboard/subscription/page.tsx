@@ -56,7 +56,7 @@ export default function SubscriptionPage() {
     if (!exchange) return;
 
     if (credits < PRICING.MIN_PURCHASE) {
-      toast.error(`Mínimo ${PRICING.MIN_PURCHASE} créditos`);
+      toast.error(`Minimum ${PRICING.MIN_PURCHASE} credits`);
       return;
     }
 
@@ -70,7 +70,7 @@ export default function SubscriptionPage() {
       console.log('Token obtenido:', token ? 'Sí (longitud: ' + token.length + ')' : 'No');
       
       if (!token) {
-        toast.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        toast.error('Your session has expired. Please sign in again.');
         router.push('/login');
         return;
       }
@@ -93,7 +93,7 @@ export default function SubscriptionPage() {
       if (response.status === 401) {
         const errorData = await response.json().catch(() => ({}));
         console.error('Error 401 en primera request:', errorData);
-        toast.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        toast.error('Your session has expired. Please sign in again.');
         router.push('/login');
         setPurchasing(false);
         return;
@@ -106,29 +106,29 @@ export default function SubscriptionPage() {
         // Verificar si el wallet está conectado
         if (!isConnected || !address) {
           toast.error(
-            `Pago requerido: ${paymentData.amount} ${paymentData.currency}. ` +
-            `Por favor, conecta tu wallet a Avalanche Fuji Testnet para completar el pago.`,
+            `Payment required: ${paymentData.amount} ${paymentData.currency}. ` +
+            `Please connect your wallet to Avalanche Fuji Testnet to complete the payment.`,
             { duration: 6000, id: 'payment' }
           );
           throw new Error(
-            `Wallet no conectado. Por favor, conecta tu wallet a Avalanche Fuji Testnet para procesar el pago de ${paymentData.amount} ${paymentData.currency}.`
+            `Wallet not connected. Please connect your wallet to Avalanche Fuji Testnet to process the payment of ${paymentData.amount} ${paymentData.currency}.`
           );
         }
 
         // Wallet conectado - procesar pago con x402
         toast.loading(
-          `Procesando pago de ${paymentData.amount} ${paymentData.currency} con x402...`,
+          `Processing payment of ${paymentData.amount} ${paymentData.currency} with x402...`,
           { id: 'payment' }
         );
 
         // Confirmar con el usuario antes de procesar el pago
         const confirmPayment = window.confirm(
-          `Confirmar pago:\n\n` +
-          `Monto: ${paymentData.amount} ${paymentData.currency}\n` +
-          `Créditos: ${credits}\n` +
+          `Confirm payment:\n\n` +
+          `Amount: ${paymentData.amount} ${paymentData.currency}\n` +
+          `Credits: ${credits}\n` +
           `Wallet: ${address?.slice(0, 6)}...${address?.slice(-4)}\n\n` +
-          `El pago se procesará desde tu wallet conectado.\n` +
-          `¿Deseas continuar?`
+          `The payment will be processed from your connected wallet.\n` +
+          `Do you want to continue?`
         );
 
         if (!confirmPayment) {
@@ -162,7 +162,7 @@ export default function SubscriptionPage() {
         if (response.status === 401) {
           const errorData = await response.json().catch(() => ({}));
           console.error('Error 401 - Token inválido o expirado:', errorData);
-          throw new Error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+          throw new Error('Your session has expired. Please sign in again.');
         }
       }
 
@@ -177,10 +177,10 @@ export default function SubscriptionPage() {
       const updatedExchange = await getCurrentExchange();
       setExchange(updatedExchange);
       
-      toast.success(`¡Compra exitosa! ${credits} créditos agregados.`, { id: 'payment' });
+      toast.success(`Purchase successful! ${credits} credits added.`, { id: 'payment' });
       router.push('/dashboard');
     } catch (error: any) {
-      toast.error(error.message || 'Error al comprar créditos', { id: 'payment' });
+      toast.error(error.message || 'Error purchasing credits', { id: 'payment' });
     } finally {
       setPurchasing(false);
     }
@@ -191,7 +191,7 @@ export default function SubscriptionPage() {
       <main className="min-h-screen relative">
         <AnimatedBackground />
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-white text-xl">Cargando...</div>
+          <div className="text-white text-xl">Loading...</div>
         </div>
       </main>
     );
@@ -222,20 +222,20 @@ export default function SubscriptionPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-white mb-2">Comprar Créditos</h2>
-          <p className="text-white/70">Compra créditos para consultar la base de datos de usuarios</p>
+          <h2 className="text-4xl font-bold text-white mb-2">Buy Credits</h2>
+          <p className="text-white/70">Purchase credits to query the user database</p>
         </div>
 
         <div className="glass-card p-8">
           <div className="mb-6">
             <h3 className="text-2xl font-bold text-white mb-4 flex items-center">
               <CreditCard className="w-6 h-6 mr-2 text-purple-400" />
-              Selecciona Cantidad de Créditos
+              Select Credit Amount
             </h3>
             
             <div className="mb-6">
               <label className="block text-white/70 text-sm mb-2">
-                Créditos (mínimo {PRICING.MIN_PURCHASE})
+                Credits (minimum {PRICING.MIN_PURCHASE})
               </label>
               <input
                 type="number"
@@ -251,30 +251,30 @@ export default function SubscriptionPage() {
                 onClick={() => setCredits(10)}
                 className={`px-4 py-2 rounded-lg ${credits === 10 ? 'bg-purple-500' : 'bg-white/10'} text-white`}
               >
-                10 créditos
+                10 credits
               </button>
               <button
                 onClick={() => setCredits(50)}
                 className={`px-4 py-2 rounded-lg ${credits === 50 ? 'bg-purple-500' : 'bg-white/10'} text-white`}
               >
-                50 créditos
+                50 credits
               </button>
               <button
                 onClick={() => setCredits(100)}
                 className={`px-4 py-2 rounded-lg ${credits === 100 ? 'bg-purple-500' : 'bg-white/10'} text-white`}
               >
-                100 créditos
+                100 credits
               </button>
             </div>
           </div>
 
           <div className="bg-white/5 rounded-lg p-6 mb-6">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-white/70">Créditos:</span>
+              <span className="text-white/70">Credits:</span>
               <span className="text-2xl font-bold text-white">{credits}</span>
             </div>
             <div className="flex justify-between items-center mb-4">
-              <span className="text-white/70">Precio por crédito:</span>
+              <span className="text-white/70">Price per credit:</span>
               <span className="text-white">{PRICING.USDC_PER_CREDIT} USDC</span>
             </div>
             <div className="border-t border-white/20 pt-4 flex justify-between items-center">
@@ -287,11 +287,11 @@ export default function SubscriptionPage() {
             <div className="flex items-start space-x-3">
               <Zap className="w-5 h-5 text-blue-400 mt-0.5" />
               <div className="text-sm text-white/80 flex-1">
-                <p className="font-medium mb-1">Pago vía x402</p>
-                <p className="mb-3">El pago se procesará usando el protocolo x402 de Thirdweb. Cada crédito te permite realizar 1 consulta a la base de datos.</p>
+                <p className="font-medium mb-1">Payment via x402</p>
+                <p className="mb-3">Payment will be processed using Thirdweb's x402 protocol. Each credit allows you to perform 1 database query.</p>
                 {!isConnected && (
                   <div className="mt-3 pt-3 border-t border-blue-500/20">
-                    <p className="text-yellow-400 mb-2 text-xs">⚠️ Wallet no conectado</p>
+                    <p className="text-yellow-400 mb-2 text-xs">⚠️ Wallet not connected</p>
                     <div className="flex items-center space-x-2">
                       <Wallet className="w-4 h-4" />
                       <ConnectButton.Custom>
@@ -301,7 +301,7 @@ export default function SubscriptionPage() {
                               onClick={openConnectModal}
                               className="text-xs btn-secondary px-3 py-1"
                             >
-                              Conectar Wallet
+                              Connect Wallet
                             </button>
                           );
                         }}
@@ -311,7 +311,7 @@ export default function SubscriptionPage() {
                 )}
                 {isConnected && address && (
                   <div className="mt-3 pt-3 border-t border-blue-500/20">
-                    <p className="text-green-400 mb-1 text-xs">✅ Wallet conectado</p>
+                    <p className="text-green-400 mb-1 text-xs">✅ Wallet connected</p>
                     <p className="text-xs text-white/60">
                       {address.slice(0, 6)}...{address.slice(-4)}
                     </p>
@@ -324,11 +324,11 @@ export default function SubscriptionPage() {
           {exchange && (
             <div className="mb-6">
               <div className="flex items-center justify-between text-white/70 text-sm mb-2">
-                <span>Créditos actuales:</span>
+                <span>Current credits:</span>
                 <span className="font-bold text-white">{exchange.credits}</span>
               </div>
               <div className="flex items-center justify-between text-white/70 text-sm">
-                <span>Créditos después de la compra:</span>
+                <span>Credits after purchase:</span>
                 <span className="font-bold text-green-400">{exchange.credits + credits}</span>
               </div>
             </div>
@@ -342,12 +342,12 @@ export default function SubscriptionPage() {
             {purchasing ? (
               <>
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                <span>Procesando pago...</span>
+                <span>Processing payment...</span>
               </>
             ) : (
               <>
                 <CreditCard className="w-5 h-5" />
-                <span>Comprar {credits} créditos por {price} USDC</span>
+                <span>Buy {credits} credits for {price} USDC</span>
               </>
             )}
           </button>

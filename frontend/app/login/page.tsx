@@ -28,7 +28,7 @@ export default function LoginPage() {
       // Obtener email del usuario de Privy
       const email = user.email?.address || user.google?.email || user.twitter?.email;
       if (!email) {
-        toast.error('No se pudo obtener el email del usuario');
+        toast.error('Could not get user email');
         logout();
         return;
       }
@@ -39,11 +39,11 @@ export default function LoginPage() {
       // Sincronizar con backend
       await syncPrivyUser(user.id, email, name);
       
-      toast.success('Autenticación exitosa');
+      toast.success('Authentication successful');
       router.push('/dashboard');
     } catch (error: any) {
       console.error('Error syncing with backend:', error);
-      toast.error(error.message || 'Error al sincronizar con el backend');
+      toast.error(error.message || 'Error syncing with backend');
       logout();
     } finally {
       setSyncing(false);
@@ -54,7 +54,7 @@ export default function LoginPage() {
     try {
       await login();
     } catch (error: any) {
-      toast.error(error.message || 'Error al iniciar sesión');
+      toast.error(error.message || 'Error signing in');
     }
   };
 
@@ -66,7 +66,7 @@ export default function LoginPage() {
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
-            <p className="text-white/70">Sincronizando con el backend...</p>
+            <p className="text-white/70">Syncing with backend...</p>
           </div>
         </div>
       </main>
@@ -88,7 +88,7 @@ export default function LoginPage() {
               MyScorePass
             </h1>
             <p className="text-white/70">
-              Acceso para Exchanges
+              Access for Exchanges
             </p>
           </div>
 
@@ -97,16 +97,16 @@ export default function LoginPage() {
             {!ready ? (
               <div className="text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400 mx-auto mb-4"></div>
-                <p className="text-white/70">Cargando...</p>
+                <p className="text-white/70">Loading...</p>
               </div>
             ) : authenticated ? (
               <div className="text-center">
-                <p className="text-white mb-4">Ya estás autenticado</p>
+                <p className="text-white mb-4">You are already authenticated</p>
                 <button
                   onClick={() => router.push('/dashboard')}
                   className="w-full btn-primary py-3"
                 >
-                  Ir al Dashboard
+                  Go to Dashboard
                 </button>
               </div>
             ) : (
@@ -116,10 +116,10 @@ export default function LoginPage() {
                   disabled={!ready}
                   className="w-full btn-primary flex items-center justify-center space-x-2 py-3"
                 >
-                  <span>Iniciar Sesión / Registrarse</span>
+                  <span>Sign In / Sign Up</span>
                 </button>
                 <p className="text-white/60 text-sm text-center">
-                  Ingresa tu email. Si no tienes cuenta, se creará automáticamente.
+                  Enter your email. If you don't have an account, it will be created automatically.
                 </p>
               </div>
             )}
@@ -127,7 +127,7 @@ export default function LoginPage() {
 
           {/* Info */}
           <div className="mt-6 text-center text-white/60 text-sm">
-            <p>Acceso exclusivo para exchanges, bancos e instituciones financieras</p>
+            <p>Exclusive access for exchanges, banks and financial institutions</p>
           </div>
         </div>
       </div>

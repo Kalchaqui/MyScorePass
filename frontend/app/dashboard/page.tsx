@@ -47,7 +47,7 @@ export default function Dashboard() {
     // Cerrar sesión en Privy y backend
     await privyLogout();
     logout();
-    toast.success('Sesión cerrada');
+    toast.success('Session closed');
     router.push('/login');
   };
 
@@ -56,7 +56,7 @@ export default function Dashboard() {
       <main className="min-h-screen relative">
         <AnimatedBackground />
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-white text-xl">Cargando...</div>
+          <div className="text-white text-xl">Loading...</div>
         </div>
       </main>
     );
@@ -78,7 +78,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center text-white/70 hover:text-white transition-colors">
                 <ArrowLeft className="w-5 h-5 mr-2" />
-                Inicio
+                Home
               </Link>
               <div className="flex items-center space-x-2">
                 <Shield className="w-8 h-8 text-purple-400" />
@@ -94,7 +94,7 @@ export default function Dashboard() {
                 className="btn-secondary text-xs px-3 py-1 flex items-center space-x-1"
               >
                 <LogOut className="w-4 h-4" />
-                <span>Salir</span>
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -104,8 +104,8 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         {/* Bienvenida */}
         <div className="mb-12 fade-in-up">
-          <h2 className="text-5xl font-bold text-white mb-3">Dashboard de Exchange</h2>
-          <p className="text-xl text-white/70">Bienvenido, {exchange.name}</p>
+          <h2 className="text-5xl font-bold text-white mb-3">Exchange Dashboard</h2>
+          <p className="text-xl text-white/70">Welcome, {exchange.name}</p>
         </div>
 
         {/* Estadísticas */}
@@ -113,16 +113,16 @@ export default function Dashboard() {
           {/* Créditos Disponibles */}
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Créditos</h3>
+              <h3 className="text-xl font-bold text-white">Credits</h3>
               <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                 <Coins className="w-6 h-6 text-white" />
               </div>
             </div>
             <div>
               <p className="text-4xl font-bold text-white mb-2">{exchange.credits}</p>
-              <p className="text-white/70 mb-6">Créditos disponibles</p>
+              <p className="text-white/70 mb-6">Available credits</p>
               <Link href="/dashboard/subscription" className="btn-primary w-full text-center block">
-                Comprar Créditos
+                Buy Credits
               </Link>
             </div>
           </div>
@@ -130,16 +130,16 @@ export default function Dashboard() {
           {/* Total Comprado */}
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Total Comprado</h3>
+              <h3 className="text-xl font-bold text-white">Total Purchased</h3>
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                 <CreditCard className="w-6 h-6 text-white" />
               </div>
             </div>
             <div>
               <p className="text-4xl font-bold text-white mb-2">{exchange.totalPurchased}</p>
-              <p className="text-white/70 mb-6">Créditos comprados</p>
+              <p className="text-white/70 mb-6">Credits purchased</p>
               <Link href="/dashboard/subscription" className="btn-secondary w-full text-center block">
-                Ver Historial
+                View History
               </Link>
             </div>
           </div>
@@ -147,16 +147,16 @@ export default function Dashboard() {
           {/* Total Consumido */}
           <div className="glass-card group hover:scale-105">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Total Consumido</h3>
+              <h3 className="text-xl font-bold text-white">Total Consumed</h3>
               <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
             </div>
             <div>
               <p className="text-4xl font-bold text-white mb-2">{exchange.totalConsumed}</p>
-              <p className="text-white/70 mb-6">Consultas realizadas</p>
+              <p className="text-white/70 mb-6">Queries performed</p>
               <Link href="/dashboard/usage" className="btn-secondary w-full text-center block">
-                Ver Detalles
+                View Details
               </Link>
             </div>
           </div>
@@ -166,20 +166,20 @@ export default function Dashboard() {
         <div className="glass-card">
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
             <Users className="w-6 h-6 mr-2 text-yellow-300" />
-            Acciones Rápidas
+            Quick Actions
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Link href="/dashboard/users" className="btn-primary text-center py-6 text-lg flex items-center justify-center space-x-2">
               <Users className="w-6 h-6" />
-              <span>Consultar Usuarios</span>
+              <span>Query Users</span>
             </Link>
             <Link href="/dashboard/subscription" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
               <CreditCard className="w-6 h-6" />
-              <span>Comprar Créditos</span>
+              <span>Buy Credits</span>
             </Link>
             <Link href="/dashboard/usage" className="btn-secondary text-center py-6 text-lg flex items-center justify-center space-x-2">
               <TrendingUp className="w-6 h-6" />
-              <span>Ver Consumo</span>
+              <span>View Usage</span>
             </Link>
           </div>
         </div>

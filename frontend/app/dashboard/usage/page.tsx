@@ -65,7 +65,7 @@ export default function UsagePage() {
       <main className="min-h-screen relative">
         <AnimatedBackground />
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-white text-xl">Cargando...</div>
+          <div className="text-white text-xl">Loading...</div>
         </div>
       </main>
     );
@@ -97,8 +97,8 @@ export default function UsagePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-white mb-2">Historial de Uso</h2>
-          <p className="text-white/70">Consulta tus compras y consumo de créditos</p>
+          <h2 className="text-4xl font-bold text-white mb-2">Usage History</h2>
+          <p className="text-white/70">View your purchases and credit consumption</p>
         </div>
 
         {exchange && (
@@ -106,21 +106,21 @@ export default function UsagePage() {
             <div className="glass-card p-6">
               <div className="flex items-center space-x-3 mb-2">
                 <Coins className="w-6 h-6 text-green-400" />
-                <span className="text-white/70">Créditos Actuales</span>
+                <span className="text-white/70">Current Credits</span>
               </div>
               <p className="text-3xl font-bold text-white">{exchange.credits}</p>
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center space-x-3 mb-2">
                 <CreditCard className="w-6 h-6 text-blue-400" />
-                <span className="text-white/70">Total Comprado</span>
+                <span className="text-white/70">Total Purchased</span>
               </div>
               <p className="text-3xl font-bold text-white">{exchange.totalPurchased}</p>
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center space-x-3 mb-2">
                 <TrendingUp className="w-6 h-6 text-purple-400" />
-                <span className="text-white/70">Total Consumido</span>
+                <span className="text-white/70">Total Consumed</span>
               </div>
               <p className="text-3xl font-bold text-white">{exchange.totalConsumed}</p>
             </div>
@@ -132,17 +132,17 @@ export default function UsagePage() {
           <div className="glass-card p-6">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center">
               <CreditCard className="w-5 h-5 mr-2 text-blue-400" />
-              Compras ({purchases.length})
+              Purchases ({purchases.length})
             </h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {purchases.length === 0 ? (
-                <p className="text-white/50 text-center py-8">No hay compras registradas</p>
+                <p className="text-white/50 text-center py-8">No purchases recorded</p>
               ) : (
                 purchases.map((purchase) => (
                   <div key={purchase.id} className="bg-white/5 rounded-lg p-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-white font-medium">+{purchase.credits} créditos</p>
+                        <p className="text-white font-medium">+{purchase.credits} credits</p>
                         <p className="text-white/50 text-sm">{purchase.amount} USDC</p>
                         <p className="text-white/30 text-xs mt-1">
                           {new Date(purchase.timestamp).toLocaleString()}
@@ -159,19 +159,19 @@ export default function UsagePage() {
           <div className="glass-card p-6">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-purple-400" />
-              Consultas ({consumptions.length})
+              Queries ({consumptions.length})
             </h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {consumptions.length === 0 ? (
-                <p className="text-white/50 text-center py-8">No hay consultas registradas</p>
+                <p className="text-white/50 text-center py-8">No queries recorded</p>
               ) : (
                 consumptions.map((consumption) => (
                   <div key={consumption.id} className="bg-white/5 rounded-lg p-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-white font-medium">-{consumption.credits} crédito(s)</p>
+                        <p className="text-white font-medium">-{consumption.credits} credit(s)</p>
                         <p className="text-white/50 text-sm capitalize">
-                          {consumption.action?.replace('_', ' ') || 'Consulta'}
+                          {consumption.action?.replace('_', ' ') || 'Query'}
                         </p>
                         <p className="text-white/30 text-xs mt-1">
                           {new Date(consumption.timestamp).toLocaleString()}

@@ -102,11 +102,11 @@ export default function UsersPage() {
       setUsers(data.users);
       
       if (data.users.length === 0) {
-        toast('No se encontraron usuarios con los filtros especificados', { icon: 'ℹ️' });
+        toast('No users found with the specified filters', { icon: 'ℹ️' });
       }
     } catch (error: any) {
       console.error('Error en búsqueda:', error);
-      toast.error(error.message || 'Error al buscar usuarios');
+      toast.error(error.message || 'Error searching users');
     } finally {
       setSearching(false);
     }
@@ -118,7 +118,7 @@ export default function UsersPage() {
     console.log('Ver detalles del usuario con ID:', userId);
 
     if (exchange.credits < 1) {
-      toast.error('No tienes créditos suficientes. Compra más créditos para ver detalles del usuario.');
+      toast.error('You do not have enough credits. Buy more credits to view user details.');
       router.push('/dashboard/subscription');
       return;
     }
@@ -134,7 +134,7 @@ export default function UsersPage() {
 
       if (response.status === 402) {
         const error = await response.json();
-        toast.error('No tienes créditos suficientes');
+        toast.error('You do not have enough credits');
         router.push('/dashboard/subscription');
         return;
       }
@@ -153,9 +153,9 @@ export default function UsersPage() {
       setExchange(updatedExchange);
       
       // Mostrar mensaje de éxito solo después de ver los detalles
-      toast.success(`Consulta exitosa. Créditos restantes: ${data.creditsRemaining}`);
+      toast.success(`Query successful. Remaining credits: ${data.creditsRemaining}`);
     } catch (error: any) {
-      toast.error(error.message || 'Error al obtener detalles del usuario');
+      toast.error(error.message || 'Error fetching user details');
     } finally {
       setViewingDetails(false);
     }
@@ -166,7 +166,7 @@ export default function UsersPage() {
       <main className="min-h-screen relative">
         <AnimatedBackground />
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-white text-xl">Cargando...</div>
+          <div className="text-white text-xl">Loading...</div>
         </div>
       </main>
     );
@@ -193,7 +193,7 @@ export default function UsersPage() {
               <div className="flex items-center space-x-2 text-white/70">
                 <Coins className="w-5 h-5 text-green-400" />
                 <span className="font-bold text-green-400">{exchange.credits}</span>
-                <span>créditos</span>
+                <span>credits</span>
               </div>
             )}
           </div>
@@ -202,29 +202,29 @@ export default function UsersPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-40">
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-white mb-2">Base de Datos de Usuarios</h2>
-          <p className="text-white/70">Consulta usuarios mockeados. Haz click en "Ver" para ver los detalles completos (consume 1 crédito)</p>
+          <h2 className="text-4xl font-bold text-white mb-2">User Database</h2>
+          <p className="text-white/70">Query mock users. Click "View" to see full details (consumes 1 credit)</p>
         </div>
 
         {/* Filtros */}
         <div className="glass-card mb-6 p-6">
           <h3 className="text-xl font-bold text-white mb-4 flex items-center">
             <Filter className="w-5 h-5 mr-2" />
-            Filtros de Búsqueda
+            Search Filters
           </h3>
           <div className="grid md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-white/70 text-sm mb-2">Nombre</label>
+              <label className="block text-white/70 text-sm mb-2">Name</label>
               <input
                 type="text"
                 value={filters.name}
                 onChange={(e) => setFilters({ ...filters, name: e.target.value })}
                 className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
-                placeholder="Buscar por nombre"
+                placeholder="Search by name"
               />
             </div>
             <div>
-              <label className="block text-white/70 text-sm mb-2">Score Mínimo</label>
+              <label className="block text-white/70 text-sm mb-2">Min Score</label>
               <input
                 type="number"
                 value={filters.minScore}
@@ -236,7 +236,7 @@ export default function UsersPage() {
               />
             </div>
             <div>
-              <label className="block text-white/70 text-sm mb-2">Score Máximo</label>
+              <label className="block text-white/70 text-sm mb-2">Max Score</label>
               <input
                 type="number"
                 value={filters.maxScore}
@@ -248,17 +248,17 @@ export default function UsersPage() {
               />
             </div>
             <div>
-              <label className="block text-white/70 text-sm mb-2">Nivel Verificación</label>
+              <label className="block text-white/70 text-sm mb-2">Verification Level</label>
               <select
                 value={filters.verificationLevel}
                 onChange={(e) => setFilters({ ...filters, verificationLevel: e.target.value })}
                 className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
               >
-                <option value="">Todos</option>
-                <option value="0">Nivel 0</option>
-                <option value="1">Nivel 1</option>
-                <option value="2">Nivel 2</option>
-                <option value="3">Nivel 3</option>
+                <option value="">All</option>
+                <option value="0">Level 0</option>
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
               </select>
             </div>
           </div>
@@ -268,14 +268,14 @@ export default function UsersPage() {
             className="mt-4 btn-primary flex items-center space-x-2"
           >
             <Search className="w-5 h-5" />
-            <span>{searching ? 'Buscando...' : 'Consultar Usuarios'}</span>
+            <span>{searching ? 'Searching...' : 'Query Users'}</span>
           </button>
         </div>
 
         {/* Lista de usuarios */}
         {users.length > 0 && (
           <div className="glass-card">
-            <h3 className="text-xl font-bold text-white mb-4">Resultados ({users.length})</h3>
+            <h3 className="text-xl font-bold text-white mb-4">Results ({users.length})</h3>
             <div className="space-y-3">
               {users.map((user) => (
                 <div key={user.id} className="bg-white/5 rounded-lg p-4 border border-white/10 flex justify-between items-center">
@@ -283,7 +283,7 @@ export default function UsersPage() {
                     <User className="w-5 h-5 text-purple-400" />
                     <div>
                       <h4 className="text-lg font-bold text-white">{user.name}</h4>
-                      <p className="text-sm text-white/70">DNI: {user.dni}</p>
+                      <p className="text-sm text-white/70">ID: {user.dni}</p>
                     </div>
                   </div>
                   <button
@@ -294,11 +294,11 @@ export default function UsersPage() {
                     {viewingDetails ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        <span>Cargando...</span>
+                        <span>Loading...</span>
                       </>
                     ) : (
                       <>
-                        <span>Ver</span>
+                        <span>View</span>
                       </>
                     )}
                   </button>
@@ -311,8 +311,8 @@ export default function UsersPage() {
         {users.length === 0 && !searching && (
           <div className="glass-card text-center py-12">
             <Users className="w-16 h-16 text-white/30 mx-auto mb-4" />
-            <p className="text-white/70">Usa los filtros para consultar usuarios</p>
-            <p className="text-white/50 text-sm mt-2">Haz click en "Ver" para ver los detalles completos (consume 1 crédito)</p>
+            <p className="text-white/70">Use the filters to query users</p>
+            <p className="text-white/50 text-sm mt-2">Click "View" to see full details (consumes 1 credit)</p>
           </div>
         )}
       </div>
@@ -322,7 +322,7 @@ export default function UsersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-white">Detalles del Usuario</h3>
+              <h3 className="text-2xl font-bold text-white">User Details</h3>
               <button
                 onClick={() => {
                   setShowModal(false);
@@ -343,12 +343,12 @@ export default function UsersPage() {
                 </div>
                 <div className="grid md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-white/70">DNI:</span>
+                    <span className="text-white/70">ID:</span>
                     <p className="text-white font-medium">{selectedUser.identity.dni}</p>
                   </div>
                   <div>
-                    <span className="text-white/70">Nivel de Verificación:</span>
-                    <p className="text-white font-medium">Nivel {selectedUser.identity.verificationLevel}</p>
+                    <span className="text-white/70">Verification Level:</span>
+                    <p className="text-white font-medium">Level {selectedUser.identity.verificationLevel}</p>
                   </div>
                 </div>
               </div>
@@ -382,8 +382,8 @@ export default function UsersPage() {
 
               {/* Fecha de creación */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-                <span className="text-white/70 text-sm">Fecha de creación:</span>
-                <p className="text-white text-sm">{new Date(selectedUser.createdAt).toLocaleDateString('es-ES', {
+                <span className="text-white/70 text-sm">Created at:</span>
+                <p className="text-white text-sm">{new Date(selectedUser.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',

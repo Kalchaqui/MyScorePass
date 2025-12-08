@@ -51,7 +51,7 @@ export default function Home() {
               </span>
             </div>
             <Link href="/login" className="btn-primary">
-              Acceder
+              Access
             </Link>
           </div>
         </div>
@@ -67,20 +67,20 @@ export default function Home() {
             </h1>
           </div>
           <p className="text-2xl md:text-3xl text-white/80 mb-4">
-            Infraestructura de Scoring Crediticio para Exchanges y Bancos
+            Credit Scoring Infrastructure for Exchanges and Banks
           </p>
           <p className="text-lg text-white/60 mb-8">
-            Accede a nuestra base de datos de usuarios mockeados con scores crediticios verificables.
+            Access our mock user database with verifiable credit scores.
             <br />
-            Paga con USDC vía x402 y consulta usuarios en tiempo real.
+            Pay with USDC via x402 and query users in real-time.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/login" className="btn-primary text-lg px-8 py-4 flex items-center justify-center space-x-2">
-              <span>Iniciar Sesión</span>
+              <span>Sign In</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/login" className="btn-secondary text-lg px-8 py-4">
-              Registrarse
+              Sign Up
             </Link>
           </div>
         </div>
@@ -91,9 +91,9 @@ export default function Home() {
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
               <Users className="w-6 h-6 text-white" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Base de Datos Mockeada</h3>
+            <h3 className="text-xl font-bold text-white mb-2">Mock Database</h3>
             <p className="text-white/70">
-              100 usuarios con scores crediticios e identidades verificables para testing y desarrollo.
+              100 users with credit scores and verifiable identities for testing and development.
             </p>
           </div>
 
@@ -101,9 +101,9 @@ export default function Home() {
             <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-4">
               <CreditCard className="w-6 h-6 text-white" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Pagos x402</h3>
+            <h3 className="text-xl font-bold text-white mb-2">x402 Payments</h3>
             <p className="text-white/70">
-              Compra suscripciones prepago con USDC usando el protocolo x402 de Avalanche.
+              Purchase prepaid subscriptions with USDC using Avalanche's x402 protocol.
             </p>
           </div>
 
@@ -111,9 +111,9 @@ export default function Home() {
             <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-xl flex items-center justify-center mb-4">
               <Zap className="w-6 h-6 text-white" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">API en Tiempo Real</h3>
+            <h3 className="text-xl font-bold text-white mb-2">Real-Time API</h3>
             <p className="text-white/70">
-              Consulta usuarios mockeados con consumo automático de créditos por cada consulta.
+              Query mock users with automatic credit consumption for each query.
             </p>
           </div>
         </div>
@@ -121,15 +121,15 @@ export default function Home() {
         {/* CTA Section */}
         <div className="max-w-4xl mx-auto mt-16 glass-card p-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            ¿Eres un Exchange o Banco?
+            Are you an Exchange or Bank?
           </h2>
           <p className="text-white/70 mb-6">
-            Regístrate y comienza a consultar nuestra base de datos de usuarios mockeados.
+            Sign up and start querying our mock user database.
             <br />
-            Precio: 100 USDC por crédito (mínimo 1,000 USDC = 10 créditos)
+            Price: 0.02 USDC per credit (minimum 10 credits = 0.2 USDC)
           </p>
           <Link href="/login" className="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
-            <span>Empezar Ahora</span>
+            <span>Get Started</span>
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
