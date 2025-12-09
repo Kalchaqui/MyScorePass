@@ -31,10 +31,10 @@
     "name": "kalchaqui01",
     "walletAddress": null,
     "privyUserId": "did:privy:cmixb9td400s7jv0d9z57t8qp",
-    "credits": 0,
-    "totalPurchased": 0,
-    "totalConsumed": 0,
+    "credits": 12,
+    "totalPurchased": 20,
+    "totalConsumed": 8,
     "createdAt": "2025-12-08T15:33:30.280Z",
-    "updatedAt": "2025-12-08T15:33:30.280Z"
+    "updatedAt": "2025-12-09T03:08:14.733Z"
   }
 ]
