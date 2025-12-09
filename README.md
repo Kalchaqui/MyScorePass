@@ -175,9 +175,8 @@ cd frontend
 npm run dev
 ```
 
-**Access:**
-- 🌐 Frontend: http://localhost:3000
-- 🔌 Backend: http://localhost:3001
+**VIDEO DEMO:**
+https://www.youtube.com/watch?v=VcpKeairsQM
 
 ---
 
