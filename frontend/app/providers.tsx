@@ -13,36 +13,234 @@ import { ThirdwebProvider } from 'thirdweb/react';
 // Error Boundary para capturar errores de Privy relacionados con wallets
 class PrivyErrorBoundary extends React.Component<
   { children: React.ReactNode },
-  { hasError: boolean }
+  { hasError: boolean; error: Error | null }
 > {
   constructor(props: { children: React.ReactNode }) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error: Error) {
     // Si el error es relacionado con walletProvider, lo ignoramos silenciosamente
-    if (error.message?.includes('walletProvider') || error.message?.includes('on is not a function')) {
-      console.warn('Privy wallet error ignorado (esperado cuando se deshabilitan wallets):', error.message);
-      return { hasError: false }; // No mostrar error, continuar normalmente
+    const errorMessage = error.message || '';
+    const errorStack = error.stack || '';
+    const fullError = errorMessage + ' ' + errorStack;
+    
+    if (fullError.includes('walletProvider') || 
+        fullError.includes('on is not a function') ||
+        fullError.includes('useActiveWallet') ||
+        fullError.includes('setWalletProvider') ||
+        fullError.includes('createEthereumWalletConnector')) {
+      // No mostrar error, continuar normalmente
+      return { hasError: false, error: null };
     }
-    return { hasError: true };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    const errorMessage = error.message || '';
+    const errorStack = error.stack || '';
+    const fullError = errorMessage + ' ' + errorStack;
+    
     // Solo loggear si no es un error de walletProvider
-    if (!error.message?.includes('walletProvider') && !error.message?.includes('on is not a function')) {
+    if (!fullError.includes('walletProvider') && 
+        !fullError.includes('on is not a function') &&
+        !fullError.includes('useActiveWallet') &&
+        !fullError.includes('setWalletProvider')) {
       console.error('Error en PrivyProvider:', error, errorInfo);
     }
   }
 
   render() {
-    if (this.state.hasError) {
-      // Si hay un error real (no relacionado con wallets), mostrar children sin Privy
-      return <>{this.props.children}</>;
-    }
+    // Siempre renderizar children, incluso si hay error de walletProvider
     return <>{this.props.children}</>;
   }
+}
+
+// Wrapper component para Privy que maneja errores de inicialización
+function PrivyWrapper({ children, appId }: { children: React.ReactNode; appId: string }) {
+  // Setup error suppression BEFORE Privy initializes
+  // This must run synchronously, not in useEffect
+  if (typeof window !== 'undefined') {
+    const originalError = window.console.error;
+    const originalWarn = window.console.warn;
+    
+    // Only setup once
+    if (!(window as any).__privyErrorSuppressed) {
+      window.console.error = (...args: any[]) => {
+        const errorMessage = args[0]?.toString() || '';
+        const errorStack = args[1]?.toString() || '';
+        const fullMessage = errorMessage + ' ' + errorStack;
+        
+        // Ignorar errores relacionados con walletProvider de Privy
+        if (fullMessage.includes('walletProvider') || 
+            fullMessage.includes('on is not a function') ||
+            fullMessage.includes('useActiveWallet') ||
+            fullMessage.includes('setWalletProvider') ||
+            fullMessage.includes('createEthereumWalletConnector')) {
+          return;
+        }
+        // Ignorar warnings de validateDOMNesting de Privy
+        if (errorMessage.includes('validateDOMNesting') && 
+            (errorMessage.includes('Privy') || errorMessage.includes('@privy-io'))) {
+          return;
+        }
+        // Mostrar otros errores normalmente
+        originalError.apply(window.console, args);
+      };
+
+      window.console.warn = (...args: any[]) => {
+        const warnMessage = args[0]?.toString() || '';
+        // Ignorar warnings de validateDOMNesting de Privy
+        if (warnMessage.includes('validateDOMNesting') && 
+            (warnMessage.includes('Privy') || warnMessage.includes('@privy-io'))) {
+          return;
+        }
+        // Mostrar otros warnings normalmente
+        originalWarn.apply(window.console, args);
+      };
+
+      // Interceptar errores no manejados de React/Privy
+      const originalUnhandledRejection = window.onunhandledrejection;
+      window.onunhandledrejection = (event: PromiseRejectionEvent) => {
+        const errorMessage = event.reason?.message || event.reason?.toString() || '';
+        if (errorMessage.includes('walletProvider') || 
+            errorMessage.includes('on is not a function') ||
+            errorMessage.includes('useActiveWallet') ||
+            errorMessage.includes('setWalletProvider')) {
+          event.preventDefault();
+          return;
+        }
+        if (originalUnhandledRejection) {
+          originalUnhandledRejection(event);
+        }
+      };
+
+      // Interceptar errores globales de Next.js runtime
+      const originalErrorHandler = window.onerror;
+      window.onerror = (message, source, lineno, colno, error) => {
+        const errorMessage = error?.message || message?.toString() || '';
+        const errorStack = error?.stack || '';
+        const fullError = errorMessage + ' ' + errorStack;
+        
+        if (fullError.includes('walletProvider') || 
+            fullError.includes('on is not a function') ||
+            fullError.includes('useActiveWallet') ||
+            fullError.includes('setWalletProvider')) {
+          // Prevenir que Next.js muestre el error overlay
+          return true;
+        }
+        
+        if (originalErrorHandler) {
+          return originalErrorHandler(message, source, lineno, colno, error);
+        }
+        return false;
+      };
+
+      (window as any).__privyErrorSuppressed = true;
+    }
+  }
+
+  // Setup error suppression in useEffect as well for React errors
+  React.useEffect(() => {
+    // Setup error handlers immediately
+    const originalError = window.console.error;
+    const originalWarn = window.console.warn;
+    
+    window.console.error = (...args: any[]) => {
+      const errorMessage = args[0]?.toString() || '';
+      const errorStack = args[1]?.toString() || '';
+      const fullMessage = errorMessage + ' ' + errorStack;
+      
+      // Ignorar errores relacionados con walletProvider de Privy
+      if (fullMessage.includes('walletProvider') || 
+          fullMessage.includes('on is not a function') ||
+          fullMessage.includes('useActiveWallet') ||
+          fullMessage.includes('setWalletProvider') ||
+          fullMessage.includes('createEthereumWalletConnector')) {
+        return;
+      }
+      // Ignorar warnings de validateDOMNesting de Privy
+      if (errorMessage.includes('validateDOMNesting') && 
+          (errorMessage.includes('Privy') || errorMessage.includes('@privy-io'))) {
+        return;
+      }
+      // Mostrar otros errores normalmente
+      originalError.apply(window.console, args);
+    };
+
+    window.console.warn = (...args: any[]) => {
+      const warnMessage = args[0]?.toString() || '';
+      // Ignorar warnings de validateDOMNesting de Privy
+      if (warnMessage.includes('validateDOMNesting') && 
+          (warnMessage.includes('Privy') || warnMessage.includes('@privy-io'))) {
+        return;
+      }
+      // Mostrar otros warnings normalmente
+      originalWarn.apply(window.console, args);
+    };
+
+    // Interceptar errores no manejados de React/Privy
+    const originalUnhandledRejection = window.onunhandledrejection;
+    window.onunhandledrejection = (event: PromiseRejectionEvent) => {
+      const errorMessage = event.reason?.message || event.reason?.toString() || '';
+      if (errorMessage.includes('walletProvider') || 
+          errorMessage.includes('on is not a function') ||
+          errorMessage.includes('useActiveWallet') ||
+          errorMessage.includes('setWalletProvider')) {
+        event.preventDefault();
+        return;
+      }
+      if (originalUnhandledRejection) {
+        originalUnhandledRejection(event);
+      }
+    };
+
+    // Interceptar errores globales de Next.js runtime
+    const originalErrorHandler = window.onerror;
+    window.onerror = (message, source, lineno, colno, error) => {
+      const errorMessage = error?.message || message?.toString() || '';
+      const errorStack = error?.stack || '';
+      const fullError = errorMessage + ' ' + errorStack;
+      
+      if (fullError.includes('walletProvider') || 
+          fullError.includes('on is not a function') ||
+          fullError.includes('useActiveWallet') ||
+          fullError.includes('setWalletProvider')) {
+        // Prevenir que Next.js muestre el error overlay
+        return true;
+      }
+      
+      if (originalErrorHandler) {
+        return originalErrorHandler(message, source, lineno, colno, error);
+      }
+      return false;
+    };
+
+    // No cleanup needed - we want error suppression to persist
+  }, []);
+
+  // Render Privy - errors will be caught by ErrorBoundary
+  return (
+    <PrivyProvider
+      appId={appId}
+      config={{
+        loginMethods: ['email'],
+        appearance: {
+          theme: 'dark',
+          accentColor: '#9333ea',
+        },
+        embeddedWallets: {
+          createOnLogin: 'off',
+          noPromptOnSignature: true,
+        },
+        externalWallets: {},
+        walletConnectors: [],
+      }}
+    >
+      {children}
+    </PrivyProvider>
+  );
 }
 
 // Avalanche Fuji Testnet
@@ -113,26 +311,7 @@ function RainbowKitWrapper({ children }: { children: React.ReactNode }) {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const thirdwebClientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID;
-  const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
-  
-  // Suprimir errores de Privy relacionados con walletProvider
-  React.useEffect(() => {
-    const originalError = window.console.error;
-    window.console.error = (...args: any[]) => {
-      const errorMessage = args[0]?.toString() || '';
-      // Ignorar errores relacionados con walletProvider de Privy
-      if (errorMessage.includes('walletProvider') || errorMessage.includes('on is not a function')) {
-        // Suprimir este error específico
-        return;
-      }
-      // Mostrar otros errores normalmente
-      originalError.apply(window.console, args);
-    };
-
-    return () => {
-      window.console.error = originalError;
-    };
-  }, []);
+  const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID || '';
   
   return (
     // Thirdweb primero para wallets y payments (x402)
@@ -141,31 +320,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
     >
       {/* Error Boundary para capturar errores de Privy relacionados con wallets */}
       <PrivyErrorBoundary>
-        {/* Privy solo para autenticación (email/password) - SIN wallets */}
-        <PrivyProvider
-          appId={privyAppId || ''}
-          config={{
-            loginMethods: ['email'], // Solo email - Privy maneja login/registro automáticamente
-            appearance: {
-              theme: 'dark',
-              accentColor: '#9333ea',
-            },
-            // Deshabilitar COMPLETAMENTE todos los wallets en Privy
-            embeddedWallets: {
-              createOnLogin: 'off',
-              noPromptOnSignature: true,
-            },
-          // Deshabilitar external wallets completamente usando objeto vacío
-          externalWallets: {},
-          // Evitar que Privy inicialice cualquier wallet connector automáticamente
-          walletConnectors: [],
-          }}
-        >
+        {/* Wrapper que maneja errores de inicialización y suprime errores de walletProvider */}
+        <PrivyWrapper appId={privyAppId}>
           <RainbowKitWrapper>
             {children}
             <Toaster position="top-right" />
           </RainbowKitWrapper>
-        </PrivyProvider>
+        </PrivyWrapper>
       </PrivyErrorBoundary>
     </ThirdwebProvider>
   );

@@ -166,5 +166,61 @@
     "credits": 1,
     "action": "get_user",
     "timestamp": "2025-12-09T03:08:14.734Z"
+  },
+  {
+    "id": 22,
+    "exchangeId": 3,
+    "amount": 0.2,
+    "credits": 10,
+    "paymentTxHash": "{\"transactionHash\":\"0xc03fd7b3eed8ec9745e0013e20c996be00f5f147bc40cabdc05f4e7cac36713f\",\"resourceUrl\":\"http://localhost:3001/api/subscriptions/purchase\",\"method\":\"POST\",\"amount\":\"0.2\",\"payTo\":\"0x38AE1e07D3790eDd382a79f5F47650E0AB694e07\",\"network\":\"avalanche-fuji\",\"chainId\":43113,\"timestamp\":1765383702235,\"from\":\"0x60BE7646A7B9FdfC476C8e7dBDc14a3fDaCfa516\"}",
+    "timestamp": "2025-12-10T16:21:42.272Z"
+  },
+  {
+    "id": 23,
+    "exchangeId": 3,
+    "amount": 0.2,
+    "credits": 10,
+    "paymentTxHash": "{\"transactionHash\":\"0x7e3f54992c1079cdc7ff73f747e93c680cbf82ed6415796d2c5f643c154be225\",\"resourceUrl\":\"http://localhost:3001/api/subscriptions/purchase\",\"method\":\"POST\",\"amount\":\"0.2\",\"payTo\":\"0x38AE1e07D3790eDd382a79f5F47650E0AB694e07\",\"network\":\"avalanche-fuji\",\"chainId\":43113,\"timestamp\":1765393381951,\"from\":\"0x60BE7646A7B9FdfC476C8e7dBDc14a3fDaCfa516\"}",
+    "timestamp": "2025-12-10T19:03:02.057Z"
+  },
+  {
+    "id": 24,
+    "exchangeId": 3,
+    "amount": 0.2,
+    "credits": 10,
+    "paymentTxHash": "{\"transactionHash\":\"0xc28bc7e27c455b6b4c09d17d6c5e67fdd30906e7bffdd8cddfb688ab4d03fe33\",\"resourceUrl\":\"http://localhost:3001/api/subscriptions/purchase\",\"method\":\"POST\",\"amount\":\"0.2\",\"payTo\":\"0x38AE1e07D3790eDd382a79f5F47650E0AB694e07\",\"network\":\"avalanche-fuji\",\"chainId\":43113,\"timestamp\":1765393434678,\"from\":\"0x60BE7646A7B9FdfC476C8e7dBDc14a3fDaCfa516\"}",
+    "timestamp": "2025-12-10T19:03:55.068Z"
+  },
+  {
+    "id": 25,
+    "exchangeId": 3,
+    "amount": 0.2,
+    "credits": 10,
+    "paymentTxHash": "{\"transactionHash\":\"0xe16bd677e2f3d48c64d52853d1caf3ae13ab5796f0d6543a7761f240c5569d17\",\"resourceUrl\":\"http://localhost:3001/api/subscriptions/purchase\",\"method\":\"POST\",\"amount\":\"0.2\",\"payTo\":\"0x38AE1e07D3790eDd382a79f5F47650E0AB694e07\",\"network\":\"avalanche-fuji\",\"chainId\":43113,\"timestamp\":1765415173235,\"from\":\"0x60BE7646A7B9FdfC476C8e7dBDc14a3fDaCfa516\"}",
+    "timestamp": "2025-12-11T01:06:13.299Z"
+  },
+  {
+    "id": 26,
+    "exchangeId": 3,
+    "type": "consumption",
+    "credits": 1,
+    "action": "get_user",
+    "timestamp": "2025-12-11T01:08:23.924Z"
+  },
+  {
+    "id": 27,
+    "exchangeId": 3,
+    "type": "consumption",
+    "credits": 1,
+    "action": "get_user",
+    "timestamp": "2025-12-11T01:11:08.046Z"
+  },
+  {
+    "id": 28,
+    "exchangeId": 3,
+    "type": "consumption",
+    "credits": 1,
+    "action": "get_user",
+    "timestamp": "2025-12-11T01:11:19.456Z"
   }
 ]

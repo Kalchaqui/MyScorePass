@@ -87,7 +87,12 @@ router.post('/purchase', async (req, res) => {
     const resourceUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     const method = req.method;
 
-    console.log('Payment header recibido:', paymentHeader ? 'Sí' : 'No', paymentHeader);
+    console.log('📥 Payment verification request:');
+    console.log('  - Payment header recibido:', paymentHeader ? 'Sí' : 'No');
+    console.log('  - Payment header preview:', paymentHeader?.substring(0, 200) || 'N/A');
+    console.log('  - Resource URL:', resourceUrl);
+    console.log('  - Method:', method);
+    console.log('  - Price:', price);
 
     const paymentResult = await x402Service.verifyX402Payment(
       resourceUrl,
@@ -96,7 +101,11 @@ router.post('/purchase', async (req, res) => {
       price
     );
 
-    console.log('Payment result status:', paymentResult.status);
+    console.log('📤 Payment result:', {
+      status: paymentResult.status,
+      hasResponseBody: !!paymentResult.responseBody,
+      responseBodyPreview: paymentResult.responseBody ? JSON.stringify(paymentResult.responseBody).substring(0, 200) : 'N/A',
+    });
 
     if (paymentResult.status === 402) {
       // Payment required - devolver 402 con información de pago
