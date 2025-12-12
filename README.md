@@ -18,6 +18,9 @@
 
 This project has been continuously improved and refined through live sessions with professors and mentors, who provided valuable feedback and guidance to enhance the system's architecture, user experience, and technical implementation.
 
+¿Where use payment x402 in MyScorePass?
+x402 is used to monetize the purchase of credits. When an exchange wants to buy credits to query users, the backend responds with HTTP 402 (Payment Required). The frontend generates a payment proof using the x402 SDK, the user approves the transaction in their wallet, and the backend verifies the payment with the x402 smart contracts before adding the credits. This is the only point where payment is required; user queries consume previously purchased credits and do not require additional payments.
+
 ### **Key Features**
 
 🔐 **Privy Authentication** - Email-based login/registration  
