@@ -12,7 +12,7 @@
 
 ---
 
-## 🌟 **Overview**
+
 
 **MyScorePass** is a B2B credit scoring infrastructure that leverages blockchain technology and the x402 payment protocol to provide secure, transparent, and verifiable credit assessments for exchanges, banks, and financial institutions.
 This infrastructure through a database layer, provides verifiable credit scoring to Web3 financial institutions, enabling them to offer collateral-free on-chain credit services similar to traditional banks and credit card companies.
